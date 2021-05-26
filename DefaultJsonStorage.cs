@@ -41,10 +41,11 @@ namespace Platform.Data.Doublets.Json
             var meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
             _unicodeSymbolMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             _unicodeSequenceMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _stringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            _documentMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            _objectMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             _keyMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             _valueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _documentMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            _stringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
         }
         private TLink Create(TLink marker, string content)
         {
