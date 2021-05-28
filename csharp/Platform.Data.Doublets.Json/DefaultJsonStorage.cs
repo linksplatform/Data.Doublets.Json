@@ -3,7 +3,7 @@ using Platform.Data.Doublets.Unicode;
 using TLink = System.UInt32;
 namespace Platform.Data.Doublets.Json
 {
-    class DefaultJsonStorage : IJsonStorage<TLink>
+    public class DefaultJsonStorage : IJsonStorage<TLink>
     {
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
