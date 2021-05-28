@@ -63,6 +63,5 @@ namespace Platform.Data.Doublets.Json
     }
 }
 
-}
 
 

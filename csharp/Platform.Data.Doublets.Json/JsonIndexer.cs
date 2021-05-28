@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿/*
+using System.Collections.Generic;
 using Platform.Numbers;
 using Platform.Data.Numbers.Raw;
 using Platform.Data.Doublets;
@@ -77,3 +78,4 @@ namespace Platform.Data.Doublets.Json
         }
     }
 }
+*/
