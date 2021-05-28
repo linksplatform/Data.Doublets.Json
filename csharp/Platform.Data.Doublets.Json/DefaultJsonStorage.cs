@@ -1,9 +1,8 @@
 ﻿using Platform.Numbers;
 using Platform.Data.Doublets.Unicode;
-using TLink = System.UInt32;
 namespace Platform.Data.Doublets.Json
 {
-    public class DefaultJsonStorage : IJsonStorage<TLink>
+    public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
