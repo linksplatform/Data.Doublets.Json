@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Data.Doublets.Json", "csharp\Platform.Data.Doublets.Json\Platform.Data.Doublets.Json.csproj", "{2AC80942-5F54-4ECE-AB3F-D58E4990B983}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Data.Doublets.Json.Tests", "csharp\Platform.Data.Doublets.Json.Tests\Platform.Data.Doublets.Json.Tests.csproj", "{8863DF39-EFD9-4CC7-A705-830C6F950BB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AC80942-5F54-4ECE-AB3F-D58E4990B983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AC80942-5F54-4ECE-AB3F-D58E4990B983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AC80942-5F54-4ECE-AB3F-D58E4990B983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AC80942-5F54-4ECE-AB3F-D58E4990B983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8863DF39-EFD9-4CC7-A705-830C6F950BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8863DF39-EFD9-4CC7-A705-830C6F950BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8863DF39-EFD9-4CC7-A705-830C6F950BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8863DF39-EFD9-4CC7-A705-830C6F950BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62A3E301-2442-43FB-A742-F71355983321}
+	EndGlobalSection
+EndGlobal
