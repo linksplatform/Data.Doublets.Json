@@ -65,13 +65,12 @@ namespace Platform.Data.Doublets.Json
             return _nullConstant;
         }
 
-        public TLink CreateElement(string name)
+        public TLink CreateValue(string name)
         {
             _index.Add(ToElements(name));
             return _nullConstant;
         }
-
-        public TLink CreateTextElement(string content)
+        public TLink CreateString(string content)
         {
             _index.Add(ToElements(content));
             return _nullConstant;
