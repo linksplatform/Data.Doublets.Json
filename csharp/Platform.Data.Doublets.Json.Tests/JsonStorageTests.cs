@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using Platform.Data.Doublets.Json;
+using Platform.Data.Doublets.Memory.United.Generic;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
@@ -9,12 +10,14 @@ namespace Platform.Data.Doublets.Json.Tests
         [Fact]
         public static void ConstructorsTest()
         {
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>();
+            using var links = new UnitedMemoryLinks<uint>("db.links");
+            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
         }
         [Fact]
         public static void CreateDocumentTest()
         {
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>();
+            using var links = new UnitedMemoryLinks<uint>("db.links");
+            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
             testObject.CreateDocument("testName");
         }
     }
