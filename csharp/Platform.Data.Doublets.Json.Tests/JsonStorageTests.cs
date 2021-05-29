@@ -34,17 +34,27 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
-            defaultJsonStorage.CreateString("test string");
+            defaultJsonStorage.CreateString("string");
         }
         [Fact]
         public static void CreateKeyTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
+            var document = defaultJsonStorage.CreateDocument("documentName");
+            defaultJsonStorage.AttachObject(document);
+            var @object = defaultJsonStorage.CreateObject("defaultJsonStorageName");
+            defaultJsonStorage.CreateKey(@object, "keyName");
+        } 
+        public static void CreateValueTest()
+        {
+            using var links = new UnitedMemoryLinks<uint>("db.links");
+            DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
             var document = defaultJsonStorage.CreateDocument("testDocumentName");
             defaultJsonStorage.AttachObject(document);
-            var testObject = defaultJsonStorage.CreateObject("defaultJsonStorageName");
-            defaultJsonStorage.CreateKey(testObject, "keyName");
-        } 
+            var @object = defaultJsonStorage.CreateObject("defaultJsonStorageName");
+            var key = defaultJsonStorage.CreateKey(@object, "keyName");
+            var value = defaultJsonStorage.CreateValue(key, "valueName");
+        }
     }
 }
