@@ -45,13 +45,13 @@ namespace Platform.Data.Doublets.Json.Tests
             var @object = defaultJsonStorage.CreateObject("defaultJsonStorageName");
             defaultJsonStorage.CreateKey(@object, "keyName");
         } 
+        [Fact]
         public static void CreateValueTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
             var document = defaultJsonStorage.CreateDocument("testDocumentName");
-            defaultJsonStorage.AttachObject(document);
-            var @object = defaultJsonStorage.CreateObject("defaultJsonStorageName");
+            var @object = defaultJsonStorage.AttachObject(document);
             var key = defaultJsonStorage.CreateKey(@object, "keyName");
             var value = defaultJsonStorage.CreateValue(key, "valueName");
         }

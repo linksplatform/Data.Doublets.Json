@@ -88,8 +88,8 @@ namespace Platform.Data.Doublets.Json
         {
             return _links.GetOrCreate(keyLink, CreateValue(@object));
         }
-        public void AttachObject(TLink parent) => AttachElementToParent(_objectMarker, parent);
-        public void AttachElementToParent(TLink elementToAttach, TLink parent) => _links.GetOrCreate(parent, elementToAttach);
+        public TLink AttachObject(TLink parent) => AttachElementToParent(_objectMarker, parent);
+        public TLink AttachElementToParent(TLink elementToAttach, TLink parent) => _links.GetOrCreate(parent, elementToAttach);
 
 
     }
