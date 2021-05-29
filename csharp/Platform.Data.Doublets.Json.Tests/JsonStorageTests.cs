@@ -11,37 +11,40 @@ namespace Platform.Data.Doublets.Json.Tests
         public static void ConstructorsTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
+            DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
         }
         [Fact]
         public static void CreateDocumentTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
-            testObject.CreateDocument("testDocumentName");
+            DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
+            defaultJsonStorage.CreateDocument("testDocumentName");
         }
         [Fact]
         public static void CreateObjectTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
-            var document = testObject.CreateDocument("testDocumentName");
-            testObject.CreateObject("testObjectName");
-            testObject.AttachObject(document);
+            DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
+            var document = defaultJsonStorage.CreateDocument("testDocumentName");
+            defaultJsonStorage.CreateObject("defaultJsonStorageName");
+            defaultJsonStorage.AttachObject(document);
         }
         [Fact]
         public static void CreateStringTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
-            testObject.CreateString("test string");
+            DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
+            defaultJsonStorage.CreateString("test string");
         }
-        /* [Fact]
+        [Fact]
         public static void CreateKeyTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
-            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
-            testObject.CreateKey("test string");
-        } */
+            DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
+            var document = defaultJsonStorage.CreateDocument("testDocumentName");
+            defaultJsonStorage.AttachObject(document);
+            var testObject = defaultJsonStorage.CreateObject("defaultJsonStorageName");
+            defaultJsonStorage.CreateKey(testObject, "keyName");
+        } 
     }
 }
