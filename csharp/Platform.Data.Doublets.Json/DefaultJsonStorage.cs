@@ -21,7 +21,6 @@ namespace Platform.Data.Doublets.Json
         private readonly RawNumberToAddressConverter<TLink> _numberToAddressConverter;
         private readonly AddressToRawNumberConverter<TLink> _addressToNumberConverter;
         private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
-        private readonly DateTimeToLongRawNumberSequenceConverter<TLink> _dateTimeToLongRawNumberConverter;
         private readonly IConverter<string, TLink> _stringToUnicodeSequenceConverter;
         private readonly IConverter<TLink, string> _unicodeSequenceToStringConverter;
         private TLink _documentMarker;
