@@ -34,6 +34,10 @@ namespace Platform.Data.Doublets.Json
             InitConstants(links);
             _links = links;
 
+            // Create converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
+            _numberToAddressConverter = new RawNumberToAddressConverter<TLink>();
+            _addressToNumberConverter = new AddressToRawNumberConverter<TLink>();
+            // Create converters that are able to convert string to unicode sequence stored as link and back
             var balancedVariantConverter = new BalancedVariantConverter<TLink>(links);
             var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSymbolMarker);
             var unicodeSequenceCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSequenceMarker);
