@@ -18,7 +18,14 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
-            testObject.CreateDocument("testName");
+            testObject.CreateDocument("testDocumentName");
+        }
+        [Fact]
+        public static void CreateObjectTest()
+        {
+            using var links = new UnitedMemoryLinks<uint>("db.links");
+            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
+            testObject.CreateObject("testObjectName");
         }
     }
 }
