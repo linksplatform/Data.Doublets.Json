@@ -32,6 +32,7 @@ namespace Platform.Data.Doublets.Json
         public DefaultJsonStorage(ILinks<TLink> links)
         {
             InitConstants(links);
+            _links = links;
 
             var balancedVariantConverter = new BalancedVariantConverter<TLink>(links);
             var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSymbolMarker);
@@ -42,7 +43,6 @@ namespace Platform.Data.Doublets.Json
             _stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(_links, charToUnicodeSymbolConverter, balancedVariantConverter, _unicodeSequenceMarker));
             _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(_links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
 
-            _links = links;
         }
         private void InitConstants(ILinks<TLink> links)
         {
