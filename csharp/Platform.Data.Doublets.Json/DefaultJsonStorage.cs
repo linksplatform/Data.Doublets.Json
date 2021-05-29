@@ -1,22 +1,50 @@
 ﻿using Platform.Numbers;
 using Platform.Data.Doublets.Unicode;
+using Platform.Data.Doublets.Sequences.Converters;
+using Platform.Data.Doublets.CriterionMatchers;
+using Platform.Data.Numbers.Raw;
+using Platform.Data.Doublets.Time;
+using Platform.Converters;
+using Platform.Data.Doublets.Sequences.Walkers;
+using Platform.Collections.Stacks;
+
 namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
-
-        private readonly StringToUnicodeSequenceConverter<TLink> _stringToUnicodeSequenceConverter;
+        private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
         private readonly ILinks<TLink> _links;
         private TLink _unicodeSymbolMarker;
         private TLink _unicodeSequenceMarker;
+        private readonly RawNumberToAddressConverter<TLink> _numberToAddressConverter;
+        private readonly AddressToRawNumberConverter<TLink> _addressToNumberConverter;
+        private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
+        private readonly DateTimeToLongRawNumberSequenceConverter<TLink> _dateTimeToLongRawNumberConverter;
+        private readonly IConverter<string, TLink> _stringToUnicodeSequenceConverter;
+        private readonly IConverter<TLink, string> _unicodeSequenceToStringConverter;
         private TLink _documentMarker;
         private TLink _objectMarker;
         private TLink _stringMarker;
         private TLink _keyMarker;
         private TLink _valueMarker;
 
+        public DefaultJsonStorage(ILinks<TLink> links)
+        {
+            InitConstants(links);
+
+            var balancedVariantConverter = new BalancedVariantConverter<TLink>(links);
+            var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSymbolMarker);
+            var unicodeSequenceCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSequenceMarker);
+            var charToUnicodeSymbolConverter = new CharToUnicodeSymbolConverter<TLink>(_links, _addressToNumberConverter, _unicodeSymbolMarker);
+            var unicodeSymbolToCharConverter = new UnicodeSymbolToCharConverter<TLink>(_links, _numberToAddressConverter, unicodeSymbolCriterionMatcher);
+            var sequenceWalker = new RightSequenceWalker<TLink>(_links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
+            _stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(_links, charToUnicodeSymbolConverter, balancedVariantConverter, _unicodeSequenceMarker));
+            _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(_links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
+
+            _links = links;
+        }
         private void InitConstants(ILinks<TLink> links)
         {
             var markerIndex = _one;

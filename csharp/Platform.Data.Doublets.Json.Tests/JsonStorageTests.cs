@@ -9,12 +9,13 @@ namespace Platform.Data.Doublets.Json.Tests
         [Fact]
         public static void ConstructorsTest()
         {
-            Platform.Data.Doublets.Json.DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>();
+            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>();
         }
         [Fact]
         public static void CreateDocumentTest()
         {
-
+            DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>();
+            testObject.CreateDocument("testName");
         }
     }
 }
