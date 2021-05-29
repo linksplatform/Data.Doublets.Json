@@ -25,7 +25,9 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
+            var document = testObject.CreateDocument("testDocumentName");
             testObject.CreateObject("testObjectName");
+            testObject.AttachObject(document);
         }
         [Fact]
         public static void CreateStringTest()
@@ -34,12 +36,12 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
             testObject.CreateString("test string");
         }
-        [Fact]
+        /* [Fact]
         public static void CreateKeyTest()
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> testObject = new DefaultJsonStorage<uint>(links);
             testObject.CreateKey("test string");
-        }
+        } */
     }
 }
