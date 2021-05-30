@@ -100,7 +100,11 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachObject(TLink parent) => AttachElementToParent(_objectMarker, parent);
         public TLink AttachElementToParent(TLink elementToAttach, TLink parent) => _links.GetOrCreate(parent, elementToAttach);
-
+        public TLink GetValue(TLink parent)
+        {
+            var query = new Link<TLink>(index: any, source: parent, target: any);
+            return _links.All(query);
+        }
 
     }
 }
