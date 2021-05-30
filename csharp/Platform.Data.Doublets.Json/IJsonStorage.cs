@@ -11,6 +11,6 @@ namespace Platform.Data.Doublets.Json
         TLink CreateValue(TLink keyLink, string value);
         TLink CreateString(string content);
         TLink AttachObject(TLink parent);
-        TLink AttachElementToParent(TLink elementToAttach, TLink parent);
+        TLink Attach(TLink parent, TLink child);
     }
 }

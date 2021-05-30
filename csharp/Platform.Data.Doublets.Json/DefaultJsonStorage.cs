@@ -74,7 +74,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
-        public TLink CreateObject(TLink source) => _links.GetOrCreate(source, ObjectMarker);
+        public TLink GetOrCreateObjectValue(TLink source) => _links.GetOrCreate(source, ObjectMarker);
         public TLink GetObject(string name) => Get(ObjectMarker, name);
         public TLink CreateString(string content) => Create(StringMarker, content);
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
@@ -97,7 +97,7 @@ namespace Platform.Data.Doublets.Json
             return _links.GetOrCreate(keyLink, CreateValue(@object));
         }
 
-        public TLink AttachObject(TLink parent) => Attach(parent, GetOrCreateObjectValue());
+        public TLink AttachObject(TLink parent) => Attach(parent, GetOrCreateObjectValue(parent));
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
         public TLink GetValue(TLink parent)
         {
@@ -117,7 +117,6 @@ namespace Platform.Data.Doublets.Json
                     throw new InvalidOperationException("The list elements length is negative.");
             }
         }
-
     }
 }
 
