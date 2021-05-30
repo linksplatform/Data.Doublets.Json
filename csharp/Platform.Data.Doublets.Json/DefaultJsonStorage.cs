@@ -25,11 +25,11 @@ namespace Platform.Data.Doublets.Json
         private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
         private readonly IConverter<string, TLink> _stringToUnicodeSequenceConverter;
         private readonly IConverter<TLink, string> _unicodeSequenceToStringConverter;
-        private TLink _documentMarker;
-        private TLink _objectMarker;
-        private TLink _stringMarker;
-        private TLink _keyMarker;
-        private TLink _valueMarker;
+        public readonly TLink _documentMarker;
+        public readonly TLink _objectMarker;
+        public readonly TLink _stringMarker;
+        public readonly TLink _keyMarker;
+        public readonly TLink _valueMarker;
 
         public DefaultJsonStorage(ILinks<TLink> links)
         {
