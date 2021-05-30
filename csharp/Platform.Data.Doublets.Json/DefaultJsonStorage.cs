@@ -103,6 +103,8 @@ namespace Platform.Data.Doublets.Json
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
             var result = _links.All(query);
+
+            // A value must be one link
             switch (result.Count)
             {
                 case 0:
