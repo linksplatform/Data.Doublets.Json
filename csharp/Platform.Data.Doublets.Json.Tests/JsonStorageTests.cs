@@ -25,8 +25,9 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
-            defaultJsonStorage.CreateDocument("documentName");
-            defaultJsonStorage.GetDocument("documentName");
+            var createdDocumentLink = defaultJsonStorage.CreateDocument("documentName");
+            var foundDocumentLink = defaultJsonStorage.GetDocument("documentName");
+            Assert.Equal(createdDocumentLink, foundDocumentLink);
         }
         [Fact]
         public static void CreateObjectTest()
