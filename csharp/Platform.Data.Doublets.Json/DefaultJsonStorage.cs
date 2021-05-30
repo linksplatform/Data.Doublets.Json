@@ -74,7 +74,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
-        public TLink CreateObject(TLink parent) => _links.GetOrCreate(parent, ObjectMarker);
+        public TLink CreateObject(TLink parent) => _links.GetOrCreate(parent, GetOrCreateObjectValue());
         public TLink GetOrCreateObjectValue() => _links.GetOrCreate(ValueMarker, ObjectMarker);
         public TLink GetObject(string name) => Get(ObjectMarker, name);
         public TLink CreateString(string content) => Create(StringMarker, content);
