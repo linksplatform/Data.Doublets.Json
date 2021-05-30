@@ -75,8 +75,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
-        public TLink CreateObject(TLink parent) => _links.GetOrCreate(parent, GetOrCreateObjectValue());
-        public TLink GetOrCreateObjectValue()
+        public TLink CreateObject(TLink parent) => _links.GetOrCreate(parent, CreateObjectValue());
+        public TLink CreateObjectValue()
         {
             var objectInstanceLink = _links.Create();
             objectInstanceLink = _links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
@@ -103,7 +103,7 @@ namespace Platform.Data.Doublets.Json
             return _links.GetOrCreate(keyLink, CreateValue(@object));
         }
 
-        public TLink AttachObject(TLink parent) => Attach(parent, GetOrCreateObjectValue());
+        public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
         public TLink GetValue(TLink parent)
         {
