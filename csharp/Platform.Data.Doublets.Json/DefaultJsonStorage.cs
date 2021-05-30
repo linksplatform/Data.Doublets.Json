@@ -105,17 +105,13 @@ namespace Platform.Data.Doublets.Json
             var result = _links.All(query);
 
             // A value must be one link
-            switch (result.Count)
+            return result.Count switch
             {
-                case 0:
-                    return default;
-                case 1:
-                    return result[0][_links.Constants.TargetPart];
-                case > 1:
-                    throw new InvalidOperationException("More than 1 value found.");
-                default:
-                    throw new InvalidOperationException("The list elements length is negative.");
-            }
+                0 => default,
+                1 => result[0][_links.Constants.TargetPart],
+                > 1 => throw new InvalidOperationException("More than 1 value found."),
+                _ => throw new InvalidOperationException("The list elements length is negative."),
+            };
         }
     }
 }
