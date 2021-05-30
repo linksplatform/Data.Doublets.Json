@@ -107,24 +107,24 @@ namespace Platform.Data.Doublets.Json
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
         public TLink GetValue(TLink parent)
         {
-            var equalityComparer = EqualityComparer<TLink>.Default;
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
             var resultLink = _links.All(query);
-            var resultTargetLink = _links.GetTarget(resultLink[0]);
 
             // A value must be one link
-            switch(resultLink.Count)
+            switch (resultLink.Count)
             {
                 case 0:
                     return default;
                 case 1:
-                    if (equalityComparer.Equals(_links.GetSource(resultTargetLink), ValueMarker)) 
+                    var equalityComparer = EqualityComparer<TLink>.Default;
+                    var resultLinkTarget = _links.GetTarget(resultLink[0]);
+                    if (equalityComparer.Equals(_links.GetSource(resultLinkTarget), ValueMarker))
                     {
-                        return resultTargetLink;
-                    } 
+                        return resultLinkTarget;
+                    }
                     else
                     {
-                        throw new InvalidOperationException("Not a value.");
+                        throw new InvalidOperationException("Is not a value link.");
                     }
                 case > 1:
                     throw new InvalidOperationException("More than 1 value found.");
