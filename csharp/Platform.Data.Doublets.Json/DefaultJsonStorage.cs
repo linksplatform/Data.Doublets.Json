@@ -80,7 +80,7 @@ namespace Platform.Data.Doublets.Json
         {
             var objectInstanceLink = _links.Create();
             objectInstanceLink = _links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
-            return _links.GetOrCreate(ValueMarker, objectInstanceLink);
+            return CreateValue(objectInstanceLink);
         }
         public TLink CreateString(string content) => Create(StringMarker, content);
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
