@@ -31,6 +31,12 @@ namespace Platform.Data.Doublets.Json
         public readonly TLink StringMarker;
         public readonly TLink KeyMarker;
         public readonly TLink ValueMarker;
+        public readonly TLink NumberMarker;
+        public readonly TLink ArrayMarker;
+        public readonly TLink TrueMarker;
+        public readonly TLink FalseMarker;
+        public readonly TLink NullMarker;
+
 
         public DefaultJsonStorage(ILinks<TLink> links)
         {
@@ -47,6 +53,11 @@ namespace Platform.Data.Doublets.Json
             KeyMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             ValueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             StringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            NumberMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            ArrayMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            TrueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            FalseMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            NullMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
 
             // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
             _numberToAddressConverter = new RawNumberToAddressConverter<TLink>();
