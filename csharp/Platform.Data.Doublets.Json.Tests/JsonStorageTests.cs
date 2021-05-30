@@ -34,8 +34,9 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
-            var document = defaultJsonStorage.CreateDocument("testDocumentName");
-            defaultJsonStorage.AttachObject(document);
+            var object0 = defaultJsonStorage.CreateObjectValue();
+            var object1 = defaultJsonStorage.CreateObjectValue();
+            Assert.Equal(object0, object1);
         }
         [Fact]
         public static void CreateStringTest()
