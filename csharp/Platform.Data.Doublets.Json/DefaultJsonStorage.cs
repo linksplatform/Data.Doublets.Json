@@ -7,6 +7,7 @@ using Platform.Data.Doublets.Time;
 using Platform.Converters;
 using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
+using System;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -103,7 +104,18 @@ namespace Platform.Data.Doublets.Json
         public TLink GetValue(TLink parent)
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
-            return _links.All(query);
+            var result = _links.All(query);
+            switch (result.Count)
+            {
+                case 0:
+                    return default;
+                case 1:
+                    return result[0][_links.Constants.TargetPart];
+                case > 1:
+                    throw new InvalidOperationException("More than 1 value found.");
+                default:
+                    throw new InvalidOperationException("The list elements length is negative.");
+            }
         }
 
     }
