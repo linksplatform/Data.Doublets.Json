@@ -13,13 +13,13 @@ namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
-        private TLink _any;
+        private readonly TLink _any;
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
         private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
         private readonly ILinks<TLink> _links;
-        private TLink _unicodeSymbolMarker;
-        private TLink _unicodeSequenceMarker;
+        private readonly TLink _unicodeSymbolMarker;
+        private readonly TLink _unicodeSequenceMarker;
         private readonly RawNumberToAddressConverter<TLink> _numberToAddressConverter;
         private readonly AddressToRawNumberConverter<TLink> _addressToNumberConverter;
         private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
