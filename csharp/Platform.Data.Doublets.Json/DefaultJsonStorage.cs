@@ -84,6 +84,8 @@ namespace Platform.Data.Doublets.Json
             return _links.SearchOrDefault(marker, utf8Content);
         }
 
+        public TLink CreateString(string content) => Create(StringMarker, content);
+        public TLink CreateNumber(int number) => _links.GetOrCreate(NumberMarker, number);
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
         public TLink CreateObject()
@@ -92,7 +94,7 @@ namespace Platform.Data.Doublets.Json
             return _links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
         }
         public TLink CreateObjectValue() => CreateValue(CreateObject());
-        public TLink CreateString(string content) => Create(StringMarker, content);
+
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
         public TLink CreateKey(TLink @object)
         {
@@ -104,13 +106,13 @@ namespace Platform.Data.Doublets.Json
         }
 
         public TLink CreateValue(TLink keyLink, string @string) => CreateValue(keyLink, CreateString(@string));
-        public TLink CreateValue(TLink @object)
-        {
-            return _links.GetOrCreate(ValueMarker, @object);
-        }
         public TLink CreateValue(TLink keyLink, TLink @object)
         {
             return _links.GetOrCreate(keyLink, CreateValue(@object));
+        }
+        public TLink CreateValue(TLink @object)
+        {
+            return _links.GetOrCreate(ValueMarker, @object);
         }
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
