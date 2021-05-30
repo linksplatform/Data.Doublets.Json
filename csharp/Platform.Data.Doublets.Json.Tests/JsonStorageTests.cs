@@ -36,7 +36,7 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
             var object0 = defaultJsonStorage.CreateObjectValue();
             var object1 = defaultJsonStorage.CreateObjectValue();
-            Assert.Equal(object0, object1);
+            Assert.NotEqual(object0, object1);
         }
         [Fact]
         public static void CreateStringTest()
