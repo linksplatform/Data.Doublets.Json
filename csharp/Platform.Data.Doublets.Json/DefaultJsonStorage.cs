@@ -34,12 +34,23 @@ namespace Platform.Data.Doublets.Json
         public DefaultJsonStorage(ILinks<TLink> links)
         {
             _links = links;
-            InitConstants(links);
+            
+            // Initializes constants
+            _any = _links.Constants.Any;
+            var markerIndex = _one;
+            var meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
+            _unicodeSymbolMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            _unicodeSequenceMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            DocumentMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            ObjectMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            KeyMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            ValueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            StringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
 
-            // Create converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
+            // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
             _numberToAddressConverter = new RawNumberToAddressConverter<TLink>();
             _addressToNumberConverter = new AddressToRawNumberConverter<TLink>();
-            // Create converters that are able to convert string to unicode sequence stored as link and back
+            // Creates converters that are able to convert string to unicode sequence stored as link and back
             var balancedVariantConverter = new BalancedVariantConverter<TLink>(links);
             var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSymbolMarker);
             var unicodeSequenceCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSequenceMarker);
@@ -49,19 +60,6 @@ namespace Platform.Data.Doublets.Json
             _stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(_links, charToUnicodeSymbolConverter, balancedVariantConverter, _unicodeSequenceMarker));
             _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(_links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
 
-        }
-        private void InitConstants(ILinks<TLink> links)
-        {
-            _any = _links.Constants.Any;
-            var markerIndex = _one;
-            var meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
-            _unicodeSymbolMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _unicodeSequenceMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _documentMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _objectMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _keyMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _valueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _stringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
         }
         private TLink Create(TLink marker, string content)
         {
@@ -74,15 +72,15 @@ namespace Platform.Data.Doublets.Json
             return _links.SearchOrDefault(marker, utf8Content);
         }
 
-        public TLink CreateDocument(string name) => Create(_documentMarker, name);
-        public TLink GetDocument(string name) => Get(_documentMarker, name);
-        public TLink CreateObject(string name) => Create(_objectMarker, name);
-        public TLink GetObject(string name) => Get(_objectMarker, name);
-        public TLink CreateString(string content) => Create(_stringMarker, content);
+        public TLink CreateDocument(string name) => Create(DocumentMarker, name);
+        public TLink GetDocument(string name) => Get(DocumentMarker, name);
+        public TLink CreateObject(string name) => Create(ObjectMarker, name);
+        public TLink GetObject(string name) => Get(ObjectMarker, name);
+        public TLink CreateString(string content) => Create(StringMarker, content);
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
         public TLink CreateKey(TLink @object)
         {
-            return _links.GetOrCreate(_keyMarker, @object);
+            return _links.GetOrCreate(KeyMarker, @object);
         }
         public TLink CreateKey(TLink objectLink, TLink @object)
         {
@@ -92,14 +90,14 @@ namespace Platform.Data.Doublets.Json
         public TLink CreateValue(TLink keyLink, string @string) => CreateValue(keyLink, CreateString(@string));
         public TLink CreateValue(TLink @object)
         {
-            return _links.GetOrCreate(_valueMarker, @object);
+            return _links.GetOrCreate(ValueMarker, @object);
         }
         public TLink CreateValue(TLink keyLink, TLink @object)
         {
             return _links.GetOrCreate(keyLink, CreateValue(@object));
         }
 
-        public TLink AttachObject(TLink parent) => AttachElementToParent(_objectMarker, parent);
+        public TLink AttachObject(TLink parent) => AttachElementToParent(ObjectMarker, parent);
         public TLink AttachElementToParent(TLink elementToAttach, TLink parent) => _links.GetOrCreate(parent, elementToAttach);
         public TLink GetValue(TLink parent)
         {
