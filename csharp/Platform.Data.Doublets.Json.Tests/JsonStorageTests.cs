@@ -69,11 +69,11 @@ namespace Platform.Data.Doublets.Json.Tests
             using var links = new UnitedMemoryLinks<uint>("db.links");
             DefaultJsonStorage<uint> defaultJsonStorage = new DefaultJsonStorage<uint>(links);
             var document = defaultJsonStorage.CreateDocument("documentName");
-            var @object = defaultJsonStorage.AttachObject(document);
-            var key = defaultJsonStorage.CreateKey(@object, "keyName");
-            var value = defaultJsonStorage.CreateValue(key, "valueName");
-            defaultJsonStorage.AttachElementToParent(document, value);
-        }
+            var documentValueLink = defaultJsonStorage.AttachObject(document);
+            var createdDocumentValue = links.GetTarget(documentValueLink);
+            var foundDocumentValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdDocumentValue, foundDocumentValue);
+                }
         [Fact]
         public static void GetValueTest()
         {
