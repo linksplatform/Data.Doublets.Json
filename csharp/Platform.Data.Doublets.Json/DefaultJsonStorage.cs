@@ -66,6 +66,10 @@ namespace Platform.Data.Doublets.Json
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
             return _links.GetOrCreate(marker, utf8Content);
         }
+        private TLink Create(TLink marker0, TLink marker1)
+        {
+            return _links.GetOrCreate(marker0, marker1);
+        }
         private TLink Get(TLink marker, string content)
         {
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
@@ -74,7 +78,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
-        public TLink CreateObject(string name) => Create(ObjectMarker, name);
+        public TLink CreateObject(TLink source) => Create(source, ObjectMarker);
         public TLink GetObject(string name) => Get(ObjectMarker, name);
         public TLink CreateString(string content) => Create(StringMarker, content);
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
