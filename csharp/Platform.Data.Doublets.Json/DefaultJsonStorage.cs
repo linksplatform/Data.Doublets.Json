@@ -12,6 +12,7 @@ namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
+        private TLink any;
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
         private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
@@ -31,8 +32,8 @@ namespace Platform.Data.Doublets.Json
 
         public DefaultJsonStorage(ILinks<TLink> links)
         {
-            InitConstants(links);
             _links = links;
+            InitConstants(links);
 
             // Create converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
             _numberToAddressConverter = new RawNumberToAddressConverter<TLink>();
@@ -50,6 +51,7 @@ namespace Platform.Data.Doublets.Json
         }
         private void InitConstants(ILinks<TLink> links)
         {
+            any = _links.Constants.Any;
             var markerIndex = _one;
             var meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
             _unicodeSymbolMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
@@ -95,6 +97,7 @@ namespace Platform.Data.Doublets.Json
         {
             return _links.GetOrCreate(keyLink, CreateValue(@object));
         }
+
         public TLink AttachObject(TLink parent) => AttachElementToParent(_objectMarker, parent);
         public TLink AttachElementToParent(TLink elementToAttach, TLink parent) => _links.GetOrCreate(parent, elementToAttach);
 
