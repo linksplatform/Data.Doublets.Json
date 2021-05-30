@@ -12,7 +12,7 @@ namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
-        private TLink any;
+        private TLink _any;
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
         private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
@@ -51,7 +51,7 @@ namespace Platform.Data.Doublets.Json
         }
         private void InitConstants(ILinks<TLink> links)
         {
-            any = _links.Constants.Any;
+            _any = _links.Constants.Any;
             var markerIndex = _one;
             var meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
             _unicodeSymbolMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
@@ -102,7 +102,7 @@ namespace Platform.Data.Doublets.Json
         public TLink AttachElementToParent(TLink elementToAttach, TLink parent) => _links.GetOrCreate(parent, elementToAttach);
         public TLink GetValue(TLink parent)
         {
-            var query = new Link<TLink>(index: any, source: parent, target: any);
+            var query = new Link<TLink>(index: _any, source: parent, target: _any);
             return _links.All(query);
         }
 
