@@ -9,9 +9,6 @@ using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
 using System;
 using System.Collections.Generic;
-using Platform.Memory;
-using Platform.Data.Doublets.Memory.United.Generic;
-using Platform.Data.Doublets.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -43,10 +40,8 @@ namespace Platform.Data.Doublets.Json
         public readonly TLink NullMarker;
 
 
-        public DefaultJsonStorage(ILinks<TLink> links, string dataDBFilename)
+        public DefaultJsonStorage(ILinks<TLink> links)
         {
-            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
-            _disposableLinks = new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             _links = links;
 
             // Initializes constants
