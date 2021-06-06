@@ -5,12 +5,13 @@ using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Data.Doublets.Memory;
 using Platform.Memory;
 using TLink = System.UInt32;
+using System.IO;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
     public static class JsonStorageTests
     {
-        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>("db.links");
+        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(Path.GetTempFileName());
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
