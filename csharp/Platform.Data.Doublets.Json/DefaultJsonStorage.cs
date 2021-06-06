@@ -9,16 +9,21 @@ using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
 using System;
 using System.Collections.Generic;
+using Platform.Memory;
+using Platform.Data.Doublets.Memory.United.Generic;
+using Platform.Data.Doublets.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
+
         private readonly TLink _any;
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
         private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
         private readonly ILinks<TLink> _links;
+        private readonly ILinks<TLink> _disposableLinks;
         private readonly TLink _unicodeSymbolMarker;
         private readonly TLink _unicodeSequenceMarker;
         private readonly RawNumberToAddressConverter<TLink> _numberToAddressConverter;
@@ -38,8 +43,10 @@ namespace Platform.Data.Doublets.Json
         public readonly TLink NullMarker;
 
 
-        public DefaultJsonStorage(ILinks<TLink> links)
+        public DefaultJsonStorage(ILinks<TLink> links, string dataDBFilename)
         {
+            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
+            _disposableLinks = new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             _links = links;
 
             // Initializes constants
@@ -85,6 +92,11 @@ namespace Platform.Data.Doublets.Json
         }
 
         public TLink CreateString(string content) => Create(StringMarker, content);
+        public TLink CreateNumber(TLink number)
+        {
+            var numberAdress = _numberToAddressConverter.Convert(number);
+            return CreateNumber(numberAdress);
+        }
         public TLink CreateNumber(int number) => _links.GetOrCreate(NumberMarker, number);
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
