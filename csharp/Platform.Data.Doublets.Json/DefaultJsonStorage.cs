@@ -100,6 +100,11 @@ namespace Platform.Data.Doublets.Json
             return _links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
         }
         public TLink CreateObjectValue() => CreateValue(CreateObject());
+        public TLink CreateArray()
+        {
+            var arrayLink = _links.Create();
+            return _links.Update(arrayLink, newSource: ArrayMarker, newTarget: arrayLink);
+        }
 
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
         public TLink CreateKey(TLink @object)
