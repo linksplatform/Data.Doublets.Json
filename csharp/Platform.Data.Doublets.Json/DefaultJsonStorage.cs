@@ -126,16 +126,16 @@ namespace Platform.Data.Doublets.Json
         public TLink GetValue(TLink parent)
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
-            var resultLink = _links.All(query);
+            var resultLinks = _links.All(query);
 
             // A value must be one link
-            switch (resultLink.Count)
+            switch (resultLinks.Count)
             {
                 case 0:
                     return default;
                 case 1:
                     var equalityComparer = EqualityComparer<TLink>.Default;
-                    var resultLinkTarget = _links.GetTarget(resultLink[0]);
+                    var resultLinkTarget = _links.GetTarget(resultLinks[0]);
                     if (equalityComparer.Equals(_links.GetSource(resultLinkTarget), ValueMarker))
                     {
                         return resultLinkTarget;
