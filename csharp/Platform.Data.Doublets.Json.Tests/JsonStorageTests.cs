@@ -10,7 +10,8 @@ namespace Platform.Data.Doublets.Json.Tests
 {
     public static class JsonStorageTests
     {
-        public static ILinks<TLink> CreateLinks(string dataDBFilename)
+        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>("db.links");
+        public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
