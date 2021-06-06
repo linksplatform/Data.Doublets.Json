@@ -122,8 +122,8 @@ namespace Platform.Data.Doublets.Json.Tests
             // Check true
             var documentBooleanLink = defaultJsonStorage.AttachBoolean(document, false);
             var createdBooleanValue = links.GetTarget(documentBooleanLink);
-            var foundNumberValue = defaultJsonStorage.GetValue(document);
-            Assert.Equal(createdBooleanValue, foundNumberValue);
+            var foundBooleanValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdBooleanValue, foundBooleanValue);
             var valueMarker = links.GetTarget(createdBooleanValue);
             Assert.Equal(valueMarker, defaultJsonStorage.FalseMarker);
         }
