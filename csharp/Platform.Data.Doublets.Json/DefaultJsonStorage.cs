@@ -124,6 +124,7 @@ namespace Platform.Data.Doublets.Json
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
         public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
         public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
+        public TLink AttachBoolean(TLink parent, Boolean value) => Attach(parent, CreateValue(value ? TrueMarker : FalseMarker));
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
         public TLink GetValue(TLink parent)
         {
