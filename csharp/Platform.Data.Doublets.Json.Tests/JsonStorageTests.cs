@@ -106,12 +106,12 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
             var document = defaultJsonStorage.CreateDocument("documentName");
             // Check true
-            var documentBooleanLink = defaultJsonStorage.AttachBoolean(document, true);
-            var createdBooleanValue = links.GetTarget(documentBooleanLink);
-            var foundBooleanValue = defaultJsonStorage.GetValue(document);
-            Assert.Equal(createdBooleanValue, foundBooleanValue);
-            var valueMarker = links.GetTarget(createdBooleanValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.TrueMarker);
+            var documentTrueValueLink = defaultJsonStorage.AttachBoolean(document, true);
+            var createdTrueValue = links.GetTarget(documentTrueValueLink);
+            var foundTrueValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdTrueValue, foundTrueValue);
+            var trueMarker = links.GetTarget(createdTrueValue);
+            Assert.Equal(trueMarker, defaultJsonStorage.TrueMarker);
         }
         [Fact]
         public static void AttachFalseValueToDocumentTest()
