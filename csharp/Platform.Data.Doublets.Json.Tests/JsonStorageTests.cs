@@ -111,7 +111,7 @@ namespace Platform.Data.Doublets.Json.Tests
             var foundNumberValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdBooleanValue, foundNumberValue);
             var valueMarker = links.GetTarget(createdBooleanValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            Assert.Equal(valueMarker, defaultJsonStorage.TrueMarker);
         }
         [Fact]
         public static void GetValueTest()
