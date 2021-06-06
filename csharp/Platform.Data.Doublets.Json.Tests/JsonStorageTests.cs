@@ -84,9 +84,9 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
             var document = defaultJsonStorage.CreateDocument("documentName");
             var documentStringLink = defaultJsonStorage.AttachString(document, "stringName");
-            var createdDocumentValue = links.GetTarget(documentStringLink);
-            var foundDocumentValue = defaultJsonStorage.GetValue(document);
-            Assert.Equal(createdDocumentValue, foundDocumentValue);
+            var createdStringValue = links.GetTarget(documentStringLink);
+            var foundStringValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdStringValue, foundStringValue);
         }
         [Fact]
         public static void AttachNumberToDocumentTest()
