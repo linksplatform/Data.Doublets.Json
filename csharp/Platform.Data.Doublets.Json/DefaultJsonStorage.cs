@@ -111,7 +111,7 @@ namespace Platform.Data.Doublets.Json
             return _links.GetOrCreate(objectLink, CreateKey(@object));
         }
 
-        public TLink CreateValue(TLink keyLink, string @string) => CreateValue(keyLink, CreateString(@string));
+        public TLink CreateValue(TLink keyLink, string @string) => CreateValue(CreateString(@string));
         public TLink CreateValue(TLink keyLink, TLink @object)
         {
             return _links.GetOrCreate(keyLink, CreateValue(@object));
