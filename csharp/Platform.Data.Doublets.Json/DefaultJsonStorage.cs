@@ -105,7 +105,7 @@ namespace Platform.Data.Doublets.Json
             var arrayLink = _links.Create();
             return _links.Update(arrayLink, newSource: ArrayMarker, newTarget: arrayLink);
         }
-
+        public TLink CreateArrayValue() => CreateValue(CreateArray());
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
         public TLink CreateKey(TLink @object)
         {
