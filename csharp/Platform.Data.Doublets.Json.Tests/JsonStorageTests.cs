@@ -2,11 +2,19 @@ using System;
 using Xunit;
 using Platform.Data.Doublets.Json;
 using Platform.Data.Doublets.Memory.United.Generic;
+using Platform.Data.Doublets.Memory;
+using Platform.Memory;
+using TLink = System.UInt32;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
     public static class JsonStorageTests
     {
+        public static ILinks<TLink> CreateLinks(string dataDBFilename)
+        {
+            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
+            return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+        }
         [Fact]
         public static void ConstructorsTest()
         {
