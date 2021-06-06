@@ -95,9 +95,8 @@ namespace Platform.Data.Doublets.Json
         public TLink CreateNumber(TLink number)
         {
             var numberAdress = _numberToAddressConverter.Convert(number);
-            return CreateNumber(numberAdress);
+            return _links.GetOrCreate(NumberMarker, numberAdress);
         }
-        public TLink CreateNumber(int number) => _links.GetOrCreate(NumberMarker, number);
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
         public TLink CreateObject()
