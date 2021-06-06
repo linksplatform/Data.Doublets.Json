@@ -114,6 +114,20 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(valueMarker, defaultJsonStorage.TrueMarker);
         }
         [Fact]
+        public static void AttachFalseValueToDocumentTest()
+        {
+            var links = CreateLinks();
+            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            var document = defaultJsonStorage.CreateDocument("documentName");
+            // Check true
+            var documentBooleanLink = defaultJsonStorage.AttachBoolean(document, false);
+            var createdBooleanValue = links.GetTarget(documentBooleanLink);
+            var foundNumberValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdBooleanValue, foundNumberValue);
+            var valueMarker = links.GetTarget(createdBooleanValue);
+            Assert.Equal(valueMarker, defaultJsonStorage.FalseMarker);
+        }
+        [Fact]
         public static void GetValueTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
