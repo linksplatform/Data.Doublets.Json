@@ -80,6 +80,7 @@ namespace Platform.Data.Doublets.Json
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
             return _links.GetOrCreate(marker, utf8Content);
         }
+
         private TLink Get(TLink marker, string content)
         {
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
@@ -87,51 +88,69 @@ namespace Platform.Data.Doublets.Json
         }
 
         public TLink CreateString(string content) => Create(StringMarker, content);
+
         public TLink CreateNumber(TLink number)
         {
             var numberAddress = _numberToAddressConverter.Convert(number);
             return _links.GetOrCreate(NumberMarker, numberAddress);
         }
+
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
+
         public TLink GetDocument(string name) => Get(DocumentMarker, name);
+
         public TLink CreateObject()
         {
             var objectInstanceLink = _links.Create();
             return _links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
         }
+
         public TLink CreateObjectValue() => CreateValue(CreateObject());
+
+
         public TLink CreateArray()
         {
             var arrayLink = _links.Create();
             return _links.Update(arrayLink, newSource: ArrayMarker, newTarget: arrayLink);
         }
         public TLink CreateArrayValue() => CreateValue(CreateArray());
+
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
+
         public TLink CreateKey(TLink @object)
         {
             return _links.GetOrCreate(KeyMarker, @object);
         }
+
         public TLink CreateKey(TLink objectLink, TLink @object)
         {
             return _links.GetOrCreate(objectLink, CreateKey(@object));
         }
 
         public TLink CreateValue(TLink keyLink, string @string) => CreateValue(CreateString(@string));
+
         public TLink CreateValue(TLink keyLink, TLink @object)
         {
             return _links.GetOrCreate(keyLink, CreateValue(@object));
         }
+
         public TLink CreateValue(TLink @object)
         {
             return _links.GetOrCreate(ValueMarker, @object);
         }
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
+
         public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
+
         public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
+
         public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateValue(value ? TrueMarker : FalseMarker));
+
         public TLink AttachNull(TLink parent) => Attach(parent, CreateValue(NullMarker));
+
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
+
         public TLink GetValue(TLink parent)
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
