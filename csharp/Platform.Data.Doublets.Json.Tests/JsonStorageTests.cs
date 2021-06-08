@@ -97,14 +97,14 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
-            var document = defaultJsonStorage.CreateDocument("documentName");
-            var documentNumberLink = defaultJsonStorage.AttachNumber(document, 2021);
-            var createdNumberValue = links.GetTarget(documentNumberLink);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+            TLink documentNumberLink = defaultJsonStorage.AttachNumber(document, 2021);
+            TLink createdNumberValue = links.GetTarget(documentNumberLink);
 
-            var numberMarker = links.GetSource(createdNumberValue);
+            TLink numberMarker = links.GetSource(createdNumberValue);
             Assert.Equal(numberMarker, defaultJsonStorage.NumberMarker);
 
-            var foundNumberValue = defaultJsonStorage.GetValue(document);
+            TLink foundNumberValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdNumberValue, foundNumberValue);
         }
         [Fact]
