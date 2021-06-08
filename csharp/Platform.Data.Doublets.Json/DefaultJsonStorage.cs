@@ -155,6 +155,12 @@ namespace Platform.Data.Doublets.Json
         public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateValue(value ? TrueMarker : FalseMarker));
 
         public TLink AttachNull(TLink parent) => Attach(parent, CreateValue(NullMarker));
+        public TLink AttachArray(TLink parent, TLink arrayLink) => Attach(parent, CreateValue(arrayLink));
+        public TLink AttachArray(TLink parent, IList<TLink> array)
+        {
+            var arrayLink = CreateArray(array);
+            return Attach(parent, CreateValue(arrayLink));
+        }
 
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
 
