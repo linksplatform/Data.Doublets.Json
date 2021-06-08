@@ -232,12 +232,12 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueMarker = links.GetSource(createdArrayValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
-            TLink createdArrayContents = links.GetTarget(createdArrayValue);
-            TLink arrayMarker = links.GetSource(createdArrayContents);
+            TLink createdArrayLink = links.GetTarget(createdArrayValue);
+            TLink arrayMarker = links.GetSource(createdArrayLink);
             Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
 
-            output.WriteLine(links.Format(createdArrayContents));
-            // Assert.Equal(createArrayContents, defaultJsonStorage.EmptyArrayMarker);
+            TLink createdArrayContents = links.GetTarget(createdArrayLink);
+            // Assert.Equal(createdArrayContents, );
 
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
