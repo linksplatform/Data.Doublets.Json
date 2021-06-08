@@ -78,8 +78,8 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueMarker = links.GetSource(createdObjectValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
-            TLink createdObjectLink = links.GetTarget(createdObjectValue);
-            TLink objectMarker = links.GetSource(createdObjectLink);
+            TLink createdObject = links.GetTarget(createdObjectValue);
+            TLink objectMarker = links.GetSource(createdObject);
             Assert.Equal(objectMarker, defaultJsonStorage.ObjectMarker);
 
             TLink foundDocumentValue = defaultJsonStorage.GetValue(document);
