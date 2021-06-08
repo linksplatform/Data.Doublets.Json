@@ -122,7 +122,6 @@ namespace Platform.Data.Doublets.Json
                     return _balancedVariantConverter.Convert(array);
             }
         }
-        public TLink CreateArrayValue() => CreateValue(CreateArray());
 
         public TLink CreateKey(TLink objectLink, string @string) => CreateKey(objectLink, CreateString(@string));
 
