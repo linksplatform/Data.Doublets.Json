@@ -97,7 +97,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueMarker = links.GetSource(createdStringValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
-            TLink createdString = links.GetSource(createdStringValue);
+            TLink createdString = links.GetTarget(createdStringValue);
             TLink stringMarker = links.GetSource(createdString);
             Assert.Equal(stringMarker, defaultJsonStorage.StringMarker);
 
