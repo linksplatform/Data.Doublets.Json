@@ -35,6 +35,7 @@ namespace Platform.Data.Doublets.Json
         public readonly TLink ValueMarker;
         public readonly TLink NumberMarker;
         public readonly TLink ArrayMarker;
+        public readonly TLink EmptyArrayMarker;
         public readonly TLink TrueMarker;
         public readonly TLink FalseMarker;
         public readonly TLink NullMarker;
@@ -57,6 +58,7 @@ namespace Platform.Data.Doublets.Json
             StringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             NumberMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             ArrayMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            EmptyArrayMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             TrueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             FalseMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             NullMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
@@ -108,10 +110,9 @@ namespace Platform.Data.Doublets.Json
         public TLink CreateObjectValue() => CreateValue(CreateObject());
 
 
-        public TLink CreateArray()
+        public TLink CreateArray(TLink[] array)
         {
-            var arrayLink = _links.Create();
-            return _links.Update(arrayLink, newSource: ArrayMarker, newTarget: arrayLink);
+           
         }
         public TLink CreateArrayValue() => CreateValue(CreateArray());
 
