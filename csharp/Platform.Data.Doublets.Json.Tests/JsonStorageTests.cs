@@ -157,7 +157,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
             TLink createdFalseLink = links.GetTarget(createdFalseValue);
-            TLink falseMarker = links.GetTarget(createdFalseLink);
+            TLink falseMarker = links.GetSource(createdFalseLink);
             Assert.Equal(falseMarker, defaultJsonStorage.FalseMarker);
 
             TLink foundFalseValue = defaultJsonStorage.GetValue(document);
