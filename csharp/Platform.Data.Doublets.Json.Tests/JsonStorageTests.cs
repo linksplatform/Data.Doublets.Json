@@ -13,7 +13,7 @@ namespace Platform.Data.Doublets.Json.Tests
 {
     public class JsonStorageTests
     {
-        private ITestOutputHelper output;
+        private readonly ITestOutputHelper output;
 
         public JsonStorageTests(ITestOutputHelper output)
         {
@@ -190,7 +190,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdNullValue, foundNullValue);
         }
         [Fact]
-        public static void AttachEmptyArrayValueToDocumentTest()
+        public void AttachEmptyArrayValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -199,7 +199,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink[] array = new TLink[0];
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
-            Debug.WriteLine(links.Format(createdArrayValue));
+            output.WriteLine(links.Format(createdArrayValue));
 
 
             TLink valueMarker = links.GetSource(createdArrayValue);
