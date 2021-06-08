@@ -90,7 +90,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentStringLink = defaultJsonStorage.AttachString(document, "stringName");
             TLink createdStringValue = links.GetTarget(documentStringLink);
 
-            TLink stringMarker = links.GetSource(createdStringValue);
+            TLink valueMarker = links.GetSource(createdStringValue);
+            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+
+            TLink createdString = links.GetSource(createdStringValue);
+            TLink stringMarker = links.GetSource(createdString);
             Assert.Equal(stringMarker, defaultJsonStorage.StringMarker);
 
             TLink foundStringValue = defaultJsonStorage.GetValue(document);
