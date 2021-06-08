@@ -67,14 +67,18 @@ namespace Platform.Data.Doublets.Json.Tests
             var value = defaultJsonStorage.CreateValue(key, "valueName");
         }
         [Fact]
-        public static void AttachValueToDocumentTest()
+        public static void AttachObjectValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
-            var document = defaultJsonStorage.CreateDocument("documentName");
-            var documentValueLink = defaultJsonStorage.AttachObject(document);
-            var createdDocumentValue = links.GetTarget(documentValueLink);
-            var foundDocumentValue = defaultJsonStorage.GetValue(document);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+            TLink documentValueLink = defaultJsonStorage.AttachObject(document);
+            TLink createdDocumentValue = links.GetTarget(documentValueLink);
+
+            TLink objectMarker = links.GetSource(createdDocumentValue);
+            Assert.Equal(objectMarker, defaultJsonStorage.ObjectMarker);
+
+            TLink foundDocumentValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdDocumentValue, foundDocumentValue);
         }
         [Fact]
