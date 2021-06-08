@@ -26,18 +26,18 @@ namespace Platform.Data.Doublets.Json.Tests
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
         [Fact]
-        public static void ConstructorsTest()
+        public void ConstructorsTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
         }
         [Fact]
-        public static void CreateDocumentTest()
+        public void CreateDocumentTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             defaultJsonStorage.CreateDocument("documentName");
         }
         [Fact]
-        public static void GetDocumentTest()
+        public void GetDocumentTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var createdDocumentLink = defaultJsonStorage.CreateDocument("documentName");
@@ -45,7 +45,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdDocumentLink, foundDocumentLink);
         }
         [Fact]
-        public static void CreateObjectTest()
+        public void CreateObjectTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var object0 = defaultJsonStorage.CreateObjectValue();
@@ -53,13 +53,13 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.NotEqual(object0, object1);
         }
         [Fact]
-        public static void CreateStringTest()
+        public void CreateStringTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             defaultJsonStorage.CreateString("string");
         }
         [Fact]
-        public static void CreateKeyTest()
+        public void CreateKeyTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
@@ -67,7 +67,7 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.CreateKey(@object, "keyName");
         }
         [Fact]
-        public static void CreateValueTest()
+        public void CreateValueTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
@@ -76,7 +76,7 @@ namespace Platform.Data.Doublets.Json.Tests
             var value = defaultJsonStorage.CreateValue(key, "valueName");
         }
         [Fact]
-        public static void AttachObjectValueToDocumentTest()
+        public void AttachObjectValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -95,7 +95,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdObjectValue, foundDocumentValue);
         }
         [Fact]
-        public static void AttachStringValueToDocumentTest()
+        public void AttachStringValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -114,7 +114,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdStringValue, foundStringValue);
         }
         [Fact]
-        public static void AttachNumberToDocumentTest()
+        public void AttachNumberToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -133,7 +133,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdNumberValue, foundNumberValue);
         }
         [Fact]
-        public static void AttachTrueValueToDocumentTest()
+        public void AttachTrueValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -152,7 +152,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdTrueValue, foundTrueValue);
         }
         [Fact]
-        public static void AttachFalseValueToDocumentTest()
+        public void AttachFalseValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -171,7 +171,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdFalseValue, foundFalseValue);
         }
         [Fact]
-        public static void AttachNullValueToDocumentTest()
+        public void AttachNullValueToDocumentTest()
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -216,7 +216,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
         [Fact]
-        public static void AttachArrayValueToDocumentTest()
+        public void AttachArrayValueToDocumentTest()
         {
             /* var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
@@ -241,7 +241,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdArrayValue, foundArrayValue); */
         }
         [Fact]
-        public static void GetValueTest()
+        public void GetValueTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
