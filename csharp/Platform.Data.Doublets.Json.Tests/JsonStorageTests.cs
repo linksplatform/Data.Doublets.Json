@@ -109,7 +109,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentNumberLink = defaultJsonStorage.AttachNumber(document, 2021);
             TLink createdNumberValue = links.GetTarget(documentNumberLink);
 
-            TLink valueMarker = links.GetSource(createdTrueValue);
+            TLink valueMarker = links.GetSource(createdNumberValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
             TLink createdNumberLink = links.GetSource(createdNumberValue);
