@@ -205,6 +205,32 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueMarker = links.GetSource(createdArrayValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
+            TLink createdArrayContents = links.GetTarget(createdArrayValue);
+            TLink arrayMarker = links.GetSource(createdArrayContents);
+            Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
+
+            TLink createArrayContents = links.GetTarget(createdArrayContents);
+            Assert.Equal(createArrayContents, defaultJsonStorage.EmptyArrayMarker);
+
+            TLink foundArrayValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdArrayValue, foundArrayValue);
+        }
+        [Fact]
+        public void AttachArrayValueToDocumentTest()
+        {
+            var links = CreateLinks();
+            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+
+            TLink[] array = new TLink[0];
+            TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
+            TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
+            output.WriteLine(links.Format(createdArrayValue));
+
+
+            TLink valueMarker = links.GetSource(createdArrayValue);
+            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+
             TLink createdArray = links.GetTarget(createdArrayValue);
             TLink arrayMarker = links.GetSource(createdArray);
             Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
@@ -214,31 +240,6 @@ namespace Platform.Data.Doublets.Json.Tests
 
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
-        }
-        [Fact]
-        public void AttachArrayValueToDocumentTest()
-        {
-            /* var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
-            TLink document = defaultJsonStorage.CreateDocument("documentName");
-
-            TLink link = links.Create();
-            TLink[] array = new TLink[3] { link, link, link };
-            TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
-            TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
-
-            TLink valueMarker = links.GetSource(createdArrayValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
-
-            Tlink
-            TLink arrayMarker = links.GetSource(createdArrayValue);
-            Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
-
-            TLink emptyArrayMarker = links.GetTarget(createdArrayValue);
-            //Assert.Equal(emptyArrayMarker, defaultJsonStorage.EmptyArrayMarker);
-
-            TLink foundArrayValue = defaultJsonStorage.GetValue(document);
-            Assert.Equal(createdArrayValue, foundArrayValue); */
         }
         [Fact]
         public void GetValueTest()
