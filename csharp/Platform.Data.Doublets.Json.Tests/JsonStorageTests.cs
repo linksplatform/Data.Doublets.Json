@@ -237,7 +237,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
 
             TLink createdArrayContents = links.GetTarget(createdArrayLink);
-            // Assert.Equal(createdArrayContents, );
+            Assert.Equal(links.GetTarget(createdArrayContents), arrayElement);
 
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
