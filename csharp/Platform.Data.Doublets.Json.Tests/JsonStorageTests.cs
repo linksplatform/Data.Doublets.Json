@@ -231,11 +231,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueMarker = links.GetSource(createdArrayValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
-            TLink createdArray = links.GetTarget(createdArrayValue);
-            TLink arrayMarker = links.GetSource(createdArray);
+            TLink createdArrayContents = links.GetTarget(createdArrayValue);
+            TLink arrayMarker = links.GetSource(createdArrayContents);
             Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
 
-            TLink createArrayContents = links.GetTarget(createdArray);
+            TLink createArrayContents = links.GetTarget(createdArrayContents);
             Assert.Equal(createArrayContents, defaultJsonStorage.EmptyArrayMarker);
 
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
