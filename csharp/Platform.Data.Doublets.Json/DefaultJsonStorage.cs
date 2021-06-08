@@ -109,7 +109,6 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateObjectValue() => CreateValue(CreateObject());
 
-
         public TLink CreateArray(TLink[] array)
         {
             TLink arrayLink;
