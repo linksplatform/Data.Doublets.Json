@@ -153,7 +153,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentNullValueLink = defaultJsonStorage.AttachNull(document);
             TLink createdNullValue = links.GetTarget(documentNullValueLink);
 
-            TLink nullMarker = links.GetTarget(createdNullValue);
+            TLink valueMarker = links.GetSource(createdArrayValue);
+            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+
+            TLink createdNull = links.GetSource(createdNullValue);
+            TLink nullMarker = links.GetTarget(createdNull);
             Assert.Equal(nullMarker, defaultJsonStorage.NullMarker);
 
             TLink foundNullValue = defaultJsonStorage.GetValue(document);
