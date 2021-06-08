@@ -109,10 +109,10 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateObjectValue() => CreateValue(CreateObject());
 
-        public TLink CreateArray(TLink[] array)
+        public TLink CreateArray(IList<TLink> array)
         {
             TLink arrayLink;
-            switch (array.Length)
+            switch (array.Count)
             {
                 case 0:
                     return _links.GetOrCreate(ArrayMarker, EmptyArrayMarker);
