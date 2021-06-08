@@ -147,7 +147,7 @@ namespace Platform.Data.Doublets.Json.Tests
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
-            // Check true
+
             TLink[] array = new TLink[0];
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
