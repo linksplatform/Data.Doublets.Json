@@ -132,14 +132,16 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             var links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
-            var document = defaultJsonStorage.CreateDocument("documentName");
-            // Check true
-            var documentNullValueLink = defaultJsonStorage.AttachNull(document);
-            var createdNullValue = links.GetTarget(documentNullValueLink);
-            var foundNullValue = defaultJsonStorage.GetValue(document);
-            Assert.Equal(createdNullValue, foundNullValue);
-            var nullMarker = links.GetTarget(createdNullValue);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+
+            TLink documentNullValueLink = defaultJsonStorage.AttachNull(document);
+            TLink createdNullValue = links.GetTarget(documentNullValueLink);
+
+            TLink nullMarker = links.GetTarget(createdNullValue);
             Assert.Equal(nullMarker, defaultJsonStorage.NullMarker);
+
+            TLink foundNullValue = defaultJsonStorage.GetValue(document);
+            Assert.Equal(createdNullValue, foundNullValue);
         }
         [Fact]
         public static void AttachEmptyArrayValueToDocumentTest()
