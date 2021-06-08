@@ -116,8 +116,8 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueMarker = links.GetSource(createdNumberValue);
             Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
 
-            TLink createdNumberLink = links.GetTarget(createdNumberValue);
-            TLink numberMarker = links.GetSource(createdNumberLink);
+            TLink createdNumber = links.GetTarget(createdNumberValue);
+            TLink numberMarker = links.GetSource(createdNumber);
             Assert.Equal(numberMarker, defaultJsonStorage.NumberMarker);
 
             TLink foundNumberValue = defaultJsonStorage.GetValue(document);
