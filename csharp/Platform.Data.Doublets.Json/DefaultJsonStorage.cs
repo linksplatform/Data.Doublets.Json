@@ -111,14 +111,13 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateArray(IList<TLink> array)
         {
-            TLink arrayLink;
             switch (array.Count)
             {
                 case 0:
                     return _links.GetOrCreate(ArrayMarker, EmptyArrayMarker);
                 default:
-                    arrayLink = _links.Create();
-                    return _balancedVariantConverter.Convert(array);
+                    var convertedArray = _balancedVariantConverter.Convert(array);
+                    return _links.GetOrCreate(ArrayMarker, convertedArray);
             }
         }
 
