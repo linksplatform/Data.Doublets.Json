@@ -154,6 +154,7 @@ namespace Platform.Data.Doublets.Json
             return Attach(parent, CreateValue(arrayLink));
         }
 
+        public TLink AttachMemberToObject(string keyName, TLink @object) => _links.GetOrCreate(@object, CreateMember(keyName));
         public TLink AttachMemberToObject(TLink keyLink, TLink @object) => _links.GetOrCreate(@object, keyLink);
 
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
