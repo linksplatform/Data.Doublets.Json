@@ -121,7 +121,7 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public TLink CreateMember(TLink @object) => _links.GetOrCreate(MemberMarker, @object);
+        public TLink CreateMember(string name) => _links.GetOrCreate(MemberMarker, CreateString(name));
 
         public TLink CreateValue(TLink keyLink, string @string) => CreateValue(CreateString(@string));
 
