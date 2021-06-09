@@ -8,6 +8,8 @@ using TLink = System.UInt32;
 using System.IO;
 using System.Diagnostics;
 using Xunit.Abstractions;
+using Platform.Collections.Stacks;
+using Platform.Data.Doublets.Sequences.Walkers;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
@@ -224,8 +226,13 @@ namespace Platform.Data.Doublets.Json.Tests
 
             TLink arrayElement = defaultJsonStorage.CreateString("arrayElement");
             TLink[] array = new TLink[3] { arrayElement, arrayElement, arrayElement };
+            DefaultStack<TLink> stack = new DefaultStack<TLink>();
+            RightSequenceWalker<TLink> rightSequenceWalker = new RightSequenceWalker<TLink>(links, stack, (TLink arrayElementLink) => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
+
+
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
+            rightSequenceWalker.Walk(createdArrayValue);
             output.WriteLine(links.Format(createdArrayValue));
 
 
@@ -238,6 +245,7 @@ namespace Platform.Data.Doublets.Json.Tests
 
             TLink createdArrayContents = links.GetTarget(createdArrayLink);
             Assert.Equal(links.GetTarget(createdArrayContents), arrayElement);
+
 
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
