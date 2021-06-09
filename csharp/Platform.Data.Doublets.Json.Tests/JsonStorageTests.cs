@@ -68,7 +68,7 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
             var @object = defaultJsonStorage.AttachObject(document);
-            defaultJsonStorage.CreateMember(@object, "keyName");
+            defaultJsonStorage.CreateMember("keyName");
         }
         [Fact]
         public void AttachObjectValueToDocumentTest()
