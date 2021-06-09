@@ -10,6 +10,8 @@ using System.Diagnostics;
 using Xunit.Abstractions;
 using Platform.Collections.Stacks;
 using Platform.Data.Doublets.Sequences.Walkers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
@@ -232,7 +234,9 @@ namespace Platform.Data.Doublets.Json.Tests
 
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
-            rightSequenceWalker.Walk(createdArrayValue);
+            IEnumerable<TLink> arrayElementsValuesLink = rightSequenceWalker.Walk(createdArrayValue);
+            Assert.NotEmpty(arrayElementsValuesLink);
+
             output.WriteLine(links.Format(createdArrayValue));
 
 
