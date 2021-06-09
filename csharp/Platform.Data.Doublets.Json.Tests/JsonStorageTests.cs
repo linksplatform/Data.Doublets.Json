@@ -257,5 +257,13 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink valueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
             //Assert.Equal()
         }
+        [Fact]
+        public void GetObjectMembers()
+        {
+            /* EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            Comparer<TLink> comparer = Comparer<TLink>.Default;
+            return comparer.Compare(_links.GetSource(arrayElementLink), ValueMarker) == 0;
+            */
+        }
     }
 }
