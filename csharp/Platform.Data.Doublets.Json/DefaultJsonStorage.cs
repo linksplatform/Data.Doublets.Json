@@ -136,7 +136,7 @@ namespace Platform.Data.Doublets.Json
             return _links.GetOrCreate(ValueMarker, @object);
         }
 
-        public TLink GetObject(TLink objectValue) => _links.GetTarget(objectValue;
+        public TLink GetObject(TLink objectValue) => _links.GetTarget(objectValue);
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
 
