@@ -31,7 +31,7 @@ namespace Platform.Data.Doublets.Json
         public readonly TLink DocumentMarker;
         public readonly TLink ObjectMarker;
         public readonly TLink StringMarker;
-        public readonly TLink KeyMarker;
+        public readonly TLink MemberMarker;
         public readonly TLink ValueMarker;
         public readonly TLink NumberMarker;
         public readonly TLink ArrayMarker;
@@ -53,7 +53,7 @@ namespace Platform.Data.Doublets.Json
             _unicodeSequenceMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             DocumentMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             ObjectMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            KeyMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            MemberMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             ValueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             StringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
             NumberMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
@@ -125,7 +125,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateKey(TLink @object)
         {
-            return _links.GetOrCreate(KeyMarker, @object);
+            return _links.GetOrCreate(MemberMarker, @object);
         }
 
         public TLink CreateKey(TLink objectLink, TLink @object)
