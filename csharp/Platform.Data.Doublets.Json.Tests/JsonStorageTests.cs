@@ -68,7 +68,7 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
             var @object = defaultJsonStorage.AttachObject(document);
-            defaultJsonStorage.CreateKey(@object, "keyName");
+            defaultJsonStorage.CreateMember(@object, "keyName");
         }
         [Fact]
         public void CreateValueTest()
@@ -76,7 +76,7 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
             var @object = defaultJsonStorage.AttachObject(document);
-            var key = defaultJsonStorage.CreateKey(@object, "keyName");
+            var key = defaultJsonStorage.CreateMember(@object, "keyName");
             var value = defaultJsonStorage.CreateValue(key, "valueName");
         }
         [Fact]
@@ -261,7 +261,7 @@ namespace Platform.Data.Doublets.Json.Tests
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
             var @object = defaultJsonStorage.AttachObject(document);
-            var key = defaultJsonStorage.CreateKey(@object, "keyName");
+            var key = defaultJsonStorage.CreateMember(@object, "keyName");
             var createdValueLink = defaultJsonStorage.CreateValue(key, "valueName");
             var foundValueLink = defaultJsonStorage.GetValue(key);
             Assert.Equal(createdValueLink, foundValueLink);
