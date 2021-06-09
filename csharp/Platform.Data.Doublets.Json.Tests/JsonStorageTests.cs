@@ -228,12 +228,13 @@ namespace Platform.Data.Doublets.Json.Tests
 
             TLink arrayElement = defaultJsonStorage.CreateString("arrayElement");
             TLink[] array = new TLink[3] { arrayElement, arrayElement, arrayElement };
-            DefaultStack<TLink> stack = new DefaultStack<TLink>();
-            RightSequenceWalker<TLink> rightSequenceWalker = new RightSequenceWalker<TLink>(links, stack, (TLink arrayElementLink) => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
 
 
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
+
+            DefaultStack<TLink> stack = new DefaultStack<TLink>();
+            RightSequenceWalker<TLink> rightSequenceWalker = new RightSequenceWalker<TLink>(links, stack, (TLink arrayElementLink) => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
             IEnumerable<TLink> arrayElementsValuesLink = rightSequenceWalker.Walk(createdArrayValue);
             Assert.NotEmpty(arrayElementsValuesLink);
 
