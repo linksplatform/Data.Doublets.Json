@@ -246,16 +246,5 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
-        [Fact]
-        public void GetValueTest()
-        {
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
-            var document = defaultJsonStorage.CreateDocument("documentName");
-            var @object = defaultJsonStorage.AttachObject(document);
-            var key = defaultJsonStorage.CreateMember(@object, "keyName");
-            var createdValueLink = defaultJsonStorage.CreateValue(key, "valueName");
-            var foundValueLink = defaultJsonStorage.GetValue(key);
-            Assert.Equal(createdValueLink, foundValueLink);
-        }
     }
 }
