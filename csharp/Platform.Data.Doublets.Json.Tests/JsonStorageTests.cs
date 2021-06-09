@@ -63,7 +63,7 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.CreateString("string");
         }
         [Fact]
-        public void CreateKeyTest()
+        public void CreateMemberTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
