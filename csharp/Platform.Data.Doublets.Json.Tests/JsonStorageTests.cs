@@ -246,5 +246,16 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
+        [Fact]
+        public void AttachStringValueToKey()
+        {
+            ILinks<TLink> links = CreateLinks();
+            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+            TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
+            TLink memberLink = defaultJsonStorage.AttachMemberToObject(documentObjectValue, "keyName");
+            TLink valueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
+            //Assert.Equal()
+        }
     }
 }
