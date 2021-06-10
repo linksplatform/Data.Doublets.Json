@@ -187,7 +187,13 @@ namespace Platform.Data.Doublets.Json
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             Link<TLink> query = new Link<TLink>(index: _any, source: @object, target: _any);
             List<TLink> members = new List<TLink>();
-            _links.Each((IList<TLink> objectMemberLink) => { TLink memberLink = _links.GetTarget(objectMemberLink); TLink memberMarker = _links.GetSource(memberLink); if (equalityComparer.Equals(memberLink, MemberMarker)) { members.Add(memberLink); } return _links.Constants.Continue; }, query);
+            _links.Each((IList<TLink> objectMemberLink) =>
+            {
+                TLink memberLink = _links.GetTarget(objectMemberLink);
+                TLink memberMarker = _links.GetSource(memberLink);
+                if (equalityComparer.Equals(memberLink, MemberMarker)) { members.Add(memberLink); }
+                return _links.Constants.Continue;
+            }, query);
             return members;
         }
     }
