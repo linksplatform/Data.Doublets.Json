@@ -191,7 +191,7 @@ namespace Platform.Data.Doublets.Json
             {
                 TLink memberLink = _links.GetTarget(objectMemberLink);
                 TLink memberMarker = _links.GetSource(memberLink);
-                if (equalityComparer.Equals(memberLink, MemberMarker)) { members.Add(memberLink); }
+                if (equalityComparer.Equals(memberMarker, MemberMarker)) { members.Add(memberLink); }
                 return _links.Constants.Continue;
             }, query);
             return members;
