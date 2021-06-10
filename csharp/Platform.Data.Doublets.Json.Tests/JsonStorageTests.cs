@@ -255,7 +255,9 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(documentObjectValue, "keyName");
             TLink valueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
-            //Assert.Equal()
+            TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
+            List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
+            Assert.Equal(memberLink, objectMembersLinks[0]);
         }
         [Fact]
         public void GetObjectMembers()
