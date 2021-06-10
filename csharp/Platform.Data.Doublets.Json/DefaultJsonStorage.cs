@@ -135,12 +135,12 @@ namespace Platform.Data.Doublets.Json
         public TLink GetObject(TLink objectValue)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            TLink objectMarker;
+            TLink objectValueSource;
             while (true)
             {
-                objectMarker = _links.GetSource(objectValue);
-                if (equalityComparer.Equals(objectMarker, ObjectMarker)) return objectValue;
-                objectMarker = _links.GetTarget(objectValue);
+                objectValueSource = _links.GetSource(objectValue);
+                if (equalityComparer.Equals(objectValueSource, ObjectMarker)) return objectValue;
+                objectValue = _links.GetTarget(objectValue);
             }
         }
 
