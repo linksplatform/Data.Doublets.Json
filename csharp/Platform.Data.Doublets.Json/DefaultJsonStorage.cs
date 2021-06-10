@@ -181,6 +181,12 @@ namespace Platform.Data.Doublets.Json
                     throw new InvalidOperationException("The list elements length is negative.");
             };
         }
+
+        public TLink GetMembersLinks(TLink @object)
+        {
+            var query = new Link<TLink>(index: _any, source: @object, target: _any);
+            _links.Each((IList<TLink> objectMemberLink) => { EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default; Comparer<TLink> comparer = Comparer<TLink>.Default; TLink memberLink = _links.GetTarget(objectMemberLink); TLink memberMarker = _links.GetSource(memberLink); return comparer.Compare(memberMarker, MemberMarker) == 0 ? objectMemberLink : /* ? */; }, query);
+        }
     }
 }
 
