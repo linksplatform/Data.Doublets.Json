@@ -139,7 +139,7 @@ namespace Platform.Data.Doublets.Json
             while (true)
             {
                 objectValueSource = _links.GetSource(objectValue);
-                if (equalityComparer.Equals(objectValueSource, ObjectMarker)) return objectValue;
+                if (equalityComparer.Equals(objectValueSource, ObjectMarker)) return _links.GetTarget(objectValue);
                 objectValue = _links.GetTarget(objectValue);
             }
         }
