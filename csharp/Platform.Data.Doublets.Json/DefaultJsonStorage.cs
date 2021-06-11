@@ -135,13 +135,14 @@ namespace Platform.Data.Doublets.Json
         public TLink GetObject(TLink objectValue)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            TLink objectValueSource;
-            while (true)
+            TLink current = objectValue;
+            for (int i = 0; i < 3; i++)
             {
-                objectValueSource = _links.GetSource(objectValue);
-                if (equalityComparer.Equals(objectValueSource, ObjectMarker)) return _links.GetTarget(objectValue);
-                objectValue = _links.GetTarget(objectValue);
+                TLink source = _links.GetSource(current);
+                if (equalityComparer.Equals(source, ObjectMarker)) return objectValue;
+                current = _links.GetTarget(objectValue);
             }
+            throw new Exception("The passed link does not contain object link.");
         }
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
