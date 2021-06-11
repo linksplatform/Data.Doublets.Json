@@ -8,7 +8,7 @@ namespace Platform.Numbers.Benchmarks
     {
         static void Main()
         {
-            BenchmarkRunner.Run<JsonStorageBenchmarks>();
+            BenchmarkRunner.Run<GetObjectBenchmark>();
         }
     }
 }
