@@ -247,15 +247,26 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
         [Fact]
+        public void GetObjectTest()
+        {
+            ILinks<TLink> links = CreateLinks();
+            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+            TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
+            TLink objectValueLink = links.GetTarget(documentObjectValueLink);
+            TLink objectFromGetObject = defaultJsonStorage.GetObject(documentObjectValueLink);
+            Assert.Equal(objectValueLink, objectFromGetObject);
+        }
+        [Fact]
         public void AttachStringValueToKey()
         {
             ILinks<TLink> links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
-            TLink memberLink = defaultJsonStorage.AttachMemberToObject(documentObjectValue, "keyName");
-            TLink valueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
+            TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
+            TLink valueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
         }
