@@ -13,48 +13,52 @@ using System;
 
 namespace Platform.Data.Doublets.Json.Benchmarks
 {
-    public class JsonStorageBenchmarks
+    public class GetObjectBenchmark
     {
+        private ILinks<TLink> links;
+        private DefaultJsonStorage<TLink> _defaultJsonStorage;
+        private TLink _document;
+        private TLink _documentObjectValueLink;
+        private TLink _objectValueLink;
         public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(Path.GetTempFileName());
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
-
+        
+        [GlobalSetup]
+        public static void Setup()
+        {
+            ILinks<TLink> _links = CreateLinks();
+            DefaultJsonStorage<TLink> _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links);
+            TLink _document = _defaultJsonStorage.CreateDocument("documentName");
+            TLink _documentObjectValueLink = _defaultJsonStorage.AttachObject(_document);
+            TLink _objectValueLink = _links.GetTarget(_documentObjectValueLink);
+        }
         [Benchmark]
         public TLink GetObject()
         {
-            ILinks<TLink> links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
-            TLink document = defaultJsonStorage.CreateDocument("documentName");
-            TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
-            TLink objectValueLink = links.GetTarget(documentObjectValueLink);
-            return defaultJsonStorage.GetObject(objectValueLink);
+
+            return _defaultJsonStorage.GetObject(_objectValueLink);
         }
 
         [Benchmark]
         public TLink GetObjectWithoutLoop()
         {
-            ILinks<TLink> links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
-            TLink document = defaultJsonStorage.CreateDocument("documentName");
-            TLink documentobjectValueLinkLink = defaultJsonStorage.AttachObject(document);
-            TLink objectValueLink = links.GetTarget(documentobjectValueLinkLink);
-
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
 
-            TLink current = objectValueLink;
+            TLink current = _objectValueLink;
             TLink source = links.GetSource(current);
-            if (equalityComparer.Equals(source, defaultJsonStorage.ObjectMarker)) return objectValueLink;
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return _objectValueLink;
 
             current = links.GetTarget(current);
             source = links.GetSource(current);
-            if (equalityComparer.Equals(source, defaultJsonStorage.ObjectMarker)) return objectValueLink;
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return _objectValueLink;
 
             current = links.GetTarget(current);
             source = links.GetSource(current);
-            if (equalityComparer.Equals(source, defaultJsonStorage.ObjectMarker)) return objectValueLink;
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return _objectValueLink;
 
             throw new Exception("Not an object.");
         }
