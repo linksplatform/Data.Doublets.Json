@@ -23,15 +23,14 @@ namespace Platform.Data.Doublets.Json.Benchmarks
         }
 
         [Benchmark]
-        public bool GetObjectTest()
+        public TLink GetObject()
         {
             ILinks<TLink> links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
             TLink objectValueLink = links.GetTarget(documentObjectValueLink);
-            TLink objectFromGetObject = defaultJsonStorage.GetObject(documentObjectValueLink);
-            return objectValueLink == objectFromGetObject;
+            return defaultJsonStorage.GetObject(objectValueLink);
         }
 
         [Benchmark]
@@ -45,15 +44,16 @@ namespace Platform.Data.Doublets.Json.Benchmarks
 
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
 
-            TLink source = links.GetSource(objectValueLink);
+            TLink current = objectValueLink;
+            TLink source = links.GetSource(current);
             if (equalityComparer.Equals(source, defaultJsonStorage.ObjectMarker)) return objectValueLink;
 
-            objectValueLink = links.GetTarget(objectValueLink);
-            source = links.GetSource(objectValueLink);
+            current = links.GetTarget(current);
+            source = links.GetSource(current);
             if (equalityComparer.Equals(source, defaultJsonStorage.ObjectMarker)) return objectValueLink;
 
-            objectValueLink = links.GetTarget(objectValueLink);
-            source = links.GetSource(objectValueLink);
+            current = links.GetTarget(current);
+            source = links.GetSource(current);
             if (equalityComparer.Equals(source, defaultJsonStorage.ObjectMarker)) return objectValueLink;
 
             throw new Exception("Not an object.");
