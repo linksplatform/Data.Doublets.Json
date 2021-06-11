@@ -139,7 +139,6 @@ namespace Platform.Data.Doublets.Json
             for (int i = 0; i < 3; i++)
             {
                 TLink source = _links.GetSource(current);
-                var test = _links.Format(source);
                 if (equalityComparer.Equals(source, ObjectMarker)) return objectValue;
                 current = _links.GetTarget(current);
             }
