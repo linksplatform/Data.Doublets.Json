@@ -15,7 +15,7 @@ namespace Platform.Data.Doublets.Json.Benchmarks
 {
     public class GetObjectBenchmark
     {
-        private ILinks<TLink> links;
+        private ILinks<TLink> _links;
         private DefaultJsonStorage<TLink> _defaultJsonStorage;
         private TLink _document;
         private TLink _documentObjectValueLink;
@@ -26,41 +26,45 @@ namespace Platform.Data.Doublets.Json.Benchmarks
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
-        
+
         [GlobalSetup]
-        public static void Setup()
+        public void Setup()
         {
-            ILinks<TLink> _links = CreateLinks();
+            _links = CreateLinks();
             DefaultJsonStorage<TLink> _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links);
             TLink _document = _defaultJsonStorage.CreateDocument("documentName");
             TLink _documentObjectValueLink = _defaultJsonStorage.AttachObject(_document);
             TLink _objectValueLink = _links.GetTarget(_documentObjectValueLink);
         }
-        [Benchmark]
-        public TLink GetObject()
-        {
 
+        public TLink GetObjectWihoutLoop(TLink objectValue)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+
+            TLink current = objectValue;
+            TLink source = _links.GetSource(current);
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return objectValue;
+
+            current = _links.GetTarget(current);
+            source = _links.GetSource(current);
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return objectValue;
+
+            current = _links.GetTarget(current);
+            source = _links.GetSource(current);
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return objectValue;
+
+            throw new Exception("Not an object.");
+        }
+        [Benchmark]
+        public TLink GetObjectBench()
+        {
             return _defaultJsonStorage.GetObject(_objectValueLink);
         }
 
         [Benchmark]
-        public TLink GetObjectWithoutLoop()
+        public TLink GetObjectWithoutLoopBench()
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-
-            TLink current = _objectValueLink;
-            TLink source = links.GetSource(current);
-            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return _objectValueLink;
-
-            current = links.GetTarget(current);
-            source = links.GetSource(current);
-            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return _objectValueLink;
-
-            current = links.GetTarget(current);
-            source = links.GetSource(current);
-            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return _objectValueLink;
-
-            throw new Exception("Not an object.");
+            return GetObjectWihoutLoop(_objectValueLink);
         }
     }
 }
