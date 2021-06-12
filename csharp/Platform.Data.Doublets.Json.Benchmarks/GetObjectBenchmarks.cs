@@ -58,15 +58,39 @@ namespace Platform.Data.Doublets.Json.Benchmarks
             throw new Exception("Not an object.");
         }
         [Benchmark]
-        public TLink GetObjectBenchmark()
+        public TLink GetObjectFromDocumentObjectValueLinkBenchmark()
+        {
+            return _defaultJsonStorage.GetObject(_documentObjectValueLink);
+        }
+
+        [Benchmark]
+        public TLink GetObjectFromObjectValueLinkBenchmark()
         {
             return _defaultJsonStorage.GetObject(_objectValueLink);
         }
 
         [Benchmark]
-        public TLink GetObjectWithoutLoopBenchmark()
+        public TLink GetObjectFromObjectBenchmark()
+        {
+            return _defaultJsonStorage.GetObject(_object);
+        }
+
+        [Benchmark]
+        public TLink GetObjectFromDocumentObjectValueLinkWithoutLoopBenchmark()
+        {
+            return GetObjectWihoutLoop(_documentObjectValueLink);
+        }
+
+        [Benchmark]
+        public TLink GetObjectFromObjectValueLinkWithoutLoopBenchmark()
         {
             return GetObjectWihoutLoop(_objectValueLink);
+        }
+
+        [Benchmark]
+        public TLink GetObjectFromObjectWithoutLoopBenchmark()
+        {
+            return GetObjectWihoutLoop(_object);
         }
     }
 }
