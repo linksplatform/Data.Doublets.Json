@@ -8,7 +8,7 @@ namespace Platform.Numbers.Benchmarks
     {
         static void Main()
         {
-            BenchmarkRunner.Run<GetObjectBenchmark>();
+            BenchmarkRunner.Run<GetObjectBenchmarks>();
         }
     }
 }
