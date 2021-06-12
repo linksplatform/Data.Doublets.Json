@@ -32,10 +32,11 @@ namespace Platform.Data.Doublets.Json.Benchmarks
         public void Setup()
         {
             _links = CreateLinks();
-            DefaultJsonStorage<TLink> _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links);
-            TLink _document = _defaultJsonStorage.CreateDocument("documentName");
-            TLink _documentObjectValueLink = _defaultJsonStorage.AttachObject(_document);
-            TLink _objectValueLink = _links.GetTarget(_documentObjectValueLink);
+            _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links);
+            _document = _defaultJsonStorage.CreateDocument("documentName");
+            _documentObjectValueLink = _defaultJsonStorage.AttachObject(_document);
+            _objectValueLink = _links.GetTarget(_documentObjectValueLink);
+            _object = _links.GetTarget(_objectValueLink);
         }
 
         public TLink GetObjectWihoutLoop(TLink objectValue)
