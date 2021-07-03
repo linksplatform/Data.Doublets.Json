@@ -6,8 +6,6 @@ namespace Platform.Data.Doublets.Json
 {
     public interface IJsonStorage<TLink>
     {
-        TLink Create(TLink marker, string content);
-        TLink Get(TLink marker, string content);
         TLink CreateString(string content);
         TLink CreateNumber(TLink number);
         TLink CreateDocument(string name);
