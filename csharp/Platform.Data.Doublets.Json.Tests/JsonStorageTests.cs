@@ -304,10 +304,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
-            defaultJsonStorage.AttachNumber(memberLink, 123);
+            TLink memberNumberValueLink = defaultJsonStorage.AttachNumber(memberLink, 123);
+            TLink numberValueLink = links.GetTarget(memberNumberValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(stringValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(numberValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
