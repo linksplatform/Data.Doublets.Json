@@ -321,6 +321,20 @@ namespace Platform.Data.Doublets.Json.Tests
         }
 
         [Fact]
+        public void AttachTrueValueToKey()
+        {
+            ILinks<TLink> links = CreateLinks();
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+            TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
+            TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
+            TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
+            defaultJsonStorage.AttachBoolean(memberLink, true);
+            List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
+            Assert.Equal(memberLink, objectMembersLinks[0]);
+        }
+
+        [Fact]
         public void GetObjectMembers()
         {
             /* EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
