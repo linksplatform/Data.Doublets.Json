@@ -33,7 +33,7 @@ namespace Platform.Data.Doublets.Json.Tests
         [Fact]
         public void CreateDocumentTest()
         {
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(CreateLinks());
             defaultJsonStorage.CreateDocument("documentName");
         }
         [Fact]
