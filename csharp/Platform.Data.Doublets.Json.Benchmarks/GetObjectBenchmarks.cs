@@ -45,15 +45,15 @@ namespace Platform.Data.Doublets.Json.Benchmarks
 
             TLink current = objectValue;
             TLink source = _links.GetSource(current);
-            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return objectValue;
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return current;
 
             current = _links.GetTarget(current);
             source = _links.GetSource(current);
-            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return objectValue;
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return current;
 
             current = _links.GetTarget(current);
             source = _links.GetSource(current);
-            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return objectValue;
+            if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return current;
 
             throw new Exception("Not an object.");
         }
