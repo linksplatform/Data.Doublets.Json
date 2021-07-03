@@ -251,6 +251,18 @@ namespace Platform.Data.Doublets.Json.Tests
         }
 
         [Fact]
+        public void GetObjectFromObjectValueLinkTest()
+        {
+            ILinks<TLink> links = CreateLinks();
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
+            TLink document = defaultJsonStorage.CreateDocument("documentName");
+            TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
+            TLink objectValueLink = links.GetTarget(documentObjectValueLink);
+            TLink objectFromGetObject = defaultJsonStorage.GetObject(objectValueLink);
+            Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
+        }
+
+        [Fact]
         public void AttachStringValueToKey()
         {
             ILinks<TLink> links = CreateLinks();
