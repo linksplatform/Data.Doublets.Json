@@ -19,7 +19,7 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             this.output = output;
         }
-        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(Path.GetTempFileName());
+        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new Platform.IO.TemporaryFile());
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
@@ -247,7 +247,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
             TLink objectValueLink = links.GetTarget(documentObjectValueLink);
             TLink objectFromGetObject = defaultJsonStorage.GetObject(documentObjectValueLink);
-            Assert.Equal(objectValueLink, objectFromGetObject);
+            output.WriteLine($"objectValueLink: {links.Format(objectValueLink)}");
+            output.WriteLine($"documentObjectValueLink: {links.Format(documentObjectValueLink)}");
+            output.WriteLine($"objectValueLink Target: {links.Format(links.GetTarget(objectValueLink))}");
+            output.WriteLine($"objectFromGetObject: {links.Format(objectFromGetObject)}");
+            Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
         }
         [Fact]
         public void AttachStringValueToKey()
