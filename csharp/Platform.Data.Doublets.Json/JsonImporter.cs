@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Platform.Data.Doublets.Json
 {
-    class JsonImporter<TLink>
+    public class JsonImporter<TLink>
     {
         private readonly IJsonStorage<TLink> _storage;
         private readonly TLink _document;
