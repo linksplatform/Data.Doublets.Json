@@ -239,7 +239,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
         [Fact]
-        public void GetObjectTest()
+        public void GetObjectFromDocumentObjectValueLinkTest()
         {
             ILinks<TLink> links = CreateLinks();
             DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
@@ -247,12 +247,9 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
             TLink objectValueLink = links.GetTarget(documentObjectValueLink);
             TLink objectFromGetObject = defaultJsonStorage.GetObject(documentObjectValueLink);
-            output.WriteLine($"objectValueLink: {links.Format(objectValueLink)}");
-            output.WriteLine($"documentObjectValueLink: {links.Format(documentObjectValueLink)}");
-            output.WriteLine($"objectValueLink Target: {links.Format(links.GetTarget(objectValueLink))}");
-            output.WriteLine($"objectFromGetObject: {links.Format(objectFromGetObject)}");
             Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
         }
+
         [Fact]
         public void AttachStringValueToKey()
         {
@@ -266,6 +263,7 @@ namespace Platform.Data.Doublets.Json.Tests
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
         }
+
         [Fact]
         public void GetObjectMembers()
         {
