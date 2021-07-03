@@ -264,7 +264,9 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
             TLink objectValueLink = links.GetTarget(documentObjectValueLink);
             TLink objectFromGetObject = defaultJsonStorage.GetObject(documentObjectValueLink);
-            Assert.Equal(objectValueLink, objectFromGetObject);
+            output.WriteLine(links.Format(objectValueLink));
+            output.WriteLine(links.Format(objectFromGetObject));
+            Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
         }
 
         [Fact]
@@ -276,7 +278,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
             TLink objectValueLink = links.GetTarget(documentObjectValueLink);
             TLink objectFromGetObject = defaultJsonStorage.GetObject(objectValueLink);
-            Assert.Equal(objectValueLink, objectFromGetObject);
+            Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
         }
 
         [Fact]
@@ -389,7 +391,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink memberNullValueLink = defaultJsonStorage.AttachNull(memberLink);
             TLink nullValueLink = links.GetTarget(memberNullValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
-            Assert.Equal(nullValueLink, objectMembersLinks[0]);
+            Assert.Equal(nullValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
