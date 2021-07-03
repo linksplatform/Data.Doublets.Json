@@ -288,9 +288,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
-            defaultJsonStorage.AttachString(memberLink, "stringValue");
+            TLink memberStringValueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
+            TLink stringValueLink = links.GetTarget(memberStringValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
+            Assert.Equal(stringValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -305,6 +307,7 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.AttachNumber(memberLink, 123);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
+            Assert.Equal(stringValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
