@@ -19,20 +19,25 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             this.output = output;
         }
+
         public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new Platform.IO.TemporaryFile());
+
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
+
         [Fact]
         public void ConstructorsTest() => new DefaultJsonStorage<TLink>(CreateLinks());
+
         [Fact]
         public void CreateDocumentTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new(CreateLinks());
             defaultJsonStorage.CreateDocument("documentName");
         }
+
         [Fact]
         public void GetDocumentTest()
         {
@@ -41,6 +46,7 @@ namespace Platform.Data.Doublets.Json.Tests
             var foundDocumentLink = defaultJsonStorage.GetDocument("documentName");
             Assert.Equal(createdDocumentLink, foundDocumentLink);
         }
+
         [Fact]
         public void CreateObjectTest()
         {
@@ -49,12 +55,14 @@ namespace Platform.Data.Doublets.Json.Tests
             var object1 = defaultJsonStorage.CreateObjectValue();
             Assert.NotEqual(object0, object1);
         }
+
         [Fact]
         public void CreateStringTest()
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new(CreateLinks());
             defaultJsonStorage.CreateString("string");
         }
+
         [Fact]
         public void CreateMemberTest()
         {
@@ -63,6 +71,7 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.AttachObject(document);
             defaultJsonStorage.CreateMember("keyName");
         }
+
         [Fact]
         public void AttachObjectValueToDocumentTest()
         {
@@ -82,6 +91,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundDocumentValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdObjectValue, foundDocumentValue);
         }
+
         [Fact]
         public void AttachStringValueToDocumentTest()
         {
@@ -101,6 +111,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundStringValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdStringValue, foundStringValue);
         }
+
         [Fact]
         public void AttachNumberToDocumentTest()
         {
@@ -120,6 +131,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundNumberValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdNumberValue, foundNumberValue);
         }
+
         [Fact]
         public void AttachTrueValueToDocumentTest()
         {
@@ -139,6 +151,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundTrueValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdTrueValue, foundTrueValue);
         }
+
         [Fact]
         public void AttachFalseValueToDocumentTest()
         {
@@ -158,6 +171,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundFalseValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdFalseValue, foundFalseValue);
         }
+
         [Fact]
         public void AttachNullValueToDocumentTest()
         {
@@ -177,6 +191,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundNullValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdNullValue, foundNullValue);
         }
+
         [Fact]
         public void AttachEmptyArrayValueToDocumentTest()
         {
@@ -202,6 +217,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
+
         [Fact]
         public void AttachArrayValueToDocumentTest()
         {
@@ -238,6 +254,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink foundArrayValue = defaultJsonStorage.GetValue(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
+
         [Fact]
         public void GetObjectFromDocumentObjectValueLinkTest()
         {
