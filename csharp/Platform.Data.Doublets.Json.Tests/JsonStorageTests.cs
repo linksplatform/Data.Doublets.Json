@@ -320,9 +320,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
-            defaultJsonStorage.AttachObject(memberLink);
+            TLink memberObjectValueLink = defaultJsonStorage.AttachObject(memberLink);
+            TLink objectValueLink = links.GetTarget(memberObjectValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
+            Assert.Equal(objectValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -336,9 +338,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
             TLink arrayElement = defaultJsonStorage.CreateString("arrayElement");
             TLink[] array = new TLink[3] { arrayElement, arrayElement, arrayElement };
-            defaultJsonStorage.AttachArray(memberLink, array);
+            TLink memberArrayValueLink = defaultJsonStorage.AttachArray(memberLink, array);
+            TLink arrayValueLink = links.GetTarget(memberArrayValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
+            Assert.Equal(arrayValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -350,9 +354,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
-            defaultJsonStorage.AttachBoolean(memberLink, true);
+            TLink memberTrueValueLink = defaultJsonStorage.AttachBoolean(memberLink, true);
+            TLink trueValueLink = links.GetTarget(memberTrueValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
+            Assert.Equal(trueValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
