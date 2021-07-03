@@ -26,10 +26,7 @@ namespace Platform.Data.Doublets.Json.Tests
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
         [Fact]
-        public void ConstructorsTest()
-        {
-            DefaultJsonStorage<TLink> defaultJsonStorage = new(CreateLinks());
-        }
+        public void ConstructorsTest() => new DefaultJsonStorage<TLink>(CreateLinks());
         [Fact]
         public void CreateDocumentTest()
         {
@@ -63,14 +60,14 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             DefaultJsonStorage<TLink> defaultJsonStorage = new(CreateLinks());
             var document = defaultJsonStorage.CreateDocument("documentName");
-            var @object = defaultJsonStorage.AttachObject(document);
+            defaultJsonStorage.AttachObject(document);
             defaultJsonStorage.CreateMember("keyName");
         }
         [Fact]
         public void AttachObjectValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentValueLink = defaultJsonStorage.AttachObject(document);
             TLink createdObjectValue = links.GetTarget(documentValueLink);
@@ -89,7 +86,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachStringValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentStringLink = defaultJsonStorage.AttachString(document, "stringName");
             TLink createdStringValue = links.GetTarget(documentStringLink);
@@ -108,7 +105,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachNumberToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentNumberLink = defaultJsonStorage.AttachNumber(document, 2021);
             TLink createdNumberValue = links.GetTarget(documentNumberLink);
@@ -127,7 +124,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachTrueValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
 
             TLink documentTrueValueLink = defaultJsonStorage.AttachBoolean(document, true);
@@ -146,7 +143,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachFalseValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
 
             TLink documentFalseValueLink = defaultJsonStorage.AttachBoolean(document, false);
@@ -165,7 +162,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachNullValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
 
             TLink documentNullValueLink = defaultJsonStorage.AttachNull(document);
@@ -184,11 +181,10 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachEmptyArrayValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
 
-            TLink[] array = new TLink[0];
-            TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
+            TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, new TLink[0]);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
             output.WriteLine(links.Format(createdArrayValue));
 
@@ -210,7 +206,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachArrayValueToDocumentTest()
         {
             var links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
 
             TLink arrayElement = defaultJsonStorage.CreateString("arrayElement");
@@ -220,8 +216,8 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
 
-            DefaultStack<TLink> stack = new DefaultStack<TLink>();
-            RightSequenceWalker<TLink> rightSequenceWalker = new RightSequenceWalker<TLink>(links, stack, (TLink arrayElementLink) => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
+            DefaultStack<TLink> stack = new();
+            RightSequenceWalker<TLink> rightSequenceWalker = new(links, stack, (TLink arrayElementLink) => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
             IEnumerable<TLink> arrayElementsValuesLink = rightSequenceWalker.Walk(createdArrayValue);
             Assert.NotEmpty(arrayElementsValuesLink);
 
@@ -246,7 +242,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void GetObjectTest()
         {
             ILinks<TLink> links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentObjectValueLink = defaultJsonStorage.AttachObject(document);
             TLink objectValueLink = links.GetTarget(documentObjectValueLink);
@@ -257,12 +253,12 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachStringValueToKey()
         {
             ILinks<TLink> links = CreateLinks();
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(links);
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
-            TLink valueLink = defaultJsonStorage.AttachString(memberLink, "stringValue");
+            defaultJsonStorage.AttachString(memberLink, "stringValue");
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
         }
