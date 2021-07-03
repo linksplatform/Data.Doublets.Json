@@ -8,7 +8,7 @@ using Platform.Data.Doublets.Json;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
-    class JsonImporterTests
+    public class JsonImporterTests
     {
         [Fact]
         public void ConstructorTest()
