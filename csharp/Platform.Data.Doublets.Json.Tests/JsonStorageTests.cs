@@ -28,7 +28,7 @@ namespace Platform.Data.Doublets.Json.Tests
         [Fact]
         public void ConstructorsTest()
         {
-            DefaultJsonStorage<TLink> defaultJsonStorage = new DefaultJsonStorage<TLink>(CreateLinks());
+            DefaultJsonStorage<TLink> defaultJsonStorage = new(CreateLinks());
         }
         [Fact]
         public void CreateDocumentTest()
