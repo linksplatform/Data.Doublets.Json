@@ -370,9 +370,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink documentObjectValue = defaultJsonStorage.AttachObject(document);
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
-            defaultJsonStorage.AttachBoolean(memberLink, false);
+            TLink memberFalseValueLink = defaultJsonStorage.AttachBoolean(memberLink, false);
+            TLink falseValueLink = links.GetTarget(memberFalseValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
+            Assert.Equal(falseValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
         }
 
         [Fact]
