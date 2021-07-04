@@ -91,7 +91,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink objectMarker = links.GetSource(createdObject);
             Assert.Equal(objectMarker, defaultJsonStorage.ObjectMarker);
 
-            TLink foundDocumentValue = defaultJsonStorage.GetValue(document);
+            TLink foundDocumentValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdObjectValue, foundDocumentValue);
         }
 
@@ -111,7 +111,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink stringMarker = links.GetSource(createdString);
             Assert.Equal(stringMarker, defaultJsonStorage.StringMarker);
 
-            TLink foundStringValue = defaultJsonStorage.GetValue(document);
+            TLink foundStringValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdStringValue, foundStringValue);
         }
 
@@ -131,7 +131,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink numberMarker = links.GetSource(createdNumber);
             Assert.Equal(numberMarker, defaultJsonStorage.NumberMarker);
 
-            TLink foundNumberValue = defaultJsonStorage.GetValue(document);
+            TLink foundNumberValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdNumberValue, foundNumberValue);
         }
 
@@ -151,7 +151,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink trueMarker = links.GetTarget(createdTrueValue);
             Assert.Equal(trueMarker, defaultJsonStorage.TrueMarker);
 
-            TLink foundTrueValue = defaultJsonStorage.GetValue(document);
+            TLink foundTrueValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdTrueValue, foundTrueValue);
         }
 
@@ -171,7 +171,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink falseMarker = links.GetTarget(createdFalseValue);
             Assert.Equal(falseMarker, defaultJsonStorage.FalseMarker);
 
-            TLink foundFalseValue = defaultJsonStorage.GetValue(document);
+            TLink foundFalseValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdFalseValue, foundFalseValue);
         }
 
@@ -191,7 +191,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink nullMarker = links.GetTarget(createdNullValue);
             Assert.Equal(nullMarker, defaultJsonStorage.NullMarker);
 
-            TLink foundNullValue = defaultJsonStorage.GetValue(document);
+            TLink foundNullValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdNullValue, foundNullValue);
         }
 
@@ -217,7 +217,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink createArrayContents = links.GetTarget(createdArrayLink);
             Assert.Equal(createArrayContents, defaultJsonStorage.EmptyArrayMarker);
 
-            TLink foundArrayValue = defaultJsonStorage.GetValue(document);
+            TLink foundArrayValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
 
@@ -254,7 +254,7 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(links.GetTarget(createdArrayContents), arrayElement);
 
 
-            TLink foundArrayValue = defaultJsonStorage.GetValue(document);
+            TLink foundArrayValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
 
@@ -297,7 +297,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink stringValueLink = links.GetTarget(memberStringValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(stringValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(stringValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -313,7 +313,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink numberValueLink = links.GetTarget(memberNumberValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(numberValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(numberValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -329,7 +329,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink objectValueLink = links.GetTarget(memberObjectValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(objectValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(objectValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -347,7 +347,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink arrayValueLink = links.GetTarget(memberArrayValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(arrayValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(arrayValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -363,7 +363,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink trueValueLink = links.GetTarget(memberTrueValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(trueValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(trueValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -379,7 +379,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink falseValueLink = links.GetTarget(memberFalseValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(memberLink, objectMembersLinks[0]);
-            Assert.Equal(falseValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(falseValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
         [Fact]
@@ -394,7 +394,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink memberNullValueLink = defaultJsonStorage.AttachNull(memberLink);
             TLink nullValueLink = links.GetTarget(memberNullValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
-            Assert.Equal(nullValueLink, defaultJsonStorage.GetValue(objectMembersLinks[0]));
+            Assert.Equal(nullValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
     }
 }
