@@ -23,5 +23,17 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.Flush();
             }
         }
+
+        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
+        {
+            var documentLink = _storage.GetDocument(documentName);
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            if (equalityComparer.Equals(_storage.GetValueMarker(_storage.GetValue(documentLink)), _storage.ObjectMarker))
+            {
+                utf8JsonWriter.WriteStartObject();
+                utf8JsonWriter.WriteEndObject();
+                utf8JsonWriter.Flush();
+            }
+        }
     }
 }
