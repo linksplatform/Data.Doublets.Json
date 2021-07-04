@@ -5,22 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Threading;
+using System.IO;
 
 namespace Platform.Data.Doublets.Json
 {
     public class JsonImporter<TLink>
     {
         private readonly IJsonStorage<TLink> _storage;
-        private readonly TLink _document;
-        public JsonImporter(IJsonStorage<TLink> storage)
-        {
-            _storage = storage;
-            _document = _storage.CreateDocument("documentName");
-        }
+        public JsonImporter(IJsonStorage<TLink> storage) => _storage = storage;
         public TLink Import(ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
         {
+            TLink document = _storage.CreateDocument("documentName");
             Stack<TLink> parents = new();
-            parents.Push(_document);
+            parents.Push(document);
             while (utf8JsonReader.Read())
             {
                 switch (utf8JsonReader.TokenType)
@@ -32,11 +29,11 @@ namespace Platform.Data.Doublets.Json
                         parents.Pop();
                         break;
                     case JsonTokenType.String:
-                        _storage.AttachString(_document, utf8JsonReader.GetString());
+                        _storage.AttachString(document, utf8JsonReader.GetString());
                         break;
                 }
             }
-            return _document;
+            return document;
         }
     }
 }
