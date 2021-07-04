@@ -13,9 +13,9 @@ namespace Platform.Data.Doublets.Json
     {
         private readonly IJsonStorage<TLink> _storage;
         public JsonImporter(IJsonStorage<TLink> storage) => _storage = storage;
-        public TLink Import(ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
+        public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
         {
-            TLink document = _storage.CreateDocument("documentName");
+            TLink document = _storage.CreateDocument(documentName);
             Stack<TLink> parents = new();
             parents.Push(document);
             while (utf8JsonReader.Read())
@@ -33,7 +33,7 @@ namespace Platform.Data.Doublets.Json
                         break;
                 }
             }
-            
+
             return document;
         }
     }
