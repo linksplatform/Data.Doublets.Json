@@ -160,7 +160,11 @@ namespace Platform.Data.Doublets.Json
             for (int i = 0; i < 3; i++)
             {
                 TLink source = _links.GetSource(current);
-                if (equalityComparer.Equals(source, StringMarker)) return _links.GetTarget(current);
+                if (equalityComparer.Equals(source, StringMarker))
+                {
+                    return _links.GetTarget(current);
+                }
+
                 current = _links.GetTarget(current);
             }
             throw new Exception("The passed link does not contain string link.");
