@@ -37,7 +37,7 @@ namespace Platform.Data.Doublets.Json
         TLink AttachArray(TLink parent, IList<TLink> array);
         TLink AttachMemberToObject(TLink @object, string keyName);
         TLink Attach(TLink parent, TLink child);
-        TLink GetString(TLink stringValue);
+        string GetString(TLink stringValue);
         TLink GetObject(TLink objectValue);
         TLink GetValueLink(TLink parent);
         TLink GetValueMarker(TLink link);
