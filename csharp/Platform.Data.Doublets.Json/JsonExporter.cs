@@ -16,18 +16,6 @@ namespace Platform.Data.Doublets.Json
         public void Export(TLink documentLink, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            if (equalityComparer.Equals(_storage.GetValueMarker(_storage.GetValueLink(documentLink)), _storage.ObjectMarker))
-            {
-                utf8JsonWriter.WriteStartObject();
-                utf8JsonWriter.WriteEndObject();
-                utf8JsonWriter.Flush();
-            }
-        }
-
-        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
-        {
-            var documentLink = _storage.GetDocumentOrDefault(documentName);
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             var valueLink = _storage.GetValueLink(documentLink);
             var valueMarker = _storage.GetValueMarker(valueLink);
             if (equalityComparer.Equals(valueMarker, _storage.ObjectMarker))
@@ -43,5 +31,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.Flush();
             }
         }
+
+        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(_storage.GetDocumentOrDefault(documentName), utf8JsonWriter, cancellationToken);
     }
 }
