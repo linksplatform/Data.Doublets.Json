@@ -55,5 +55,25 @@ namespace Platform.Data.Doublets.Json.Tests
             var jsonString = Encoding.UTF8.GetString(json);
             Assert.Equal(jsonString, exportedJson);
         }
+        [Fact]
+        public void StringTest()
+        {
+            var storage = CreateJsonStorage();
+            var json = Encoding.UTF8.GetBytes("\"stringValue\"");
+            var documentLink = Import(storage, "documentName", json);
+            var options = new JsonWriterOptions
+            {
+                Indented = true
+            };
+            using var stream = new MemoryStream();
+            using var writer = new Utf8JsonWriter(stream, options);
+            JsonExporter<TLink> jsonExporter = new(storage);
+            CancellationTokenSource exportCancellationTokenSource = new();
+            CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
+            jsonExporter.Export(documentLink, writer, exportCancellationToken);
+            var exportedJson = Encoding.UTF8.GetString(stream.ToArray());
+            var jsonString = Encoding.UTF8.GetString(json);
+            Assert.Equal(jsonString, exportedJson);
+        }
     }
 }
