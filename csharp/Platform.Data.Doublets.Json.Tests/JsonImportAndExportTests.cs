@@ -27,20 +27,20 @@ namespace Platform.Data.Doublets.Json.Tests
 
         public static DefaultJsonStorage<TLink> CreateJsonStorage() => new DefaultJsonStorage<TLink>(CreateLinks());
         public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new DefaultJsonStorage<TLink>(links);
-        public TLink Import(IJsonStorage<TLink> storage, byte[] json)
+        public TLink Import(IJsonStorage<TLink> storage, string documentName, byte[] json)
         {
             Utf8JsonReader utf8JsonReader = new(json);
             JsonImporter<TLink> jsonImporter = new(storage);
             CancellationTokenSource importCancellationTokenSource = new();
             CancellationToken importCancellationToken = importCancellationTokenSource.Token;
-            return jsonImporter.Import(ref utf8JsonReader, importCancellationToken);
+            return jsonImporter.Import(documentName, ref utf8JsonReader, importCancellationToken);
         }
         [Fact]
         public void EmptyObjectTest()
         {
             var storage = CreateJsonStorage();
             var json = Encoding.UTF8.GetBytes("{}");
-            var documentLink = Import(storage, json);
+            var documentLink = Import(storage, "documentName", json);
             var options = new JsonWriterOptions
             {
                 Indented = true
