@@ -193,7 +193,7 @@ namespace Platform.Data.Doublets.Json
             };
         }
 
-        public TLink GetValueMarker(TLink link) => _links.GetSource(_links.GetTarget(GetValue(link)));
+        public TLink GetValueMarker(TLink value) => _links.GetSource(_links.GetTarget(value));
 
         public List<TLink> GetMembersLinks(TLink @object)
         {
