@@ -23,7 +23,7 @@ namespace Platform.Data.Doublets.Json
                 switch (utf8JsonReader.TokenType)
                 {
                     case JsonTokenType.StartObject:
-                        parents.Push(_storage.CreateObjectValue());
+                        parents.Push(_storage.AttachObject(document));
                         break;
                     case JsonTokenType.EndObject:
                         parents.Pop();
@@ -33,6 +33,7 @@ namespace Platform.Data.Doublets.Json
                         break;
                 }
             }
+            
             return document;
         }
     }
