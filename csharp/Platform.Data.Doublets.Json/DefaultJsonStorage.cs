@@ -92,19 +92,6 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateString(string content) => Create(StringMarker, content);
 
-        public TLink GetString(TLink stringValue)
-        {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            TLink current = stringValue;
-            for (int i = 0; i < 3; i++)
-            {
-                TLink source = _links.GetSource(current);
-                if (equalityComparer.Equals(source, StringMarker)) return current;
-                current = _links.GetTarget(current);
-            }
-            throw new Exception("The passed link does not contain string link.");
-        }
-
         public TLink CreateNumber(TLink number)
         {
             var numberAddress = _numberToAddressConverter.Convert(number);
@@ -112,8 +99,6 @@ namespace Platform.Data.Doublets.Json
         }
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
-
-        public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
 
         public TLink CreateObject()
         {
@@ -146,19 +131,6 @@ namespace Platform.Data.Doublets.Json
             return _links.GetOrCreate(ValueMarker, @object);
         }
 
-        public TLink GetObject(TLink objectValue)
-        {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            TLink current = objectValue;
-            for (int i = 0; i < 3; i++)
-            {
-                TLink source = _links.GetSource(current);
-                if (equalityComparer.Equals(source, ObjectMarker)) return current;
-                current = _links.GetTarget(current);
-            }
-            throw new Exception("The passed link does not contain object link.");
-        }
-
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
 
         public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
@@ -178,6 +150,34 @@ namespace Platform.Data.Doublets.Json
         public TLink AttachMemberToObject(TLink @object, string keyName) => Attach(@object, CreateMember(keyName));
 
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
+
+        public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
+
+        public TLink GetString(TLink stringValue)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            TLink current = stringValue;
+            for (int i = 0; i < 3; i++)
+            {
+                TLink source = _links.GetSource(current);
+                if (equalityComparer.Equals(source, StringMarker)) return current;
+                current = _links.GetTarget(current);
+            }
+            throw new Exception("The passed link does not contain string link.");
+        }
+
+        public TLink GetObject(TLink objectValue)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            TLink current = objectValue;
+            for (int i = 0; i < 3; i++)
+            {
+                TLink source = _links.GetSource(current);
+                if (equalityComparer.Equals(source, ObjectMarker)) return current;
+                current = _links.GetTarget(current);
+            }
+            throw new Exception("The passed link does not contain object link.");
+        }
 
         public TLink GetValueLink(TLink parent)
         {
