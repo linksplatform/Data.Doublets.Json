@@ -92,6 +92,19 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateString(string content) => Create(StringMarker, content);
 
+        public TLink GetString(TLink stringValue)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            TLink current = stringValue;
+            for (int i = 0; i < 3; i++)
+            {
+                TLink source = _links.GetSource(current);
+                if (equalityComparer.Equals(source, StringMarker)) return current;
+                current = _links.GetTarget(current);
+            }
+            throw new Exception("The passed link does not contain string link.");
+        }
+
         public TLink CreateNumber(TLink number)
         {
             var numberAddress = _numberToAddressConverter.Convert(number);
