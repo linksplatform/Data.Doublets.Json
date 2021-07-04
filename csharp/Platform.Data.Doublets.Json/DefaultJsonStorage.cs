@@ -193,6 +193,8 @@ namespace Platform.Data.Doublets.Json
             };
         }
 
+        public TLink GetValueMarker(TLink link) => _links.GetSource(_links.GetTarget(GetValue(link)));
+
         public List<TLink> GetMembersLinks(TLink @object)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
