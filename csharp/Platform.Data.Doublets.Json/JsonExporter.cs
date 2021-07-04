@@ -16,7 +16,7 @@ namespace Platform.Data.Doublets.Json
         public void Export(TLink documentLink, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            if (equalityComparer.Equals(_storage.GetValueMarker(_storage.GetValue(documentLink)), _storage.ObjectMarker))
+            if (equalityComparer.Equals(_storage.GetValueMarker(_storage.GetValueLink(documentLink)), _storage.ObjectMarker))
             {
                 utf8JsonWriter.WriteStartObject();
                 utf8JsonWriter.WriteEndObject();
@@ -28,9 +28,17 @@ namespace Platform.Data.Doublets.Json
         {
             var documentLink = _storage.GetDocumentOrDefault(documentName);
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            if (equalityComparer.Equals(_storage.GetValueMarker(_storage.GetValue(documentLink)), _storage.ObjectMarker))
+            var valueLink = _storage.GetValueLink(documentLink);
+            var valueMarker = _storage.GetValueMarker(valueLink);
+            if (equalityComparer.Equals(valueMarker, _storage.ObjectMarker))
             {
                 utf8JsonWriter.WriteStartObject();
+                utf8JsonWriter.WriteEndObject();
+                utf8JsonWriter.Flush();
+            }
+            if (equalityComparer.Equals(valueMarker, _storage.StringMarker))
+            {
+                utf8JsonWriter.WriteStringValue(_storage.GetString(valueLink));
                 utf8JsonWriter.WriteEndObject();
                 utf8JsonWriter.Flush();
             }
