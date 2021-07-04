@@ -52,7 +52,8 @@ namespace Platform.Data.Doublets.Json.Tests
             CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
             jsonExporter.Export(documentLink, writer, exportCancellationToken);
             var exportedJson = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(json.ToString(), exportedJson);
+            var jsonString = Encoding.UTF8.GetString(json);
+            Assert.Equal(jsonString, exportedJson);
         }
     }
 }
