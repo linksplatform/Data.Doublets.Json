@@ -55,6 +55,7 @@ namespace Platform.Data.Doublets.Json.Tests
             var jsonString = Encoding.UTF8.GetString(json);
             Assert.Equal(jsonString, exportedJson);
         }
+
         [Fact]
         public void StringTest()
         {
