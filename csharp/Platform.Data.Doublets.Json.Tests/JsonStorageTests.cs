@@ -46,7 +46,7 @@ namespace Platform.Data.Doublets.Json.Tests
         {
             var defaultJsonStorage = CreateJsonStorage();
             var createdDocumentLink = defaultJsonStorage.CreateDocument("documentName");
-            var foundDocumentLink = defaultJsonStorage.GetDocument("documentName");
+            var foundDocumentLink = defaultJsonStorage.GetDocumentOrDefault("documentName");
             Assert.Equal(createdDocumentLink, foundDocumentLink);
         }
 

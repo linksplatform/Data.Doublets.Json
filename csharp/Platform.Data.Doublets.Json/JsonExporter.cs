@@ -26,7 +26,7 @@ namespace Platform.Data.Doublets.Json
 
         public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
         {
-            var documentLink = _storage.GetDocument(documentName);
+            var documentLink = _storage.GetDocumentOrDefault(documentName);
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             if (equalityComparer.Equals(_storage.GetValueMarker(_storage.GetValue(documentLink)), _storage.ObjectMarker))
             {
