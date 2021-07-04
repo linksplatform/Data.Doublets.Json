@@ -6,6 +6,17 @@ namespace Platform.Data.Doublets.Json
 {
     public interface IJsonStorage<TLink>
     {
+        public TLink DocumentMarker { get; }
+        public TLink ObjectMarker { get; }
+        public TLink StringMarker { get; }
+        public TLink MemberMarker { get; }
+        public TLink ValueMarker { get; }
+        public TLink NumberMarker { get; }
+        public TLink ArrayMarker { get; }
+        public TLink EmptyArrayMarker { get; }
+        public TLink TrueMarker { get; }
+        public TLink FalseMarker { get; }
+        public TLink NullMarker { get; }
         TLink CreateString(string content);
         TLink CreateNumber(TLink number);
         TLink CreateDocument(string name);
@@ -28,6 +39,7 @@ namespace Platform.Data.Doublets.Json
         TLink AttachMemberToObject(TLink @object, string keyName);
         TLink Attach(TLink parent, TLink child);
         TLink GetValue(TLink parent);
+        TLink GetValueMarker(TLink link);
         List<TLink> GetMembersLinks(TLink @object);
     }
 }
