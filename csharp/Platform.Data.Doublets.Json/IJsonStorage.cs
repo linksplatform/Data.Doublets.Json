@@ -20,7 +20,7 @@ namespace Platform.Data.Doublets.Json
         TLink CreateString(string content);
         TLink CreateNumber(TLink number);
         TLink CreateDocument(string name);
-        TLink GetDocument(string name);
+        TLink GetDocumentOrDefault(string name);
         TLink CreateObject();
         TLink CreateObjectValue();
         TLink CreateArray(IList<TLink> array);
