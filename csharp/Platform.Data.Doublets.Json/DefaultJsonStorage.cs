@@ -179,7 +179,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
 
-        public TLink GetValue(TLink parent)
+        public TLink GetValueLink(TLink parent)
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
             var resultLinks = _links.All(query);
