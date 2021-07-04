@@ -153,7 +153,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
 
-        public TLink GetString(TLink stringValue)
+        public string GetString(TLink stringValue)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             TLink current = stringValue;
@@ -162,7 +162,7 @@ namespace Platform.Data.Doublets.Json
                 TLink source = _links.GetSource(current);
                 if (equalityComparer.Equals(source, StringMarker))
                 {
-                    return _links.GetTarget(current);
+                    return _unicodeSequenceToStringConverter.Convert(_links.GetTarget(current));
                 }
 
                 current = _links.GetTarget(current);
