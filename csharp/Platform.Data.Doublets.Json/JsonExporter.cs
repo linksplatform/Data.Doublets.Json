@@ -27,7 +27,6 @@ namespace Platform.Data.Doublets.Json
             if (equalityComparer.Equals(valueMarker, _storage.StringMarker))
             {
                 utf8JsonWriter.WriteStringValue(_storage.GetString(valueLink));
-                utf8JsonWriter.WriteEndObject();
                 utf8JsonWriter.Flush();
             }
         }
