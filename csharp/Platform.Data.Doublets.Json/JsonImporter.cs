@@ -19,11 +19,18 @@ namespace Platform.Data.Doublets.Json
         }
         public TLink Import(ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
         {
-
+            Stack<TLink> parents = new();
+            parents.Push(_document);
             while (utf8JsonReader.Read())
             {
                 switch (utf8JsonReader.TokenType)
                 {
+                    case JsonTokenType.StartObject:
+                        parents.Push(_storage.CreateObjectValue());
+                        break;
+                    case JsonTokenType.EndObject:
+                        parents.Pop();
+                        break;
                     case JsonTokenType.String:
                         _storage.AttachString(_document, utf8JsonReader.GetString());
                         break;
