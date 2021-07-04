@@ -77,10 +77,17 @@ namespace Platform.Data.Doublets.Json
             _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(_links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
 
         }
+
         private TLink Create(TLink marker, string content)
         {
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
             return _links.GetOrCreate(marker, utf8Content);
+        }
+
+        private TLink SearchOrDefault(TLink marker, string content)
+        {
+            var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
+            return _links.SearchOrDefault(marker, utf8Content);
         }
 
         private TLink Get(TLink marker, string content)
