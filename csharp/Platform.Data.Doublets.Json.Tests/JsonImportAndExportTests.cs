@@ -40,6 +40,7 @@ namespace Platform.Data.Doublets.Json.Tests
         [InlineData("\"stringValue\"")]
         [InlineData("228")]
         [InlineData("[]")]
+        [InlineData("true")]
         public void Test(string initialJson)
         {
             var storage = CreateJsonStorage();
