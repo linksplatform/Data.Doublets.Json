@@ -42,6 +42,9 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.EndArray:
                         parents.Pop();
                         break;
+                    case JsonTokenType.True:
+                        _storage.AttachBoolean(document, true);
+                        break;
                 }
             }
 
