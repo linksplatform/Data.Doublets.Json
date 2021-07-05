@@ -33,7 +33,7 @@ namespace Platform.Data.Doublets.Json
                         _storage.AttachString(document, utf8JsonReader.GetString());
                         break;
                     case JsonTokenType.Number:
-                        _storage.AttachNumber(document, UncheckedConverter<int, TLink>.Default.Convert(10));
+                        _storage.AttachNumber(document, UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32()));
                         break;
                 }
             }
