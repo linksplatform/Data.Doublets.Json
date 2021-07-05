@@ -234,7 +234,17 @@ namespace Platform.Data.Doublets.Json
             };
         }
 
-        public TLink GetValueMarker(TLink value) => _links.GetSource(_links.GetTarget(value));
+        public TLink GetValueMarker(TLink value)
+        {
+            var equalityComparer = EqualityComparer<TLink>.Default;
+            var target = _links.GetTarget(value);
+            var targetSource = _links.GetSource(target);
+            if (equalityComparer.Equals(_meaningRoot, targetSource))
+            {
+                return target;
+            }
+            return targetSource;
+        }
 
         public List<TLink> GetMembersLinks(TLink @object)
         {
