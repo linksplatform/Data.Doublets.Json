@@ -14,26 +14,33 @@ namespace Platform.Data.Doublets.Json
     {
         private readonly IJsonStorage<TLink> _storage;
         public JsonExporter(IJsonStorage<TLink> storage) => _storage = storage;
-        public void Export(TLink documentLink, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
+
+        public void WriteString(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(_storage.GetString(valueLink));
+
+        public void WriteNumber(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteNumberValue(UncheckedConverter<TLink, int>.Default.Convert(_storage.GetNumber(valueLink)));
+
+        public void ChangeNameLater(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            var valueLink = _storage.GetValueLink(documentLink);
             var valueMarker = _storage.GetValueMarker(valueLink);
             if (equalityComparer.Equals(valueMarker, _storage.ObjectMarker))
             {
                 utf8JsonWriter.WriteStartObject();
+                var membersLinks = _storage.GetMembersLinks(_storage.GetObject(valueLink));
+                foreach (var memberLink in membersLinks)
+                {
+                    ChangeNameLater(ref utf8JsonWriter, memberLink);
+                }
                 utf8JsonWriter.WriteEndObject();
                 utf8JsonWriter.Flush();
             }
             if (equalityComparer.Equals(valueMarker, _storage.StringMarker))
             {
-                utf8JsonWriter.WriteStringValue(_storage.GetString(valueLink));
-                utf8JsonWriter.Flush();
+                WriteString(ref utf8JsonWriter, valueLink);
             }
             if (equalityComparer.Equals(valueMarker, _storage.NumberMarker))
             {
-                utf8JsonWriter.WriteNumberValue(UncheckedConverter<TLink, int>.Default.Convert(_storage.GetNumber(valueLink)));
-                utf8JsonWriter.Flush();
+                WriteNumber(ref utf8JsonWriter, valueLink);
             }
             if (equalityComparer.Equals(valueMarker, _storage.ArrayMarker))
             {
@@ -56,6 +63,12 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteNullValue();
                 utf8JsonWriter.Flush();
             }
+        }
+
+        public void Export(TLink documentLink, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
+        {
+            var valueLink = _storage.GetValueLink(documentLink);
+            ChangeNameLater(ref utf8JsonWriter, valueLink);
         }
 
         public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(_storage.GetDocumentOrDefault(documentName), utf8JsonWriter, cancellationToken);
