@@ -38,7 +38,7 @@ namespace Platform.Data.Doublets.Json
         TLink AttachMemberToObject(TLink @object, string keyName);
         TLink Attach(TLink parent, TLink child);
         string GetString(TLink stringValue);
-        TLink GetNumber(TLink value)
+        TLink GetNumber(TLink value);
         TLink GetObject(TLink objectValue);
         TLink GetValueLink(TLink parent);
         TLink GetValueMarker(TLink link);
