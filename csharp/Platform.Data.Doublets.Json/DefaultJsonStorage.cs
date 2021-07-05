@@ -21,6 +21,7 @@ namespace Platform.Data.Doublets.Json
         private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
         private readonly ILinks<TLink> _links;
         private readonly ILinks<TLink> _disposableLinks;
+        private readonly TLink _meaningRoot;
         private readonly TLink _unicodeSymbolMarker;
         private readonly TLink _unicodeSequenceMarker;
         private readonly RawNumberToAddressConverter<TLink> _numberToAddressConverter;
@@ -48,20 +49,20 @@ namespace Platform.Data.Doublets.Json
             // Initializes constants
             _any = _links.Constants.Any;
             var markerIndex = _one;
-            var meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
-            _unicodeSymbolMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            _unicodeSequenceMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            DocumentMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            ObjectMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            MemberMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            ValueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            StringMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            NumberMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            ArrayMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            EmptyArrayMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            TrueMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            FalseMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
-            NullMarker = links.GetOrCreate(meaningRoot, Arithmetic.Increment(ref markerIndex));
+            _meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
+            _unicodeSymbolMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            _unicodeSequenceMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            DocumentMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            ObjectMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            MemberMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            ValueMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            StringMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            NumberMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            ArrayMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            EmptyArrayMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            TrueMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            FalseMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
+            NullMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
 
             // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
             _numberToAddressConverter = new RawNumberToAddressConverter<TLink>();
