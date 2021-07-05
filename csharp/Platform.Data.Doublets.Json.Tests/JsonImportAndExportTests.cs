@@ -35,53 +35,13 @@ namespace Platform.Data.Doublets.Json.Tests
             CancellationToken importCancellationToken = importCancellationTokenSource.Token;
             return jsonImporter.Import(documentName, ref utf8JsonReader, importCancellationToken);
         }
-        [Fact]
-        public void EmptyObjectTest()
+        [Theory]
+        [InlineData("{}")]
+        [InlineData("\"stringValue\"")]
+        [InlineData("228")]
+        public void Test(string initialJson)
         {
             var storage = CreateJsonStorage();
-            var initialJson = "{}";
-            var json = Encoding.UTF8.GetBytes(initialJson);
-            var documentLink = Import(storage, "documentName", json);
-            var options = new JsonWriterOptions
-            {
-                Indented = true
-            };
-            using MemoryStream stream = new();
-            using Utf8JsonWriter writer = new(stream, options);
-            JsonExporter<TLink> jsonExporter = new(storage);
-            CancellationTokenSource exportCancellationTokenSource = new();
-            CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
-            jsonExporter.Export(documentLink, writer, exportCancellationToken);
-            var exportedJson = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.Equal(initialJson, exportedJson);
-        }
-
-        [Fact]
-        public void StringTest()
-        {
-            var storage = CreateJsonStorage();
-            var json = Encoding.UTF8.GetBytes("\"stringValue\"");
-            var documentLink = Import(storage, "documentName", json);
-            var options = new JsonWriterOptions
-            {
-                Indented = true
-            };
-            using var stream = new MemoryStream();
-            using var writer = new Utf8JsonWriter(stream, options);
-            JsonExporter<TLink> jsonExporter = new(storage);
-            CancellationTokenSource exportCancellationTokenSource = new();
-            CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
-            jsonExporter.Export(documentLink, writer, exportCancellationToken);
-            var exportedJson = Encoding.UTF8.GetString(stream.ToArray());
-            var initialString = Encoding.UTF8.GetString(json);
-            Assert.Equal(initialString, exportedJson);
-        }
-
-        [Fact]
-        public void NumberTest()
-        {
-            var storage = CreateJsonStorage();
-            var initialJson = "228";
             var json = Encoding.UTF8.GetBytes(initialJson);
             var documentLink = Import(storage, "documentName", json);
             var options = new JsonWriterOptions
