@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Threading;
 using System.IO;
+using Platform.Converters;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -27,6 +28,11 @@ namespace Platform.Data.Doublets.Json
             if (equalityComparer.Equals(valueMarker, _storage.StringMarker))
             {
                 utf8JsonWriter.WriteStringValue(_storage.GetString(valueLink));
+                utf8JsonWriter.Flush();
+            }
+            if (equalityComparer.Equals(valueMarker, _storage.NumberMarker))
+            {
+                utf8JsonWriter.WriteNumberValue(UncheckedConverter<TLink, int>.Default.Convert(_storage.GetNumber(valueLink)));
                 utf8JsonWriter.Flush();
             }
         }
