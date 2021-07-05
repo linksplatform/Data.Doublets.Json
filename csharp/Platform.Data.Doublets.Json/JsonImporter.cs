@@ -35,6 +35,13 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.Number:
                         _storage.AttachNumber(document, UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32()));
                         break;
+                    case JsonTokenType.StartArray:
+                        var array = Array.Empty<TLink>();
+                        parents.Push(_storage.AttachArray(document, array));
+                        break;
+                    case JsonTokenType.EndArray:
+                        parents.Pop();
+                        break;
                 }
             }
 

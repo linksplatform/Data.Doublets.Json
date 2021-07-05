@@ -35,6 +35,12 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteNumberValue(UncheckedConverter<TLink, int>.Default.Convert(_storage.GetNumber(valueLink)));
                 utf8JsonWriter.Flush();
             }
+            if (equalityComparer.Equals(valueMarker, _storage.ArrayMarker))
+            {
+                utf8JsonWriter.WriteStartArray();
+                utf8JsonWriter.WriteEndArray();
+                utf8JsonWriter.Flush();
+            }
         }
 
         public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(_storage.GetDocumentOrDefault(documentName), utf8JsonWriter, cancellationToken);
