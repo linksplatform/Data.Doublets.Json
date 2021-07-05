@@ -170,6 +170,9 @@ namespace Platform.Data.Doublets.Json
             throw new Exception("The passed link does not contain string link.");
         }
 
+        public TLink GetNumber(TLink value) => _addressToNumberConverter.Convert(value);
+
+
         public TLink GetObject(TLink objectValue)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
