@@ -48,6 +48,9 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.False:
                         _storage.AttachBoolean(document, false);
                         break;
+                    case JsonTokenType.Null:
+                        _storage.AttachNull(document);
+                        break;
                 }
             }
 
