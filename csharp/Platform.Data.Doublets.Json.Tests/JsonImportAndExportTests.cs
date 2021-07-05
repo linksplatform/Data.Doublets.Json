@@ -76,5 +76,26 @@ namespace Platform.Data.Doublets.Json.Tests
             var jsonString = Encoding.UTF8.GetString(json);
             Assert.Equal(jsonString, exportedJson);
         }
+
+        [Fact]
+        public void NumberTest()
+        {
+            var storage = CreateJsonStorage();
+            var initialJson = "228";
+            var json = Encoding.UTF8.GetBytes(initialJson);
+            var documentLink = Import(storage, "documentName", json);
+            var options = new JsonWriterOptions
+            {
+                Indented = true
+            };
+            using MemoryStream stream = new();
+            using Utf8JsonWriter writer = new(stream, options);
+            JsonExporter<TLink> jsonExporter = new(storage);
+            CancellationTokenSource exportCancellationTokenSource = new();
+            CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
+            jsonExporter.Export(documentLink, writer, exportCancellationToken);
+            var exportedJson = Encoding.UTF8.GetString(stream.ToArray());
+            Assert.Equal(initialJson, exportedJson);
+        }
     }
 }
