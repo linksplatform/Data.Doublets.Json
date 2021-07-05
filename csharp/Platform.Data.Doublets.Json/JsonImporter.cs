@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Threading;
 using System.IO;
+using Platform.Converters;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -30,6 +31,9 @@ namespace Platform.Data.Doublets.Json
                         break;
                     case JsonTokenType.String:
                         _storage.AttachString(document, utf8JsonReader.GetString());
+                        break;
+                    case JsonTokenType.Number:
+                        _storage.AttachNumber(document, UncheckedConverter<int, TLink>.Default.Convert(10));
                         break;
                 }
             }
