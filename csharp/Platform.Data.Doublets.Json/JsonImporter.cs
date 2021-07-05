@@ -21,35 +21,36 @@ namespace Platform.Data.Doublets.Json
             parents.Push(document);
             while (utf8JsonReader.Read())
             {
+                var parent = parents.Last();
                 switch (utf8JsonReader.TokenType)
                 {
                     case JsonTokenType.StartObject:
-                        parents.Push(_storage.AttachObject(document));
+                        parents.Push(_storage.AttachObject(parent));
                         break;
                     case JsonTokenType.EndObject:
                         parents.Pop();
                         break;
                     case JsonTokenType.String:
-                        _storage.AttachString(document, utf8JsonReader.GetString());
+                        _storage.AttachString(parent, utf8JsonReader.GetString());
                         break;
                     case JsonTokenType.Number:
-                        _storage.AttachNumber(document, UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32()));
+                        _storage.AttachNumber(parent, UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32()));
                         break;
                     case JsonTokenType.StartArray:
                         var array = Array.Empty<TLink>();
-                        parents.Push(_storage.AttachArray(document, array));
+                        parents.Push(_storage.AttachArray(parent, array));
                         break;
                     case JsonTokenType.EndArray:
                         parents.Pop();
                         break;
                     case JsonTokenType.True:
-                        _storage.AttachBoolean(document, true);
+                        _storage.AttachBoolean(parent, true);
                         break;
                     case JsonTokenType.False:
-                        _storage.AttachBoolean(document, false);
+                        _storage.AttachBoolean(parent, false);
                         break;
                     case JsonTokenType.Null:
-                        _storage.AttachNull(document);
+                        _storage.AttachNull(parent);
                         break;
                 }
             }
