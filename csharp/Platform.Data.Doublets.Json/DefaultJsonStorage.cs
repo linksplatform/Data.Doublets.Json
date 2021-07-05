@@ -94,7 +94,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateNumber(TLink number)
         {
-            var numberAddress = _numberToAddressConverter.Convert(number);
+            var numberAddress = _addressToNumberConverter.Convert(number);
             return _links.GetOrCreate(NumberMarker, numberAddress);
         }
 
@@ -170,7 +170,22 @@ namespace Platform.Data.Doublets.Json
             throw new Exception("The passed link does not contain string link.");
         }
 
-        public TLink GetNumber(TLink value) => _addressToNumberConverter.Convert(value);
+        public TLink GetNumber(TLink valueLink)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            TLink current = valueLink;
+            for (int i = 0; i < 3; i++)
+            {
+                TLink source = _links.GetSource(current);
+                if (equalityComparer.Equals(source, NumberMarker))
+                {
+                    return _numberToAddressConverter.Convert(_links.GetTarget(current));
+                }
+
+                current = _links.GetTarget(current);
+            }
+            throw new Exception("The passed link does not contain number link.");
+        }
 
 
         public TLink GetObject(TLink objectValue)
