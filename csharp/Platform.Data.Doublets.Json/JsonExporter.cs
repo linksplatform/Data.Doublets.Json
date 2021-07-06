@@ -31,7 +31,7 @@ namespace Platform.Data.Doublets.Json
             utf8JsonWriter.WriteNumber(parent, uncheckedConverter.Convert(_storage.GetNumber(valueLink)));
         }
 
-        public void ChangeNameLater(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
+        public void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             var valueMarker = _storage.GetValueMarker(valueLink);
@@ -41,7 +41,7 @@ namespace Platform.Data.Doublets.Json
                 var membersLinks = _storage.GetMembersLinks(_storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
-                    ChangeNameLater(ref utf8JsonWriter, _storage.GetString(memberLink), _storage.GetValueLink(memberLink));
+                    Write(ref utf8JsonWriter, _storage.GetString(memberLink), _storage.GetValueLink(memberLink));
                 }
                 utf8JsonWriter.WriteEndObject();
             }
@@ -83,7 +83,7 @@ namespace Platform.Data.Doublets.Json
                 var membersLinks = _storage.GetMembersLinks(_storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
-                    ChangeNameLater(ref utf8JsonWriter, _storage.GetString(memberLink), _storage.GetValueLink(memberLink));
+                    Write(ref utf8JsonWriter, _storage.GetString(memberLink), _storage.GetValueLink(memberLink));
                 }
                 utf8JsonWriter.WriteEndObject();
             }
