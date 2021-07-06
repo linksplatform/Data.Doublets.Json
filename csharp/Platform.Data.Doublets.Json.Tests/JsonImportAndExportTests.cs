@@ -53,12 +53,14 @@ namespace Platform.Data.Doublets.Json.Tests
                 Indented = true
             };
             using MemoryStream stream = new();
-            using Utf8JsonWriter writer = new(stream, options);
+            Utf8JsonWriter writer = new(stream, options);
             JsonExporter<TLink> jsonExporter = new(storage);
             CancellationTokenSource exportCancellationTokenSource = new();
             CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
-            jsonExporter.Export(documentLink, writer, exportCancellationToken);
-            var exportedJson = Encoding.UTF8.GetString(stream.ToArray());
+            string exportedJson;
+            jsonExporter.Export(documentLink, ref writer, exportCancellationToken);
+            exportedJson = Encoding.UTF8.GetString(stream.ToArray());
+            writer.Dispose();
             Assert.Equal(initialJson, exportedJson);
         }
     }
