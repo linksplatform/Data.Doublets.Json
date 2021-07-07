@@ -30,7 +30,8 @@ namespace Platform.Data.Doublets.Json
                 }
                 if (tokenType == JsonTokenType.StartObject)
                 {
-                    parents.Push(_storage.AttachObject(parents.First()));
+                    parents.Push(_storage.AttachObject(isLastParentProperty ? parents.Pop() : parents.First()));
+                    isLastParentProperty = false;
                 }
                 else if (tokenType == JsonTokenType.EndObject)
                 {
