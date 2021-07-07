@@ -250,8 +250,6 @@ namespace Platform.Data.Doublets.Json
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             Link<TLink> query = new(index: _any, source: @object, target: _any);
-            var test = _links.Count(query);
-            var test1 = _links.Exists(@object);
             List<TLink> members = new();
             _links.Each((IList<TLink> objectMemberLink) =>
             {
