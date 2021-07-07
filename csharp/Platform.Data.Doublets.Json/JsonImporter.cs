@@ -25,7 +25,7 @@ namespace Platform.Data.Doublets.Json
                 var tokenType = utf8JsonReader.TokenType;
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName)
                 {
-                    parents.Push(_storage.AttachMemberToObject(parents.First(), utf8JsonReader.GetString()));
+                    parents.Push(_storage.AttachMemberToObject(_storage.GetObject(parents.First()), utf8JsonReader.GetString()));
                     isLastParentProperty = true;
                 }
                 if (tokenType == JsonTokenType.StartObject)
