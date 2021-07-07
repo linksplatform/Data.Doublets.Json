@@ -37,7 +37,7 @@ namespace Platform.Data.Doublets.Json
             var valueMarker = _storage.GetValueMarker(valueLink);
             if (equalityComparer.Equals(valueMarker, _storage.ObjectMarker))
             {
-                utf8JsonWriter.WriteStartObject();
+                utf8JsonWriter.WriteStartObject(parent);
                 var membersLinks = _storage.GetMembersLinks(_storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
