@@ -45,6 +45,7 @@ namespace Platform.Data.Doublets.Json.Tests
         [InlineData("false")]
         [InlineData("null")]
         [InlineData("{ \"title\": \"The Venus Project\" }")]
+        [InlineData("{ \"title\": \"The Venus Project\", \"members\": { \"Jacque Fresco\": \"American futurist and self-described social engineer.\" } }")]
         public void Test(string initialJson)
         {
             var storage = CreateJsonStorage();
