@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.IO;
 using Platform.Converters;
+using System.Collections;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -14,28 +15,41 @@ namespace Platform.Data.Doublets.Json
     {
         private readonly IJsonStorage<TLink> _storage;
         public JsonImporter(IJsonStorage<TLink> storage) => _storage = storage;
+
+        public TLink GetParent(ref Stack<TLink> parents, ref Stack<JsonTokenType> parentsMarkers)
+        {
+            var isParentProperty = parentsMarkers.Peek() == JsonTokenType.PropertyName;
+            if (isParentProperty)
+            {
+                parentsMarkers.Pop();
+            }
+            return isParentProperty ? parents.Pop() : parents.First();
+        }
+
         public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
         {
             TLink document = _storage.CreateDocument(documentName);
             Stack<TLink> parents = new();
+            Stack<JsonTokenType> parentsMarkers = new();
             parents.Push(document);
-            var isLastParentProperty = false;
             while (utf8JsonReader.Read())
             {
                 var tokenType = utf8JsonReader.TokenType;
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName)
                 {
                     parents.Push(_storage.AttachMemberToObject(_storage.GetObject(parents.First()), utf8JsonReader.GetString()));
-                    isLastParentProperty = true;
+                    parentsMarkers.Push(tokenType);
                 }
                 if (tokenType == JsonTokenType.StartObject)
                 {
-                    parents.Push(_storage.AttachObject(isLastParentProperty ? parents.Pop() : parents.First()));
-                    isLastParentProperty = false;
+                    var parent = GetParent(ref parents, ref parentsMarkers);
+                    parents.Push(_storage.AttachObject(parent));
+                    parentsMarkers.Push(tokenType);
                 }
                 else if (tokenType == JsonTokenType.EndObject)
                 {
                     parents.Pop();
+                    parentsMarkers.Pop();
                 }
                 else if (tokenType == JsonTokenType.String)
                 {
@@ -47,12 +61,12 @@ namespace Platform.Data.Doublets.Json
                 }
                 else if (tokenType == JsonTokenType.StartArray)
                 {
-                    var array = Array.Empty<TLink>();
-                    parents.Push(_storage.AttachArray(parents.First(), array));
+                    parentsMarkers.Push(tokenType);
                 }
                 else if (tokenType == JsonTokenType.EndArray)
                 {
                     parents.Pop();
+                    parentsMarkers.Pop();
                 }
                 else if (tokenType == JsonTokenType.True)
                 {
@@ -66,9 +80,9 @@ namespace Platform.Data.Doublets.Json
                 {
                     _storage.AttachNull(parents.First());
                 }
-                if (isLastParentProperty && tokenType != JsonTokenType.PropertyName)
+                if (parentsMarkers.First() == JsonTokenType.PropertyName && tokenType != JsonTokenType.PropertyName)
                 {
-                    isLastParentProperty = false;
+                    parentsMarkers.Pop();
                     parents.Pop();
                 }
             }
