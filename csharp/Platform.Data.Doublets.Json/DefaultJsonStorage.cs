@@ -14,12 +14,10 @@ namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
     {
-
         private readonly TLink _any;
         private static readonly TLink _zero = default;
         private static readonly TLink _one = Arithmetic.Increment(_zero);
         private readonly BalancedVariantConverter<TLink> _balancedVariantConverter;
-        private readonly ILinks<TLink> _links;
         private readonly ILinks<TLink> _disposableLinks;
         private readonly TLink _meaningRoot;
         private readonly TLink _unicodeSymbolMarker;
@@ -29,6 +27,7 @@ namespace Platform.Data.Doublets.Json
         private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
         private readonly IConverter<string, TLink> _stringToUnicodeSequenceConverter;
         private readonly IConverter<TLink, string> _unicodeSequenceToStringConverter;
+        public ILinks<TLink> Links { get; }
         public TLink DocumentMarker { get; }
         public TLink ObjectMarker { get; }
         public TLink StringMarker { get; }
@@ -44,10 +43,10 @@ namespace Platform.Data.Doublets.Json
 
         public DefaultJsonStorage(ILinks<TLink> links)
         {
-            _links = links;
+            Links = links;
 
             // Initializes constants
-            _any = _links.Constants.Any;
+            _any = Links.Constants.Any;
             var markerIndex = _one;
             _meaningRoot = links.GetOrCreate(markerIndex, markerIndex);
             _unicodeSymbolMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
@@ -69,26 +68,26 @@ namespace Platform.Data.Doublets.Json
             _addressToNumberConverter = new AddressToRawNumberConverter<TLink>();
             // Creates converters that are able to convert string to unicode sequence stored as link and back
             _balancedVariantConverter = new BalancedVariantConverter<TLink>(links);
-            var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSymbolMarker);
-            var unicodeSequenceCriterionMatcher = new TargetMatcher<TLink>(_links, _unicodeSequenceMarker);
-            var charToUnicodeSymbolConverter = new CharToUnicodeSymbolConverter<TLink>(_links, _addressToNumberConverter, _unicodeSymbolMarker);
-            var unicodeSymbolToCharConverter = new UnicodeSymbolToCharConverter<TLink>(_links, _numberToAddressConverter, unicodeSymbolCriterionMatcher);
-            var sequenceWalker = new RightSequenceWalker<TLink>(_links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
-            _stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(_links, charToUnicodeSymbolConverter, _balancedVariantConverter, _unicodeSequenceMarker));
-            _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(_links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
+            var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(Links, _unicodeSymbolMarker);
+            var unicodeSequenceCriterionMatcher = new TargetMatcher<TLink>(Links, _unicodeSequenceMarker);
+            var charToUnicodeSymbolConverter = new CharToUnicodeSymbolConverter<TLink>(Links, _addressToNumberConverter, _unicodeSymbolMarker);
+            var unicodeSymbolToCharConverter = new UnicodeSymbolToCharConverter<TLink>(Links, _numberToAddressConverter, unicodeSymbolCriterionMatcher);
+            var sequenceWalker = new RightSequenceWalker<TLink>(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
+            _stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter, _balancedVariantConverter, _unicodeSequenceMarker));
+            _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
 
         }
 
         private TLink Create(TLink marker, string content)
         {
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
-            return _links.GetOrCreate(marker, utf8Content);
+            return Links.GetOrCreate(marker, utf8Content);
         }
 
         private TLink GetOrDefault(TLink marker, string content)
         {
             var utf8Content = _stringToUnicodeSequenceConverter.Convert(content);
-            return _links.SearchOrDefault(marker, utf8Content);
+            return Links.SearchOrDefault(marker, utf8Content);
         }
 
         public TLink CreateString(string content) => Create(StringMarker, content);
@@ -96,15 +95,15 @@ namespace Platform.Data.Doublets.Json
         public TLink CreateNumber(TLink number)
         {
             var numberAddress = _addressToNumberConverter.Convert(number);
-            return _links.GetOrCreate(NumberMarker, numberAddress);
+            return Links.GetOrCreate(NumberMarker, numberAddress);
         }
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
 
         public TLink CreateObject()
         {
-            var objectInstanceLink = _links.Create();
-            return _links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
+            var objectInstanceLink = Links.Create();
+            return Links.Update(objectInstanceLink, newSource: ObjectMarker, newTarget: objectInstanceLink);
         }
 
         public TLink CreateObjectValue() => CreateValue(CreateObject());
@@ -114,22 +113,22 @@ namespace Platform.Data.Doublets.Json
             switch (array.Count)
             {
                 case 0:
-                    return _links.GetOrCreate(ArrayMarker, EmptyArrayMarker);
+                    return Links.GetOrCreate(ArrayMarker, EmptyArrayMarker);
                 default:
                     var convertedArray = _balancedVariantConverter.Convert(array);
-                    return _links.GetOrCreate(ArrayMarker, convertedArray);
+                    return Links.GetOrCreate(ArrayMarker, convertedArray);
             }
         }
 
-        public TLink CreateMember(string name) => _links.GetOrCreate(MemberMarker, CreateString(name));
+        public TLink CreateMember(string name) => Links.GetOrCreate(MemberMarker, CreateString(name));
 
         public TLink CreateValue(TLink keyLink, string @string) => CreateValue(CreateString(@string));
 
-        public TLink CreateValue(TLink keyLink, TLink @object) => _links.GetOrCreate(keyLink, CreateValue(@object));
+        public TLink CreateValue(TLink keyLink, TLink @object) => Links.GetOrCreate(keyLink, CreateValue(@object));
 
         public TLink CreateValue(TLink @object)
         {
-            return _links.GetOrCreate(ValueMarker, @object);
+            return Links.GetOrCreate(ValueMarker, @object);
         }
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
@@ -150,7 +149,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachMemberToObject(TLink @object, string keyName) => Attach(@object, CreateMember(keyName));
 
-        public TLink Attach(TLink parent, TLink child) => _links.GetOrCreate(parent, child);
+        public TLink Attach(TLink parent, TLink child) => Links.GetOrCreate(parent, child);
 
         public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
 
@@ -160,13 +159,13 @@ namespace Platform.Data.Doublets.Json
             TLink current = stringValue;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = _links.GetSource(current);
+                TLink source = Links.GetSource(current);
                 if (equalityComparer.Equals(source, StringMarker))
                 {
-                    return _unicodeSequenceToStringConverter.Convert(_links.GetTarget(current));
+                    return _unicodeSequenceToStringConverter.Convert(Links.GetTarget(current));
                 }
 
-                current = _links.GetTarget(current);
+                current = Links.GetTarget(current);
             }
             throw new Exception("The passed link does not contain string link.");
         }
@@ -177,13 +176,13 @@ namespace Platform.Data.Doublets.Json
             TLink current = valueLink;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = _links.GetSource(current);
+                TLink source = Links.GetSource(current);
                 if (equalityComparer.Equals(source, NumberMarker))
                 {
-                    return _numberToAddressConverter.Convert(_links.GetTarget(current));
+                    return _numberToAddressConverter.Convert(Links.GetTarget(current));
                 }
 
-                current = _links.GetTarget(current);
+                current = Links.GetTarget(current);
             }
             throw new Exception("The passed link does not contain number link.");
         }
@@ -195,13 +194,13 @@ namespace Platform.Data.Doublets.Json
             TLink current = objectValue;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = _links.GetSource(current);
+                TLink source = Links.GetSource(current);
                 if (equalityComparer.Equals(source, ObjectMarker))
                 {
                     return current;
                 }
 
-                current = _links.GetTarget(current);
+                current = Links.GetTarget(current);
             }
             throw new Exception("The passed link does not contain object link.");
         }
@@ -209,7 +208,7 @@ namespace Platform.Data.Doublets.Json
         public TLink GetValueLink(TLink parent)
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
-            var resultLinks = _links.All(query);
+            var resultLinks = Links.All(query);
 
             // A value must be one link
             switch (resultLinks.Count)
@@ -218,8 +217,8 @@ namespace Platform.Data.Doublets.Json
                     return default;
                 case 1:
                     var equalityComparer = EqualityComparer<TLink>.Default;
-                    var resultLinkTarget = _links.GetTarget(resultLinks[0]);
-                    if (equalityComparer.Equals(_links.GetSource(resultLinkTarget), ValueMarker))
+                    var resultLinkTarget = Links.GetTarget(resultLinks[0]);
+                    if (equalityComparer.Equals(Links.GetSource(resultLinkTarget), ValueMarker))
                     {
                         return resultLinkTarget;
                     }
@@ -237,8 +236,8 @@ namespace Platform.Data.Doublets.Json
         public TLink GetValueMarker(TLink value)
         {
             var equalityComparer = EqualityComparer<TLink>.Default;
-            var target = _links.GetTarget(value);
-            var targetSource = _links.GetSource(target);
+            var target = Links.GetTarget(value);
+            var targetSource = Links.GetSource(target);
             if (equalityComparer.Equals(_meaningRoot, targetSource))
             {
                 return target;
@@ -251,12 +250,12 @@ namespace Platform.Data.Doublets.Json
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             Link<TLink> query = new(index: _any, source: @object, target: _any);
             List<TLink> members = new();
-            _links.Each((IList<TLink> objectMemberLink) =>
+            Links.Each((IList<TLink> objectMemberLink) =>
             {
-                TLink memberLink = _links.GetTarget(objectMemberLink);
-                TLink memberMarker = _links.GetSource(memberLink);
-                if (equalityComparer.Equals(memberMarker, MemberMarker)) { members.Add(_links.GetIndex(objectMemberLink)); }
-                return _links.Constants.Continue;
+                TLink memberLink = Links.GetTarget(objectMemberLink);
+                TLink memberMarker = Links.GetSource(memberLink);
+                if (equalityComparer.Equals(memberMarker, MemberMarker)) { members.Add(Links.GetIndex(objectMemberLink)); }
+                return Links.Constants.Continue;
             }, query);
             return members;
         }
