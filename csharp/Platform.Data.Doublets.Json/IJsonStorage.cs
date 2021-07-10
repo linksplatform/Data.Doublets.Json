@@ -6,6 +6,7 @@ namespace Platform.Data.Doublets.Json
 {
     public interface IJsonStorage<TLink>
     {
+        public ILinks<TLink> Links { get; }
         public TLink DocumentMarker { get; }
         public TLink ObjectMarker { get; }
         public TLink StringMarker { get; }
