@@ -8,6 +8,10 @@ using System.Threading;
 using System.IO;
 using Platform.Converters;
 using System.Collections;
+using Platform.Data.Doublets.Sequences;
+using Platform.Data.Doublets.Sequences.HeightProviders;
+using Platform.Data.Doublets.Sequences.CriterionMatchers;
+using Platform.Collections.Stacks;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -16,22 +20,13 @@ namespace Platform.Data.Doublets.Json
         private readonly IJsonStorage<TLink> _storage;
         public JsonImporter(IJsonStorage<TLink> storage) => _storage = storage;
 
-        public TLink GetParent(ref Stack<TLink> parents, ref Stack<JsonTokenType> parentsMarkers)
-        {
-            var isParentProperty = parentsMarkers.Peek() == JsonTokenType.PropertyName;
-            if (isParentProperty)
-            {
-                parentsMarkers.Pop();
-            }
-            return isParentProperty ? parents.Pop() : parents.First();
-        }
-
         public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
         {
             TLink document = _storage.CreateDocument(documentName);
             Stack<TLink> parents = new();
             Stack<JsonTokenType> parentsMarkers = new();
             parents.Push(document);
+            DefaultStack<TLink> stack = new();
             while (utf8JsonReader.Read())
             {
                 var tokenType = utf8JsonReader.TokenType;
@@ -42,7 +37,12 @@ namespace Platform.Data.Doublets.Json
                 }
                 if (tokenType == JsonTokenType.StartObject)
                 {
-                    var parent = GetParent(ref parents, ref parentsMarkers);
+                    var parent = parents.First();
+                    if (parentsMarkers.First() == JsonTokenType.PropertyName)
+                    {
+                        parentsMarkers.Pop();
+                        parent = parents.Pop();
+                    }
                     parents.Push(_storage.AttachObject(parent));
                     parentsMarkers.Push(tokenType);
                 }
@@ -61,6 +61,10 @@ namespace Platform.Data.Doublets.Json
                 }
                 else if (tokenType == JsonTokenType.StartArray)
                 {
+                    JsonArrayElementCriterionMatcher<TLink> jsonArrayElementCriterionMatcher = new(_storage);
+                    DefaultSequenceRightHeightProvider<TLink> defaultSequenceRightHeightProvider = new(_storage.Links, jsonArrayElementCriterionMatcher);
+                    //CachedSequenceHeightProvider<TLink> cachedSequenceHeightProvider = new(defaultSequenceRightHeightProvider);
+                    DefaultSequenceAppender<TLink> defaultSequenceAppender = new(_storage.Links, stack, defaultSequenceRightHeightProvider);
                     parentsMarkers.Push(tokenType);
                 }
                 else if (tokenType == JsonTokenType.EndArray)
