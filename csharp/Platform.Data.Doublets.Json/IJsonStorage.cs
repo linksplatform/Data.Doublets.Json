@@ -49,6 +49,8 @@ namespace Platform.Data.Doublets.Json
         string GetString(TLink stringValue);
         TLink GetNumber(TLink value);
         TLink GetObject(TLink objectValue);
+        TLink GetArray(TLink arrayValueLink);
+        TLink GetArrayLink(TLink link);
         TLink GetValueLink(TLink parent);
         TLink GetValueMarker(TLink link);
         List<TLink> GetMembersLinks(TLink @object);
