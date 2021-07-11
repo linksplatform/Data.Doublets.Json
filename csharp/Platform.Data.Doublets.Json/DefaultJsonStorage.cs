@@ -269,7 +269,9 @@ namespace Platform.Data.Doublets.Json
         public bool IsMember(TLink link)
         {
             var equalityComparer = EqualityComparer<TLink>.Default;
-            return equalityComparer.Equals(Links.GetSource(link), MemberMarker);
+            var memberLink = Links.GetTarget(link);
+            var memberMarker = Links.GetSource(memberLink);
+            return equalityComparer.Equals(memberMarker, MemberMarker);
         }
     }
 }
