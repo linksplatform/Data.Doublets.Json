@@ -98,6 +98,9 @@ namespace Platform.Data.Doublets.Json
             return Links.GetOrCreate(NumberMarker, numberAddress);
         }
 
+        public TLink CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
+
+
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
 
         public TLink CreateObject()
@@ -137,7 +140,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
 
-        public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateValue(value ? TrueMarker : FalseMarker));
+        public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateBooleanValue(value));
 
         public TLink AttachNull(TLink parent) => Attach(parent, CreateValue(NullMarker));
         public TLink AttachArray(TLink parent, TLink arrayLink) => Attach(parent, CreateValue(arrayLink));
