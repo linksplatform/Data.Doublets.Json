@@ -205,10 +205,10 @@ namespace Platform.Data.Doublets.Json
         }
 
 
-        public TLink GetObject(TLink objectValue)
+        public TLink GetObject(TLink objectValueLink)
         {
             EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            TLink current = objectValue;
+            TLink current = objectValueLink;
             for (int i = 0; i < 3; i++)
             {
                 TLink source = Links.GetSource(current);
@@ -216,10 +216,41 @@ namespace Platform.Data.Doublets.Json
                 {
                     return current;
                 }
-
                 current = Links.GetTarget(current);
             }
             throw new Exception("The passed link does not contain object link.");
+        }
+
+        public TLink GetArray(TLink arrayValueLink)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            TLink current = arrayValueLink;
+            for (int i = 0; i < 3; i++)
+            {
+                TLink source = Links.GetSource(current);
+                if (equalityComparer.Equals(source, ArrayMarker))
+                {
+                    return current;
+                }
+                current = Links.GetTarget(current);
+            }
+            throw new Exception("The passed link does not contain array link.");
+        }
+
+        public TLink GetArrayLink(TLink link)
+        {
+            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            TLink current = link;
+            for (int i = 0; i < 3; i++)
+            {
+                TLink source = Links.GetSource(current);
+                if (equalityComparer.Equals(source, ArrayMarker))
+                {
+                    return Links.GetTarget(current);
+                }
+                current = Links.GetTarget(current);
+            }
+            throw new Exception("The passed link does not contain array link.");
         }
 
         public TLink GetValueLink(TLink parent)
