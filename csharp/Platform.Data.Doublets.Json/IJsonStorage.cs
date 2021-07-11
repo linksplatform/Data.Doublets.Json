@@ -20,6 +20,7 @@ namespace Platform.Data.Doublets.Json
         public TLink NullMarker { get; }
         TLink CreateString(string content);
         TLink CreateNumber(TLink number);
+        TLink CreateBooleanValue(bool value);
         TLink CreateDocument(string name);
         TLink GetDocumentOrDefault(string name);
         TLink CreateObject();
