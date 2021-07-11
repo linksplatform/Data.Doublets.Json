@@ -34,7 +34,7 @@ namespace Platform.Data.Doublets.Json
         TLink AttachObject(TLink parent);
         TLink AttachObjectValue(TLink parent, TLink objectValueLink);
         TLink AttachString(TLink parent, string content);
-        TLink AttachStringValue(TLink parent, string stringValueLink);
+        TLink AttachStringValue(TLink parent, TLink stringValueLink);
         TLink AttachNumber(TLink parent, TLink number);
         TLink AttachNumberValue(TLink parent, TLink numberValueLink);
         TLink AttachBoolean(TLink parent, bool value);
