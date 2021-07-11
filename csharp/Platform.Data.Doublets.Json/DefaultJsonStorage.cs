@@ -237,22 +237,6 @@ namespace Platform.Data.Doublets.Json
             throw new Exception("The passed link does not contain array link.");
         }
 
-        public TLink GetArrayLink(TLink link)
-        {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
-            TLink current = link;
-            for (int i = 0; i < 3; i++)
-            {
-                TLink source = Links.GetSource(current);
-                if (equalityComparer.Equals(source, ArrayMarker))
-                {
-                    return Links.GetTarget(current);
-                }
-                current = Links.GetTarget(current);
-            }
-            throw new Exception("The passed link does not contain array link.");
-        }
-
         public TLink GetValueLink(TLink parent)
         {
             var query = new Link<TLink>(index: _any, source: parent, target: _any);
