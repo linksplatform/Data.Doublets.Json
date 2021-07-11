@@ -140,7 +140,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
 
-        public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateBooleanValue(value));
+        public TLink AttachBoolean(TLink parent, bool value) => AttachBoolean(parent, CreateBooleanValue(value));
+        public TLink AttachBoolean(TLink parent, TLink booleanValueLink) => Attach(parent, booleanValueLink);
 
         public TLink AttachNull(TLink parent) => Attach(parent, CreateValue(NullMarker));
         public TLink AttachArray(TLink parent, TLink arrayLink) => Attach(parent, CreateValue(arrayLink));
