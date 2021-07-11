@@ -100,6 +100,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
 
+        public TLink CreateNullValue() => CreateValue(NullMarker);
 
         public TLink CreateDocument(string name) => Create(DocumentMarker, name);
 
@@ -143,7 +144,8 @@ namespace Platform.Data.Doublets.Json
         public TLink AttachBoolean(TLink parent, bool value) => AttachBoolean(parent, CreateBooleanValue(value));
         public TLink AttachBoolean(TLink parent, TLink booleanValueLink) => Attach(parent, booleanValueLink);
 
-        public TLink AttachNull(TLink parent) => Attach(parent, CreateValue(NullMarker));
+        public TLink AttachNull(TLink parent) => AttachNull(parent, CreateNullValue());
+        public TLink AttachNull(TLink parent, TLink nullValueLink) => Attach(parent, nullValueLink);
         public TLink AttachArray(TLink parent, TLink arrayLink) => Attach(parent, CreateValue(arrayLink));
         public TLink AttachArray(TLink parent, IList<TLink> array)
         {
