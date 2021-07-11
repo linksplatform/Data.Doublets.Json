@@ -21,6 +21,7 @@ namespace Platform.Data.Doublets.Json
         TLink CreateString(string content);
         TLink CreateNumber(TLink number);
         TLink CreateBooleanValue(bool value);
+        TLink CreateNullValue();
         TLink CreateDocument(string name);
         TLink GetDocumentOrDefault(string name);
         TLink CreateObject();
