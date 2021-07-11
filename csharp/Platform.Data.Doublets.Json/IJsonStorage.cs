@@ -32,12 +32,15 @@ namespace Platform.Data.Doublets.Json
         TLink CreateValue(TLink keyLink, TLink @object);
         TLink CreateValue(TLink @object);
         TLink AttachObject(TLink parent);
+        TLink AttachObjectValue(TLink parent, TLink objectValueLink);
         TLink AttachString(TLink parent, string content);
+        TLink AttachStringValue(TLink parent, string stringValueLink);
         TLink AttachNumber(TLink parent, TLink number);
+        TLink AttachNumberValue(TLink parent, TLink numberValueLink);
         TLink AttachBoolean(TLink parent, bool value);
-        TLink AttachBoolean(TLink parent, TLink booleanValueLink);
+        TLink AttachBooleanValue(TLink parent, TLink booleanValueLink);
         TLink AttachNull(TLink parent);
-        TLink AttachNull(TLink parent, TLink nullValueLink);
+        TLink AttachNullValue(TLink parent, TLink nullValueLink);
         TLink AttachArray(TLink parent, TLink arrayLink);
         TLink AttachArray(TLink parent, IList<TLink> array);
         TLink AttachMemberToObject(TLink @object, string keyName);

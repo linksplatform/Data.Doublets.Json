@@ -137,15 +137,21 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
 
+        public TLink AttachObjectValue(TLink parent, TLink objectValueLink) => Attach(parent, objectValueLink);
+
         public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
+
+        public TLink AttachStringValue(TLink parent, TLink stringValueLink) => Attach(parent, stringValueLink);
 
         public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
 
-        public TLink AttachBoolean(TLink parent, bool value) => AttachBoolean(parent, CreateBooleanValue(value));
-        public TLink AttachBoolean(TLink parent, TLink booleanValueLink) => Attach(parent, booleanValueLink);
+        public TLink AttachNumberValue(TLink parent, TLink numberValueLink) => Attach(parent, numberValueLink);
 
-        public TLink AttachNull(TLink parent) => AttachNull(parent, CreateNullValue());
-        public TLink AttachNull(TLink parent, TLink nullValueLink) => Attach(parent, nullValueLink);
+        public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateBooleanValue(value));
+        public TLink AttachBooleanValue(TLink parent, TLink booleanValueLink) => Attach(parent, booleanValueLink);
+
+        public TLink AttachNull(TLink parent) => Attach(parent, CreateNullValue());
+        public TLink AttachNullValue(TLink parent, TLink nullValueLink) => Attach(parent, nullValueLink);
         public TLink AttachArray(TLink parent, TLink arrayLink) => Attach(parent, CreateValue(arrayLink));
         public TLink AttachArray(TLink parent, IList<TLink> array)
         {
