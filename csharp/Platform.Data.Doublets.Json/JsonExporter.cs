@@ -56,6 +56,7 @@ namespace Platform.Data.Doublets.Json
             if (equalityComparer.Equals(valueMarker, _storage.ArrayMarker))
             {
                 utf8JsonWriter.WriteStartArray();
+                Write(ref utf8JsonWriter, valueLink);
                 utf8JsonWriter.WriteEndArray();
             }
             if (equalityComparer.Equals(valueMarker, _storage.TrueMarker))
@@ -98,6 +99,7 @@ namespace Platform.Data.Doublets.Json
             else if (equalityComparer.Equals(valueMarker, _storage.ArrayMarker))
             {
                 utf8JsonWriter.WriteStartArray();
+                Write(ref utf8JsonWriter, valueLink);
                 utf8JsonWriter.WriteEndArray();
             }
             else if (equalityComparer.Equals(valueMarker, _storage.TrueMarker))
