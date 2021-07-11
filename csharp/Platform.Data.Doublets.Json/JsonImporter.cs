@@ -24,70 +24,110 @@ namespace Platform.Data.Doublets.Json
         {
             TLink document = _storage.CreateDocument(documentName);
             Stack<TLink> parents = new();
-            Stack<JsonTokenType> parentsMarkers = new();
             parents.Push(document);
             DefaultStack<TLink> stack = new();
+            var equalityComparer = EqualityComparer<TLink>.Default;
+            // For arrays
+            JsonArrayElementCriterionMatcher<TLink> jsonArrayElementCriterionMatcher = new(_storage);
+            DefaultSequenceRightHeightProvider<TLink> defaultSequenceRightHeightProvider = new(_storage.Links, jsonArrayElementCriterionMatcher);
+            //CachedSequenceHeightProvider<TLink> cachedSequenceHeightProvider = new(defaultSequenceRightHeightProvider);
+            DefaultSequenceAppender<TLink> defaultSequenceAppender = new(_storage.Links, stack, defaultSequenceRightHeightProvider);
             while (utf8JsonReader.Read())
             {
+                var parent = _storage.IsMember(parents.Peek()) ? parents.Pop() : parents.Peek();
                 var tokenType = utf8JsonReader.TokenType;
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName)
                 {
-                    parents.Push(_storage.AttachMemberToObject(_storage.GetObject(parents.First()), utf8JsonReader.GetString()));
-                    parentsMarkers.Push(tokenType);
+                    parents.Push(_storage.AttachMemberToObject(_storage.GetObject(parent), utf8JsonReader.GetString()));
                 }
                 if (tokenType == JsonTokenType.StartObject)
                 {
-                    var parent = parents.First();
-                    if (parentsMarkers.First() == JsonTokenType.PropertyName)
-                    {
-                        parentsMarkers.Pop();
-                        parent = parents.Pop();
-                    }
                     parents.Push(_storage.AttachObject(parent));
-                    parentsMarkers.Push(tokenType);
                 }
                 else if (tokenType == JsonTokenType.EndObject)
                 {
                     parents.Pop();
-                    parentsMarkers.Pop();
                 }
                 else if (tokenType == JsonTokenType.String)
                 {
-                    _storage.AttachString(parents.First(), utf8JsonReader.GetString());
+                    var @string = utf8JsonReader.GetString();
+                    var link = _storage.CreateValue(_storage.CreateString(@string));
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        defaultSequenceAppender.Append(parent, link);
+                    }
+                    else
+                    {
+                        _storage.AttachStringValue(parent, link);
+                    }
                 }
                 else if (tokenType == JsonTokenType.Number)
                 {
-                    _storage.AttachNumber(parents.First(), UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32()));
+                    var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
+                    var numberValueLink = _storage.CreateValue(_storage.CreateNumber(number));
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        defaultSequenceAppender.Append(parent, numberValueLink);
+                    }
+                    else
+                    {
+                        _storage.AttachNumberValue(parent, numberValueLink);
+                    }
                 }
                 else if (tokenType == JsonTokenType.StartArray)
                 {
-                    JsonArrayElementCriterionMatcher<TLink> jsonArrayElementCriterionMatcher = new(_storage);
-                    DefaultSequenceRightHeightProvider<TLink> defaultSequenceRightHeightProvider = new(_storage.Links, jsonArrayElementCriterionMatcher);
-                    //CachedSequenceHeightProvider<TLink> cachedSequenceHeightProvider = new(defaultSequenceRightHeightProvider);
-                    DefaultSequenceAppender<TLink> defaultSequenceAppender = new(_storage.Links, stack, defaultSequenceRightHeightProvider);
-                    parentsMarkers.Push(tokenType);
+                    var arrayLink = _storage.CreateArray(Array.Empty<TLink>());
+                    var arrayValueLink = _storage.CreateValue(arrayLink);
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        defaultSequenceAppender.Append(parent, arrayValueLink);
+                        parents.Push(arrayValueLink);
+                    }
+                    else
+                    {
+                        var parentArrayLink = _storage.AttachArrayValue(parent, arrayValueLink);
+                        parents.Push(parentArrayLink);
+                    }
                 }
                 else if (tokenType == JsonTokenType.EndArray)
                 {
                     parents.Pop();
-                    parentsMarkers.Pop();
                 }
                 else if (tokenType == JsonTokenType.True)
                 {
-                    _storage.AttachBoolean(parents.First(), true);
+                    var link = _storage.CreateBooleanValue(true);
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        defaultSequenceAppender.Append(parent, link);
+                    }
+                    else
+                    {
+                        _storage.AttachBooleanValue(parent, link);
+                    }
                 }
                 else if (tokenType == JsonTokenType.False)
                 {
-                    _storage.AttachBoolean(parents.First(), false);
+                    var link = _storage.CreateBooleanValue(false);
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        defaultSequenceAppender.Append(parent, link);
+                    }
+                    else
+                    {
+                        _storage.AttachBooleanValue(parent, link);
+                    }
                 }
                 else if (tokenType == JsonTokenType.Null)
                 {
-                    _storage.AttachNull(parents.First());
-                }
-                if (parentsMarkers.First() == JsonTokenType.PropertyName && tokenType != JsonTokenType.PropertyName)
-                {
-                    parentsMarkers.Pop();
-                    parents.Pop();
+                    var link = _storage.CreateNullValue();
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        defaultSequenceAppender.Append(parent, link);
+                    }
+                    else
+                    {
+                        _storage.AttachNullValue(parent, link);
+                    }
                 }
             }
 
