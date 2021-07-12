@@ -54,10 +54,10 @@ namespace Platform.Data.Doublets.Json
                     var link = _storage.CreateValue(_storage.CreateString(@string));
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var parentArray = _storage.GetArray(parent);
-                        var parentArraySequence = _storage.Links.GetTarget(parentArray);
-                        var newParentArraySequence = defaultSequenceAppender.Append(parentArraySequence, link);
-                        _storage.Links.Update(parentArraySequence, newParentArraySequence);
+                        var stringValue = _storage.CreateStringValue(@string);
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, stringValue);
+                        parents.Push(newArray);
                     }
                     else
                     {
@@ -67,13 +67,12 @@ namespace Platform.Data.Doublets.Json
                 else if (tokenType == JsonTokenType.Number)
                 {
                     var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
-                    var link = _storage.CreateValue(_storage.CreateNumber(number));
+                    var link = _storage.CreateNumberValue(number);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var parentArray = _storage.GetArray(parent);
-                        var parentArraySequence = _storage.Links.GetTarget(parentArray);
-                        var newParentArraySequence = defaultSequenceAppender.Append(parentArraySequence, link);
-                        _storage.Links.Update(parentArraySequence, newParentArraySequence);
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, link);
+                        parents.Push(newArray);
                     }
                     else
                     {
@@ -86,11 +85,9 @@ namespace Platform.Data.Doublets.Json
                     var arrayValueLink = _storage.CreateValue(arrayLink);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var parentArray = _storage.GetArray(parent);
-                        var parentArraySequence = _storage.Links.GetTarget(parentArray);
-                        var newParentArraySequence = defaultSequenceAppender.Append(parentArraySequence, arrayValueLink);
-                        _storage.Links.Update(parentArraySequence, newParentArraySequence);
-                        parents.Push(arrayValueLink);
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, arrayValueLink);
+                        parents.Push(newArray);
                     }
                     else
                     {
@@ -107,10 +104,9 @@ namespace Platform.Data.Doublets.Json
                     var link = _storage.CreateBooleanValue(true);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var parentArray = _storage.GetArray(parent);
-                        var parentArraySequence = _storage.Links.GetTarget(parentArray);
-                        var newParentArrayLink = defaultSequenceAppender.Append(parentArraySequence, link);
-                        _storage.Links.Update(parent, newParentArrayLink);
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, link);
+                        parents.Push(newArray);
                     }
                     else
                     {
@@ -122,10 +118,9 @@ namespace Platform.Data.Doublets.Json
                     var link = _storage.CreateBooleanValue(false);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var parentArray = _storage.GetArray(parent);
-                        var parentArraySequence = _storage.Links.GetTarget(parentArray);
-                        var newParentArrayLink = defaultSequenceAppender.Append(parentArraySequence, link);
-                        _storage.Links.Update(parent, newParentArrayLink);
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, link);
+                        parents.Push(newArray);
                     }
                     else
                     {
@@ -137,10 +132,9 @@ namespace Platform.Data.Doublets.Json
                     var link = _storage.CreateNullValue();
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var parentArray = _storage.GetArray(parent);
-                        var parentArraySequence = _storage.Links.GetTarget(parentArray);
-                        var newParentArrayLink = defaultSequenceAppender.Append(parentArraySequence, link);
-                        _storage.Links.Update(parent, newParentArrayLink);
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, link);
+                        parents.Push(newArray);
                     }
                     else
                     {
