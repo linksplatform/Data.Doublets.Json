@@ -171,7 +171,6 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachArray(TLink parent, IList<TLink> array) => Attach(parent, CreateArrayValue(array));
 
-
         public TLink AttachArrayValue(TLink parent, TLink arrayValueLink) => Attach(parent, arrayValueLink);
 
         public TLink AttachMemberToObject(TLink @object, string keyName) => Attach(@object, CreateMember(keyName));
@@ -254,6 +253,8 @@ namespace Platform.Data.Doublets.Json
             }
             throw new Exception("The passed link does not contain array link.");
         }
+
+        public TLink GetArraySequence(TLink array) => Links.GetTarget(array);
 
         public TLink GetValueLink(TLink parent)
         {

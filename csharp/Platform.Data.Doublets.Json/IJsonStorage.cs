@@ -27,6 +27,8 @@ namespace Platform.Data.Doublets.Json
         TLink CreateObject();
         TLink CreateObjectValue();
         TLink CreateArray(IList<TLink> array);
+        TLink CreateArrayValue(IList<TLink> array) => CreateValue(CreateArray(array));
+        TLink CreateArrayValue(TLink array) => CreateValue(array);
         TLink CreateMember(string name);
         TLink CreateValue(TLink keyLink, string @string);
         TLink CreateValue(TLink keyLink, TLink @object);
@@ -41,15 +43,17 @@ namespace Platform.Data.Doublets.Json
         TLink AttachBooleanValue(TLink parent, TLink booleanValueLink);
         TLink AttachNull(TLink parent);
         TLink AttachNullValue(TLink parent, TLink nullValueLink);
-        TLink AttachArray(TLink parent, TLink arrayLink);
+        TLink AttachArray(TLink parent, TLink array);
         TLink AttachArray(TLink parent, IList<TLink> array);
         TLink AttachArrayValue(TLink parent, TLink arrayValueLink);
         TLink AttachMemberToObject(TLink @object, string keyName);
         TLink Attach(TLink parent, TLink child);
+        TLink AppendArrayValue(TLink arrayValue, TLink appendant);
         string GetString(TLink stringValue);
         TLink GetNumber(TLink value);
         TLink GetObject(TLink objectValue);
         TLink GetArray(TLink arrayValueLink);
+        TLink GetArraySequence(TLink array);
         TLink GetValueLink(TLink parent);
         TLink GetValueMarker(TLink link);
         List<TLink> GetMembersLinks(TLink @object);
