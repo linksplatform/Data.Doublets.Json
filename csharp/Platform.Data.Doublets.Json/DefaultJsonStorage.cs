@@ -109,6 +109,8 @@ namespace Platform.Data.Doublets.Json
             return Links.GetOrCreate(NumberMarker, numberAddress);
         }
 
+        public TLink CreateNumberValue(TLink number) => CreateValue(CreateNumber(number));
+
         public TLink CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
 
         public TLink CreateNullValue() => CreateValue(NullMarker);
