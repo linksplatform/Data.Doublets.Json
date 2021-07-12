@@ -9,6 +9,8 @@ using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
 using System;
 using System.Collections.Generic;
+using Platform.Data.Doublets.Sequences.HeightProviders;
+using Platform.Data.Doublets.Sequences;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -27,6 +29,10 @@ namespace Platform.Data.Doublets.Json
         private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
         private readonly IConverter<string, TLink> _stringToUnicodeSequenceConverter;
         private readonly IConverter<TLink, string> _unicodeSequenceToStringConverter;
+        // For sequences
+        public readonly JsonArrayElementCriterionMatcher<TLink> _jsonArrayElementCriterionMatcher;
+        public readonly DefaultSequenceRightHeightProvider<TLink> _defaultSequenceRightHeightProvider;
+        public readonly DefaultSequenceAppender<TLink> _defaultSequenceAppender;
         public ILinks<TLink> Links { get; }
         public TLink DocumentMarker { get; }
         public TLink ObjectMarker { get; }
@@ -75,7 +81,10 @@ namespace Platform.Data.Doublets.Json
             var sequenceWalker = new RightSequenceWalker<TLink>(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
             _stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter, _balancedVariantConverter, _unicodeSequenceMarker));
             _unicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
-
+            // For sequences
+            _jsonArrayElementCriterionMatcher = new(this);
+            _defaultSequenceRightHeightProvider = new(Links, _jsonArrayElementCriterionMatcher);
+            _defaultSequenceAppender = new(Links, new DefaultStack<TLink>(), _defaultSequenceRightHeightProvider);
         }
 
         private TLink Create(TLink marker, string content)
@@ -124,6 +133,10 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
+        public TLink CreateArrayValue(IList<TLink> array) => CreateValue(CreateArray(array));
+
+        public TLink CreateArrayValue(TLink array) => CreateValue(array);
+
         public TLink CreateMember(string name) => Links.GetOrCreate(MemberMarker, CreateString(name));
 
         public TLink CreateValue(TLink keyLink, string @string) => CreateValue(CreateString(@string));
@@ -154,19 +167,24 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachNullValue(TLink parent, TLink nullValueLink) => Attach(parent, nullValueLink);
 
-        public TLink AttachArray(TLink parent, TLink arrayLink) => Attach(parent, CreateValue(arrayLink));
+        public TLink AttachArray(TLink parent, TLink array) => Attach(parent, CreateValue(array));
 
-        public TLink AttachArray(TLink parent, IList<TLink> array)
-        {
-            var arrayLink = CreateArray(array);
-            return Attach(parent, CreateValue(arrayLink));
-        }
+        public TLink AttachArray(TLink parent, IList<TLink> array) => Attach(parent, CreateArrayValue(array));
+
 
         public TLink AttachArrayValue(TLink parent, TLink arrayValueLink) => Attach(parent, arrayValueLink);
 
         public TLink AttachMemberToObject(TLink @object, string keyName) => Attach(@object, CreateMember(keyName));
 
         public TLink Attach(TLink parent, TLink child) => Links.GetOrCreate(parent, child);
+
+        public TLink AppendArrayValue(TLink arrayValue, TLink appendant)
+        {
+            var array = GetArray(arrayValue);
+            var arraySequence = Links.GetTarget(array);
+            var newArraySequence = _defaultSequenceAppender.Append(arraySequence, appendant);
+            return CreateArrayValue(newArraySequence);
+        }
 
         public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
 
