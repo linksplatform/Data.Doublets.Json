@@ -19,6 +19,7 @@ namespace Platform.Data.Doublets.Json
         public TLink FalseMarker { get; }
         public TLink NullMarker { get; }
         TLink CreateString(string content);
+        TLink CreateStringValue(string content)
         TLink CreateNumber(TLink number);
         TLink CreateBooleanValue(bool value);
         TLink CreateNullValue();

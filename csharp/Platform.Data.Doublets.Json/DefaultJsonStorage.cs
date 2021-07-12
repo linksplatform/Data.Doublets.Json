@@ -101,6 +101,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateString(string content) => Create(StringMarker, content);
 
+        public TLink CreateStringValue(string content) => CreateValue(CreateString(content));
+
         public TLink CreateNumber(TLink number)
         {
             var numberAddress = _addressToNumberConverter.Convert(number);
