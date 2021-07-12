@@ -15,7 +15,7 @@ using Platform.Interfaces;
 
 namespace Platform.Data.Doublets.Json
 {
-    class JsonArrayElementCriterionMatcher<TLink> : ICriterionMatcher<TLink>
+    public class JsonArrayElementCriterionMatcher<TLink> : ICriterionMatcher<TLink>
     {
         public readonly IJsonStorage<TLink> Storage;
         public JsonArrayElementCriterionMatcher(IJsonStorage<TLink> storage) => Storage = storage;
