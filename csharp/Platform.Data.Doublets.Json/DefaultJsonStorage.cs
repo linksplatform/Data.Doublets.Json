@@ -143,9 +143,9 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateMember(string name) => Links.GetOrCreate(MemberMarker, CreateString(name));
 
-        public TLink CreateValue(TLink keyLink, string @string) => CreateValue(CreateString(@string));
+        public TLink CreateValue(TLink key, string @string) => CreateValue(CreateString(@string));
 
-        public TLink CreateValue(TLink keyLink, TLink @object) => Links.GetOrCreate(keyLink, CreateValue(@object));
+        public TLink CreateValue(TLink key, TLink @object) => Links.GetOrCreate(key, CreateValue(@object));
 
         public TLink CreateValue(TLink @object)
         {
@@ -154,28 +154,28 @@ namespace Platform.Data.Doublets.Json
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
 
-        public TLink AttachObjectValue(TLink parent, TLink objectValueLink) => Attach(parent, objectValueLink);
+        public TLink AttachObjectValue(TLink parent, TLink objectValue) => Attach(parent, objectValue);
 
         public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
 
-        public TLink AttachStringValue(TLink parent, TLink stringValueLink) => Attach(parent, stringValueLink);
+        public TLink AttachStringValue(TLink parent, TLink stringValue) => Attach(parent, stringValue);
 
         public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
 
-        public TLink AttachNumberValue(TLink parent, TLink numberValueLink) => Attach(parent, numberValueLink);
+        public TLink AttachNumberValue(TLink parent, TLink numberValue) => Attach(parent, numberValue);
 
         public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateBooleanValue(value));
-        public TLink AttachBooleanValue(TLink parent, TLink booleanValueLink) => Attach(parent, booleanValueLink);
+        public TLink AttachBooleanValue(TLink parent, TLink booleanValue) => Attach(parent, booleanValue);
 
         public TLink AttachNull(TLink parent) => Attach(parent, CreateNullValue());
 
-        public TLink AttachNullValue(TLink parent, TLink nullValueLink) => Attach(parent, nullValueLink);
+        public TLink AttachNullValue(TLink parent, TLink nullValue) => Attach(parent, nullValue);
 
         public TLink AttachArray(TLink parent, TLink array) => Attach(parent, CreateValue(array));
 
         public TLink AttachArray(TLink parent, IList<TLink> array) => Attach(parent, CreateArrayValue(array));
 
-        public TLink AttachArrayValue(TLink parent, TLink arrayValueLink) => Attach(parent, arrayValueLink);
+        public TLink AttachArrayValue(TLink parent, TLink arrayValue) => Attach(parent, arrayValue);
 
         public TLink AttachMemberToObject(TLink @object, string keyName) => Attach(@object, CreateMember(keyName));
 
