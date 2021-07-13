@@ -7,6 +7,8 @@ using System.Text.Json;
 using System.Threading;
 using System.IO;
 using Platform.Converters;
+using Platform.Data.Doublets.Sequences.Walkers;
+using Platform.Collections.Stacks;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -98,8 +100,20 @@ namespace Platform.Data.Doublets.Json
             }
             else if (equalityComparer.Equals(valueMarker, _storage.ArrayMarker))
             {
+                DefaultStack<TLink> stack = new();
+                Func<TLink, bool> isElement = (TLink link) =>
+                {
+                    var equalityComparer = EqualityComparer<TLink>.Default;
+                    var valueMarker = _storage.Links.GetSource(link);
+                    return equalityComparer.Equals(valueMarker, _storage.ValueMarker);
+                };
+                RightSequenceWalker<TLink> rightSequenceWalker = new(_storage.Links, stack, isElement);
                 utf8JsonWriter.WriteStartArray();
-                Write(ref utf8JsonWriter, valueLink);
+                var elements = rightSequenceWalker.Walk(valueLink);
+                foreach (var element in elements)
+                {
+                    Write(ref utf8JsonWriter, element);
+                }
                 utf8JsonWriter.WriteEndArray();
             }
             else if (equalityComparer.Equals(valueMarker, _storage.TrueMarker))
