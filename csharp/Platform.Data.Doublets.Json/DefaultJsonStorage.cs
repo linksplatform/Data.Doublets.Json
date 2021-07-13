@@ -187,7 +187,7 @@ namespace Platform.Data.Doublets.Json
             if (_defaultEqualityComparer.Equals(arraySequence, EmptyArrayMarker))
             {
                 newArraySequence = appendant;
-                return Create;
+                return CreateArrayValue(appendant);
             }
             else
             {
