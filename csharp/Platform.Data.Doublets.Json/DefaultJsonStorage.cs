@@ -181,14 +181,16 @@ namespace Platform.Data.Doublets.Json
         {
             var array = GetArray(arrayValue);
             var arraySequence = Links.GetTarget(array);
+            TLink newArraySequence;
             if (_defaultEqualityComparer.Equals(arraySequence, EmptyArrayMarker))
             {
-                return appendant;
+                newArraySequence = appendant;
             }
             else
             {
-                return _defaultSequenceAppender.Append(arraySequence, appendant);
+                newArraySequence = _defaultSequenceAppender.Append(arraySequence, appendant);
             }
+            return CreateArrayValue(newArraySequence);
         }
 
         public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
