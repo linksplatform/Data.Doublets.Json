@@ -186,7 +186,6 @@ namespace Platform.Data.Doublets.Json
             TLink newArraySequence;
             if (_defaultEqualityComparer.Equals(arraySequence, EmptyArrayMarker))
             {
-                newArraySequence = appendant;
                 return CreateArrayValue(appendant);
             }
             else
