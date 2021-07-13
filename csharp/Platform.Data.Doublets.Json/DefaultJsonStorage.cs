@@ -29,6 +29,7 @@ namespace Platform.Data.Doublets.Json
         private readonly LongRawNumberSequenceToDateTimeConverter<TLink> _longRawNumberToDateTimeConverter;
         private readonly IConverter<string, TLink> _stringToUnicodeSequenceConverter;
         private readonly IConverter<TLink, string> _unicodeSequenceToStringConverter;
+        public readonly EqualityComparer<TLink> _defaultEqualityComparer;
         // For sequences
         public readonly JsonArrayElementCriterionMatcher<TLink> _jsonArrayElementCriterionMatcher;
         public readonly DefaultSequenceRightHeightProvider<TLink> _defaultSequenceRightHeightProvider;
@@ -68,7 +69,7 @@ namespace Platform.Data.Doublets.Json
             TrueMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
             FalseMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
             NullMarker = links.GetOrCreate(_meaningRoot, Arithmetic.Increment(ref markerIndex));
-
+            _defaultEqualityComparer = EqualityComparer<TLink>.Default;
             // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
             _numberToAddressConverter = new RawNumberToAddressConverter<TLink>();
             _addressToNumberConverter = new AddressToRawNumberConverter<TLink>();
@@ -188,12 +189,11 @@ namespace Platform.Data.Doublets.Json
 
         public string GetString(TLink stringValue)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             TLink current = stringValue;
             for (int i = 0; i < 3; i++)
             {
                 TLink source = Links.GetSource(current);
-                if (equalityComparer.Equals(source, StringMarker))
+                if (_defaultEqualityComparer.Equals(source, StringMarker))
                 {
                     return _unicodeSequenceToStringConverter.Convert(Links.GetTarget(current));
                 }
@@ -205,12 +205,11 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetNumber(TLink valueLink)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             TLink current = valueLink;
             for (int i = 0; i < 3; i++)
             {
                 TLink source = Links.GetSource(current);
-                if (equalityComparer.Equals(source, NumberMarker))
+                if (_defaultEqualityComparer.Equals(source, NumberMarker))
                 {
                     return _numberToAddressConverter.Convert(Links.GetTarget(current));
                 }
@@ -223,12 +222,11 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetObject(TLink objectValueLink)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             TLink current = objectValueLink;
             for (int i = 0; i < 3; i++)
             {
                 TLink source = Links.GetSource(current);
-                if (equalityComparer.Equals(source, ObjectMarker))
+                if (_defaultEqualityComparer.Equals(source, ObjectMarker))
                 {
                     return current;
                 }
@@ -239,12 +237,11 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetArray(TLink arrayValueLink)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             TLink current = arrayValueLink;
             for (int i = 0; i < 3; i++)
             {
                 TLink source = Links.GetSource(current);
-                if (equalityComparer.Equals(source, ArrayMarker))
+                if (_defaultEqualityComparer.Equals(source, ArrayMarker))
                 {
                     return current;
                 }
@@ -266,9 +263,8 @@ namespace Platform.Data.Doublets.Json
                 case 0:
                     return default;
                 case 1:
-                    var equalityComparer = EqualityComparer<TLink>.Default;
                     var resultLinkTarget = Links.GetTarget(resultLinks[0]);
-                    if (equalityComparer.Equals(Links.GetSource(resultLinkTarget), ValueMarker))
+                    if (_defaultEqualityComparer.Equals(Links.GetSource(resultLinkTarget), ValueMarker))
                     {
                         return resultLinkTarget;
                     }
@@ -285,10 +281,9 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetValueMarker(TLink value)
         {
-            var equalityComparer = EqualityComparer<TLink>.Default;
             var target = Links.GetTarget(value);
             var targetSource = Links.GetSource(target);
-            if (equalityComparer.Equals(_meaningRoot, targetSource))
+            if (_defaultEqualityComparer.Equals(_meaningRoot, targetSource))
             {
                 return target;
             }
@@ -297,14 +292,13 @@ namespace Platform.Data.Doublets.Json
 
         public List<TLink> GetMembersLinks(TLink @object)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             Link<TLink> query = new(index: _any, source: @object, target: _any);
             List<TLink> members = new();
             Links.Each((IList<TLink> objectMemberLink) =>
             {
                 TLink memberLink = Links.GetTarget(objectMemberLink);
                 TLink memberMarker = Links.GetSource(memberLink);
-                if (equalityComparer.Equals(memberMarker, MemberMarker)) { members.Add(Links.GetIndex(objectMemberLink)); }
+                if (_defaultEqualityComparer.Equals(memberMarker, MemberMarker)) { members.Add(Links.GetIndex(objectMemberLink)); }
                 return Links.Constants.Continue;
             }, query);
             return members;
@@ -312,10 +306,9 @@ namespace Platform.Data.Doublets.Json
 
         public bool IsMember(TLink link)
         {
-            var equalityComparer = EqualityComparer<TLink>.Default;
             var memberLink = Links.GetTarget(link);
             var memberMarker = Links.GetSource(memberLink);
-            return equalityComparer.Equals(memberMarker, MemberMarker);
+            return _defaultEqualityComparer.Equals(memberMarker, MemberMarker);
         }
     }
 }
