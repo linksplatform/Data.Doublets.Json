@@ -131,16 +131,18 @@ namespace Platform.Data.Doublets.Json
             switch (array.Count)
             {
                 case 0:
-                    return Links.GetOrCreate(ArrayMarker, EmptyArrayMarker);
+                    return CreateArray(EmptyArrayMarker);
                 default:
                     var convertedArray = _balancedVariantConverter.Convert(array);
-                    return Links.GetOrCreate(ArrayMarker, convertedArray);
+                    return CreateArray(convertedArray);
             }
         }
 
+        public TLink CreateArray(TLink sequence) => Links.GetOrCreate(ArrayMarker, sequence);
+
         public TLink CreateArrayValue(IList<TLink> array) => CreateValue(CreateArray(array));
 
-        public TLink CreateArrayValue(TLink array) => CreateValue(array);
+        public TLink CreateArrayValue(TLink sequence) => CreateValue(CreateArray(sequence));
 
         public TLink CreateMember(string name) => Links.GetOrCreate(MemberMarker, CreateString(name));
 
@@ -185,12 +187,13 @@ namespace Platform.Data.Doublets.Json
             if (_defaultEqualityComparer.Equals(arraySequence, EmptyArrayMarker))
             {
                 newArraySequence = appendant;
+                return Create;
             }
             else
             {
                 newArraySequence = _defaultSequenceAppender.Append(arraySequence, appendant);
+                return CreateArrayValue(newArraySequence);
             }
-            return CreateArrayValue(newArraySequence);
         }
 
         public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
