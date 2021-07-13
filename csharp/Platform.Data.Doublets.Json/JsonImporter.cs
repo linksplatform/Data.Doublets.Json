@@ -93,7 +93,7 @@ namespace Platform.Data.Doublets.Json
                 else if (tokenType == JsonTokenType.StartArray)
                 {
                     var array = _storage.CreateArray(Array.Empty<TLink>());
-                    var value = _storage.CreateValue(array);
+                    var value = _storage.CreateArrayValue(array);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
@@ -102,8 +102,8 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        var parentArray = _storage.AttachArrayValue(parent, value);
-                        parents.Push(parentArray);
+                        _storage.AttachArrayValue(parent, value);
+                        parents.Push(value);
                     }
                 }
                 else if (tokenType == JsonTokenType.EndArray)
