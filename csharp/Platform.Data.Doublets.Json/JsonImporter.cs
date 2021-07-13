@@ -42,7 +42,19 @@ namespace Platform.Data.Doublets.Json
                 }
                 if (tokenType == JsonTokenType.StartObject)
                 {
-                    parents.Push(_storage.AttachObject(parent));
+                    var value = _storage.CreateObjectValue();
+                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    {
+                        parents.Pop();
+                        var newArray = _storage.AppendArrayValue(parent, value);
+                        parents.Push(newArray);
+                        parents.Push(value);
+                    }
+                    else
+                    {
+                        var @object = _storage.AttachObjectValue(parent, value);
+                        parents.Push(@object);
+                    }
                 }
                 else if (tokenType == JsonTokenType.EndObject)
                 {
@@ -51,48 +63,47 @@ namespace Platform.Data.Doublets.Json
                 else if (tokenType == JsonTokenType.String)
                 {
                     var @string = utf8JsonReader.GetString();
-                    var link = _storage.CreateValue(_storage.CreateString(@string));
+                    var value = _storage.CreateStringValue(@string);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
-                        var stringValue = _storage.CreateStringValue(@string);
                         parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, stringValue);
+                        var newArray = _storage.AppendArrayValue(parent, value);
                         parents.Push(newArray);
                     }
                     else
                     {
-                        _storage.AttachStringValue(parent, link);
+                        _storage.AttachStringValue(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.Number)
                 {
                     var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
-                    var link = _storage.CreateNumberValue(number);
+                    var value = _storage.CreateNumberValue(number);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, link);
+                        var newArray = _storage.AppendArrayValue(parent, value);
                         parents.Push(newArray);
                     }
                     else
                     {
-                        _storage.AttachNumberValue(parent, link);
+                        _storage.AttachNumberValue(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.StartArray)
                 {
-                    var arrayLink = _storage.CreateArray(Array.Empty<TLink>());
-                    var arrayValueLink = _storage.CreateValue(arrayLink);
+                    var array = _storage.CreateArray(Array.Empty<TLink>());
+                    var value = _storage.CreateValue(array);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, arrayValueLink);
+                        var newArray = _storage.AppendArrayValue(parent, value);
                         parents.Push(newArray);
                     }
                     else
                     {
-                        var parentArrayLink = _storage.AttachArrayValue(parent, arrayValueLink);
-                        parents.Push(parentArrayLink);
+                        var parentArray = _storage.AttachArrayValue(parent, value);
+                        parents.Push(parentArray);
                     }
                 }
                 else if (tokenType == JsonTokenType.EndArray)
@@ -101,44 +112,44 @@ namespace Platform.Data.Doublets.Json
                 }
                 else if (tokenType == JsonTokenType.True)
                 {
-                    var link = _storage.CreateBooleanValue(true);
+                    var value = _storage.CreateBooleanValue(true);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, link);
+                        var newArray = _storage.AppendArrayValue(parent, value);
                         parents.Push(newArray);
                     }
                     else
                     {
-                        _storage.AttachBooleanValue(parent, link);
+                        _storage.AttachBooleanValue(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.False)
                 {
-                    var link = _storage.CreateBooleanValue(false);
+                    var value = _storage.CreateBooleanValue(false);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, link);
+                        var newArray = _storage.AppendArrayValue(parent, value);
                         parents.Push(newArray);
                     }
                     else
                     {
-                        _storage.AttachBooleanValue(parent, link);
+                        _storage.AttachBooleanValue(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.Null)
                 {
-                    var link = _storage.CreateNullValue();
+                    var value = _storage.CreateNullValue();
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, link);
+                        var newArray = _storage.AppendArrayValue(parent, value);
                         parents.Push(newArray);
                     }
                     else
                     {
-                        _storage.AttachNullValue(parent, link);
+                        _storage.AttachNullValue(parent, value);
                     }
                 }
             }
