@@ -8,7 +8,7 @@ using System.Threading;
 using System.IO;
 using Platform.Data.Doublets.Json;
 using Xunit;
-using TLink = System.UInt32;
+using TLink = System.UInt64;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Memory;
 using Platform.Data.Doublets.Memory;
