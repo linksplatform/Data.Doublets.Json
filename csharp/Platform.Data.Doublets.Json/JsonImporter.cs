@@ -79,6 +79,7 @@ namespace Platform.Data.Doublets.Json
                 {
                     var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
                     var value = _storage.CreateNumberValue(number);
+                    ((Platform.Data.Doublets.ILinks<ulong>)(object)_storage.Links).FormatStructure((ulong)(object)40UL, link => link.IsFullPoint(), true);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
