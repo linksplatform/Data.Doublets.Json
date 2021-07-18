@@ -109,19 +109,11 @@ namespace Platform.Data.Doublets.Json
                 };
                 RightSequenceWalker<TLink> rightSequenceWalker = new(_storage.Links, stack, isElement);
                 utf8JsonWriter.WriteStartArray();
-                var sequence = _storage.GetArraySequence(valueLink);
-                var elements = rightSequenceWalker.Walk(sequence);
-                //foreach (var element in elements)
-                //{
-                //    Write(ref utf8JsonWriter, element);
-                //}
-                for (int i = 0; i < elements.Count(); i++)
+                var array = _storage.GetArray(valueLink);
+                var sequence = _storage.GetArraySequence(array);
+                var elements = rightSequenceWalker.Walk(sequence).ToList();
+                foreach (var element in elements)
                 {
-                    if (i == 0)
-                    {
-                        continue;
-                    }
-                    var element = elements.ElementAt(i);
                     Write(ref utf8JsonWriter, element);
                 }
                 utf8JsonWriter.WriteEndArray();
