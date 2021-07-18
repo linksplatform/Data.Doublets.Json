@@ -79,7 +79,7 @@ namespace Platform.Data.Doublets.Json
                 {
                     var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
                     var value = _storage.CreateNumberValue(number);
-                    ((Platform.Data.Doublets.ILinks<ulong>)(object)_storage.Links).FormatStructure((ulong)(object)40UL, link => link.IsFullPoint(), true);
+                    // ((Platform.Data.Doublets.ILinks<ulong>)(object)_storage.Links).FormatStructure((ulong)(object)40UL, link => link.IsFullPoint(), true);
                     if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
                     {
                         parents.Pop();
@@ -102,13 +102,13 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        _storage.AttachArrayValue(parent, value);
                         parents.Push(value);
                     }
                 }
                 else if (tokenType == JsonTokenType.EndArray)
                 {
-                    parents.Pop();
+                    var arrayValue = parents.Pop();
+                    _storage.AttachArrayValue(parents.Peek(), arrayValue);
                 }
                 else if (tokenType == JsonTokenType.True)
                 {

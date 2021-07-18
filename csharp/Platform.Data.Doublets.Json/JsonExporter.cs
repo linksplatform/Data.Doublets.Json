@@ -109,7 +109,8 @@ namespace Platform.Data.Doublets.Json
                 };
                 RightSequenceWalker<TLink> rightSequenceWalker = new(_storage.Links, stack, isElement);
                 utf8JsonWriter.WriteStartArray();
-                var elements = rightSequenceWalker.Walk(valueLink);
+                var sequence = _storage.GetArraySequence(valueLink);
+                var elements = rightSequenceWalker.Walk(sequence);
                 //foreach (var element in elements)
                 //{
                 //    Write(ref utf8JsonWriter, element);
