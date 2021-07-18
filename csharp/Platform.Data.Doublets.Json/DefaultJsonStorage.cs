@@ -19,7 +19,6 @@ namespace Platform.Data.Doublets.Json
         public static readonly TLink Zero = default;
         public static readonly TLink One = Arithmetic.Increment(Zero);
         public readonly BalancedVariantConverter<TLink> BalancedVariantConverter;
-        public readonly ILinks<TLink> DisposableLinks;
         public readonly TLink MeaningRoot;
         public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter;
         public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter;
@@ -44,10 +43,9 @@ namespace Platform.Data.Doublets.Json
         public TLink NullMarker { get; }
 
 
-        public DefaultJsonStorage(ILinks<TLink> links, ILinks<TLink> disposableLinks)
+        public DefaultJsonStorage(ILinks<TLink> links)
         {
             Links = links;
-            DisposableLinks = disposableLinks;
 
             // Initializes constants
             Any = Links.Constants.Any;
