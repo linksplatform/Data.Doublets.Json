@@ -100,21 +100,24 @@ namespace Platform.Data.Doublets.Json
             }
             else if (equalityComparer.Equals(valueMarker, _storage.ArrayMarker))
             {
-                DefaultStack<TLink> stack = new();
-                Func<TLink, bool> isElement = (TLink link) =>
-                {
-                    var equalityComparer = EqualityComparer<TLink>.Default;
-                    var valueMarker = _storage.Links.GetSource(link);
-                    return equalityComparer.Equals(valueMarker, _storage.ValueMarker);
-                };
-                RightSequenceWalker<TLink> rightSequenceWalker = new(_storage.Links, stack, isElement);
-                utf8JsonWriter.WriteStartArray();
                 var array = _storage.GetArray(valueLink);
                 var sequence = _storage.GetArraySequence(array);
-                var elements = rightSequenceWalker.Walk(sequence).ToList();
-                foreach (var element in elements)
+                utf8JsonWriter.WriteStartArray();
+                if (!equalityComparer.Equals(sequence, _storage.EmptyArrayMarker))
                 {
-                    Write(ref utf8JsonWriter, element);
+                    DefaultStack<TLink> stack = new();
+                    Func<TLink, bool> isElement = (TLink link) =>
+                    {
+                        var equalityComparer = EqualityComparer<TLink>.Default;
+                        var valueMarker = _storage.Links.GetSource(link);
+                        return equalityComparer.Equals(valueMarker, _storage.ValueMarker);
+                    };
+                    RightSequenceWalker<TLink> rightSequenceWalker = new(_storage.Links, stack, isElement);
+                    var elements = rightSequenceWalker.Walk(sequence);
+                    foreach (var element in elements)
+                    {
+                        Write(ref utf8JsonWriter, element);
+                    }
                 }
                 utf8JsonWriter.WriteEndArray();
             }
