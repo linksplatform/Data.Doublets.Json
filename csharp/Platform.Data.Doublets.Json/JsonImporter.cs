@@ -35,6 +35,7 @@ namespace Platform.Data.Doublets.Json
             while (utf8JsonReader.Read())
             {
                 var parent = _storage.IsMember(parents.Peek()) ? parents.Pop() : parents.Peek();
+                var parentMarker = _storage.GetValueMarker(parent);
                 var tokenType = utf8JsonReader.TokenType;
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName)
                 {
@@ -43,7 +44,7 @@ namespace Platform.Data.Doublets.Json
                 if (tokenType == JsonTokenType.StartObject)
                 {
                     var value = _storage.CreateObjectValue();
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
                     {
                         parents.Pop();
                         var newArray = _storage.AppendArrayValue(parent, value);
@@ -64,7 +65,7 @@ namespace Platform.Data.Doublets.Json
                 {
                     var @string = utf8JsonReader.GetString();
                     var value = _storage.CreateStringValue(@string);
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
                     {
                         parents.Pop();
                         var newArray = _storage.AppendArrayValue(parent, value);
@@ -80,7 +81,7 @@ namespace Platform.Data.Doublets.Json
                     var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
                     var value = _storage.CreateNumberValue(number);
                     // ((Platform.Data.Doublets.ILinks<ulong>)(object)_storage.Links).FormatStructure((ulong)(object)40UL, link => link.IsFullPoint(), true);
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
                     {
                         parents.Pop();
                         var newArray = _storage.AppendArrayValue(parent, value);
@@ -94,26 +95,24 @@ namespace Platform.Data.Doublets.Json
                 else if (tokenType == JsonTokenType.StartArray)
                 {
                     var value = _storage.CreateArrayValue(Array.Empty<TLink>());
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
-                    {
-                        parents.Pop();
-                        var newArray = _storage.AppendArrayValue(parent, value);
-                        parents.Push(newArray);
-                    }
-                    else
-                    {
-                        parents.Push(value);
-                    }
+                    parents.Push(value);
                 }
                 else if (tokenType == JsonTokenType.EndArray)
                 {
                     var arrayValue = parents.Pop();
-                    _storage.AttachArrayValue(parents.Peek(), arrayValue);
+                    parent = parents.Peek();
+                    parentMarker = _storage.GetValueMarker(parent);
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
+                    {
+                    var newParentArray = _storage.AppendArrayValue(parents.Pop(), arrayValue);
+                    parents.Push(newParentArray);
+                    }
+                    _storage.AttachArrayValue(parent, arrayValue);
                 }
                 else if (tokenType == JsonTokenType.True)
                 {
                     var value = _storage.CreateBooleanValue(true);
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
                     {
                         parents.Pop();
                         var newArray = _storage.AppendArrayValue(parent, value);
@@ -127,7 +126,7 @@ namespace Platform.Data.Doublets.Json
                 else if (tokenType == JsonTokenType.False)
                 {
                     var value = _storage.CreateBooleanValue(false);
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
                     {
                         parents.Pop();
                         var newArray = _storage.AppendArrayValue(parent, value);
@@ -141,7 +140,7 @@ namespace Platform.Data.Doublets.Json
                 else if (tokenType == JsonTokenType.Null)
                 {
                     var value = _storage.CreateNullValue();
-                    if (equalityComparer.Equals(_storage.GetValueMarker(parent), _storage.ArrayMarker))
+                    if (equalityComparer.Equals(parentMarker, _storage.ArrayMarker))
                     {
                         parents.Pop();
                         var newArray = _storage.AppendArrayValue(parent, value);
