@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -58,6 +56,5 @@ namespace Platform.Data.Doublets.Json
         TLink GetValueLink(TLink parent);
         TLink GetValueMarker(TLink link);
         List<TLink> GetMembersLinks(TLink @object);
-        bool IsMember(TLink link);
     }
 }
