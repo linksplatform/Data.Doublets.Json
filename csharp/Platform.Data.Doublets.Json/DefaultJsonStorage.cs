@@ -66,15 +66,15 @@ namespace Platform.Data.Doublets.Json
             NullMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             DefaultEqualityComparer = EqualityComparer<TLink>.Default;
             // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
-            NumberToAddressConverter = new RawNumberToAddressConverter<TLink>();
-            AddressToNumberConverter = new AddressToRawNumberConverter<TLink>();
+            NumberToAddressConverter = new ();
+            AddressToNumberConverter = new ();
             // Creates converters that are able to convert string to unicode sequence stored as link and back
-            BalancedVariantConverter = new BalancedVariantConverter<TLink>(links);
-            var unicodeSymbolCriterionMatcher = new TargetMatcher<TLink>(Links, unicodeSymbolMarker);
-            var unicodeSequenceCriterionMatcher = new TargetMatcher<TLink>(Links, unicodeSequenceMarker);
-            var charToUnicodeSymbolConverter = new CharToUnicodeSymbolConverter<TLink>(Links, AddressToNumberConverter, unicodeSymbolMarker);
-            var unicodeSymbolToCharConverter = new UnicodeSymbolToCharConverter<TLink>(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
-            var sequenceWalker = new RightSequenceWalker<TLink>(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
+            BalancedVariantConverter = new (links);
+            TargetMatcher<TLink> unicodeSymbolCriterionMatcher = new (Links, unicodeSymbolMarker);
+            TargetMatcher<TLink> unicodeSequenceCriterionMatcher = new (Links, unicodeSequenceMarker);
+            CharToUnicodeSymbolConverter<TLink> charToUnicodeSymbolConverter = new(Links, AddressToNumberConverter, unicodeSymbolMarker);
+            UnicodeSymbolToCharConverter<TLink> unicodeSymbolToCharConverter = new (Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
+            RightSequenceWalker<TLink> sequenceWalker = new (Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
             StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter, BalancedVariantConverter, unicodeSequenceMarker));
             UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
             // For sequences

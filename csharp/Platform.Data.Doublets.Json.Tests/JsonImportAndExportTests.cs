@@ -61,10 +61,6 @@ namespace Platform.Data.Doublets.Json.Tests
             var storage = CreateJsonStorage();
             var json = Encoding.UTF8.GetBytes(initialJson);
             var documentLink = Import(storage, "documentName", json);
-            //var options = new JsonWriterOptions
-            //{
-            //    Indented = true
-            //};
             using MemoryStream stream = new();
             Utf8JsonWriter writer = new(stream);
             JsonExporter<TLink> jsonExporter = new(storage);

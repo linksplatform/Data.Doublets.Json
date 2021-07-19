@@ -15,7 +15,7 @@ namespace Platform.Data.Doublets.Json
         {
             Storage = storage;
             EqualityComparer = EqualityComparer<TLink>.Default;
-            Parents = new Stack<TLink>();
+            Parents = new ();
         }
 
         public void PopIfParentIsMember()
