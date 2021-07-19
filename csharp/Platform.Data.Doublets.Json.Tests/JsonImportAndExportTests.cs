@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.IO;
-using Platform.Data.Doublets.Json;
 using Xunit;
 using TLink = System.UInt64;
 using Platform.Data.Doublets.Memory.United.Generic;
@@ -18,7 +13,7 @@ namespace Platform.Data.Doublets.Json.Tests
 {
     public class JsonImportAndExportTests
     {
-        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new Platform.IO.TemporaryFile());
+        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new IO.TemporaryFile());
 
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
