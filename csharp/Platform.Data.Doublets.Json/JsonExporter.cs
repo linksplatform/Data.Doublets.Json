@@ -60,8 +60,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteStartArray(parent);
                 if (!EqualityComparer.Equals(sequence, Storage.EmptyArrayMarker))
                 {
-                    DefaultStack<TLink> stack = new();
-                    RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, stack, IsElement);
+                    RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, new DefaultStack<TLink>(), IsElement);
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
@@ -112,8 +111,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteStartArray();
                 if (!EqualityComparer.Equals(sequence, Storage.EmptyArrayMarker))
                 {
-                    DefaultStack<TLink> stack = new();
-                    RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, stack, IsElement);
+                    RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, new DefaultStack<TLink>(), IsElement);
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
