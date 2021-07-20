@@ -94,9 +94,8 @@ namespace Platform.Data.Doublets.Json
 
         public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
             var valueMarker = Storage.GetValueMarker(valueLink);
-            if (equalityComparer.Equals(valueMarker, Storage.ObjectMarker))
+            if (EqualityComparer.Equals(valueMarker, Storage.ObjectMarker))
             {
                 utf8JsonWriter.WriteStartObject();
                 var membersLinks = Storage.GetMembersLinks(Storage.GetObject(valueLink));
@@ -106,12 +105,12 @@ namespace Platform.Data.Doublets.Json
                 }
                 utf8JsonWriter.WriteEndObject();
             }
-            else if (equalityComparer.Equals(valueMarker, Storage.ArrayMarker))
+            else if (EqualityComparer.Equals(valueMarker, Storage.ArrayMarker))
             {
                 var array = Storage.GetArray(valueLink);
                 var sequence = Storage.GetArraySequence(array);
                 utf8JsonWriter.WriteStartArray();
-                if (!equalityComparer.Equals(sequence, Storage.EmptyArrayMarker))
+                if (!EqualityComparer.Equals(sequence, Storage.EmptyArrayMarker))
                 {
                     DefaultStack<TLink> stack = new();
                     RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, stack, IsElement);
@@ -123,23 +122,23 @@ namespace Platform.Data.Doublets.Json
                 }
                 utf8JsonWriter.WriteEndArray();
             }
-            else if (equalityComparer.Equals(valueMarker, Storage.StringMarker))
+            else if (EqualityComparer.Equals(valueMarker, Storage.StringMarker))
             {
                 WriteStringValue(ref utf8JsonWriter, valueLink);
             }
-            else if (equalityComparer.Equals(valueMarker, Storage.NumberMarker))
+            else if (EqualityComparer.Equals(valueMarker, Storage.NumberMarker))
             {
                 WriteNumberValue(ref utf8JsonWriter, valueLink);
             }
-            else if (equalityComparer.Equals(valueMarker, Storage.TrueMarker))
+            else if (EqualityComparer.Equals(valueMarker, Storage.TrueMarker))
             {
                 utf8JsonWriter.WriteBooleanValue(true);
             }
-            else if (equalityComparer.Equals(valueMarker, Storage.FalseMarker))
+            else if (EqualityComparer.Equals(valueMarker, Storage.FalseMarker))
             {
                 utf8JsonWriter.WriteBooleanValue(false);
             }
-            else if (equalityComparer.Equals(valueMarker, Storage.NullMarker))
+            else if (EqualityComparer.Equals(valueMarker, Storage.NullMarker))
             {
                 utf8JsonWriter.WriteNullValue();
             }
