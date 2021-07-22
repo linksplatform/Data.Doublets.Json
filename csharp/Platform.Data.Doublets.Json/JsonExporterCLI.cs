@@ -11,7 +11,8 @@ namespace Platform.Data.Doublets.Json
         public void Run(params string[] args)
         {
             var linksFilePath = ConsoleHelpers.GetOrReadArgument(0, "Links file path", args);
-            var jsonFilePath = ConsoleHelpers.GetOrReadArgument(1, "JSON file path", args);
+            var documentName = ConsoleHelpers.GetOrReadArgument(1, "Document name:", args);
+            var jsonFilePath = ConsoleHelpers.GetOrReadArgument(2, "JSON file path", args);
             if (!File.Exists(linksFilePath))
             {
                 Console.WriteLine("Entered links file does not exist.");
@@ -23,7 +24,6 @@ namespace Platform.Data.Doublets.Json
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
-            var documentName = Path.GetFileName(jsonFilePath);
             var document = storage.GetDocumentOrDefault(documentName);
             Console.WriteLine("Press CTRL+C to stop.");
             var cancellationToken = cancellation.Token;
