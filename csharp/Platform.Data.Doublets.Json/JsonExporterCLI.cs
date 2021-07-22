@@ -18,7 +18,8 @@ namespace Platform.Data.Doublets.Json
                 Console.WriteLine("Entered links file does not exist.");
             }
             using FileStream jsonFileStream = new(jsonFilePath, FileMode.Append);
-            Utf8JsonWriter utf8JsonWriter = new(jsonFileStream);
+            JsonWriterOptions jsonWriterOptions = new() {Indented = true};
+            Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, jsonWriterOptions);
             using ConsoleCancellation cancellation = new ();
             using UnitedMemoryLinks<TLink> memoryAdapter = new (linksFilePath);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
