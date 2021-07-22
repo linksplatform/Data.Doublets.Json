@@ -40,16 +40,17 @@ namespace Platform.Data.Doublets.Json
             utf8JsonWriter.WriteNumber(parent, uncheckedConverter.Convert(Storage.GetNumber(valueLink)));
         }
 
-        public void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
+        public void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
-            var valueMarker = Storage.GetValueMarker(valueLink);
+                cancellationToken.ThrowIfCancellationRequested();
+                var valueMarker = Storage.GetValueMarker(valueLink);
             if (EqualityComparer.Equals(valueMarker, Storage.ObjectMarker))
             {
                 utf8JsonWriter.WriteStartObject(parent);
                 var membersLinks = Storage.GetMembersLinks(Storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
-                    Write(ref utf8JsonWriter, Storage.GetString(memberLink), Storage.GetValueLink(memberLink));
+                    Write(ref utf8JsonWriter, Storage.GetString(memberLink), Storage.GetValueLink(memberLink), cancellationToken);
                 }
                 utf8JsonWriter.WriteEndObject();
             }
@@ -64,7 +65,7 @@ namespace Platform.Data.Doublets.Json
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
-                        Write(ref utf8JsonWriter, element);
+                        Write(ref utf8JsonWriter, element, ref cancellationToken);
                     }
                 }
                 utf8JsonWriter.WriteEndArray();
@@ -91,8 +92,9 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink)
+        public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, ref CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var valueMarker = Storage.GetValueMarker(valueLink);
             if (EqualityComparer.Equals(valueMarker, Storage.ObjectMarker))
             {
@@ -100,7 +102,7 @@ namespace Platform.Data.Doublets.Json
                 var membersLinks = Storage.GetMembersLinks(Storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
-                    Write(ref utf8JsonWriter, Storage.GetString(memberLink), Storage.GetValueLink(memberLink));
+                    Write(ref utf8JsonWriter, Storage.GetString(memberLink), Storage.GetValueLink(memberLink), cancellationToken);
                 }
                 utf8JsonWriter.WriteEndObject();
             }
@@ -115,7 +117,7 @@ namespace Platform.Data.Doublets.Json
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
-                        Write(ref utf8JsonWriter, element);
+                        Write(ref utf8JsonWriter, element, ref cancellationToken);
                     }
                 }
                 utf8JsonWriter.WriteEndArray();
@@ -142,13 +144,13 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public void Export(TLink documentLink, ref Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
+        public void Export(TLink documentLink, ref Utf8JsonWriter utf8JsonWriter, ref CancellationToken cancellationToken)
         {
             var valueLink = Storage.GetValueLink(documentLink);
-            Write(ref utf8JsonWriter, valueLink);
+            Write(ref utf8JsonWriter, valueLink, ref cancellationToken);
             utf8JsonWriter.Flush();
         }
 
-        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, cancellationToken);
+        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, ref cancellationToken);
     }
 }
