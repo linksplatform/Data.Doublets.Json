@@ -16,10 +16,6 @@ namespace Platform.Data.Doublets.Json
             {
                 Console.WriteLine("Entered JSON file does not exist.");
             }
-            if (!File.Exists(linksFilePath))
-            {
-                Console.WriteLine("Entered links file does not exist.");
-            }
             var json = FileHelpers.ReadAll<byte>(jsonFilePath);
             Utf8JsonReader utf8JsonReader = new(json);
             using var cancellation = new ConsoleCancellation();
