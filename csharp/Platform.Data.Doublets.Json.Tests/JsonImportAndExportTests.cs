@@ -22,15 +22,28 @@ namespace Platform.Data.Doublets.Json.Tests
         }
 
         public static DefaultJsonStorage<TLink> CreateJsonStorage() => new DefaultJsonStorage<TLink>(CreateLinks());
+        
         public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new DefaultJsonStorage<TLink>(links);
+        
         public TLink Import(IJsonStorage<TLink> storage, string documentName, byte[] json)
         {
             Utf8JsonReader utf8JsonReader = new(json);
             JsonImporter<TLink> jsonImporter = new(storage);
             CancellationTokenSource importCancellationTokenSource = new();
-            CancellationToken importCancellationToken = importCancellationTokenSource.Token;
-            return jsonImporter.Import(documentName, ref utf8JsonReader, importCancellationToken);
+            CancellationToken cancellationToken = importCancellationTokenSource.Token;
+            return jsonImporter.Import(documentName, ref utf8JsonReader, ref cancellationToken);
         }
+
+        public void Export(TLink documentLink, IJsonStorage<TLink> storage, ref MemoryStream stream)
+        {
+            Utf8JsonWriter writer = new(stream);
+            JsonExporter<TLink> jsonExporter = new(storage);
+            CancellationTokenSource exportCancellationTokenSource = new();
+            CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
+            jsonExporter.Export(documentLink, ref writer, ref exportCancellationToken);
+            writer.Dispose();
+        }
+        
         [Theory]
         [InlineData("{}")]
         [InlineData("\"stringValue\"")]
@@ -61,14 +74,10 @@ namespace Platform.Data.Doublets.Json.Tests
             var storage = CreateJsonStorage();
             var json = Encoding.UTF8.GetBytes(initialJson);
             var documentLink = Import(storage, "documentName", json);
-            using MemoryStream stream = new();
-            Utf8JsonWriter writer = new(stream);
-            JsonExporter<TLink> jsonExporter = new(storage);
-            CancellationTokenSource exportCancellationTokenSource = new();
-            CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
-            jsonExporter.Export(documentLink, ref writer, exportCancellationToken);
+            MemoryStream stream = new();
+            Export(documentLink, storage, ref stream);
             string exportedJson = Encoding.UTF8.GetString(stream.ToArray());
-            writer.Dispose();
+            stream.Dispose();
             var minimizedInitialJson = Regex.Replace(initialJson, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
             Assert.Equal(minimizedInitialJson, exportedJson);
         }
