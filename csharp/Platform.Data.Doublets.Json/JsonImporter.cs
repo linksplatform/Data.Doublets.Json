@@ -31,6 +31,10 @@ namespace Platform.Data.Doublets.Json
         public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, ref CancellationToken cancellationToken)
         {
             Parents.Clear();
+            if (!EqualityComparer.Equals(Storage.GetDocumentOrDefault(documentName), default))
+            {
+                throw new Exception("The document with the specified name already exists.");
+            }
             TLink document = Storage.CreateDocument(documentName);
             Parents.Push(document);
             while (utf8JsonReader.Read())
