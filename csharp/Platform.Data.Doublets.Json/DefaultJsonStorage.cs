@@ -308,13 +308,6 @@ namespace Platform.Data.Doublets.Json
             }, query);
             return members;
         }
-
-        public bool IsMember(TLink link)
-        {
-            var memberLink = Links.GetTarget(link);
-            var memberMarker = Links.GetSource(memberLink);
-            return DefaultEqualityComparer.Equals(memberMarker, MemberMarker);
-        }
     }
 }
 
