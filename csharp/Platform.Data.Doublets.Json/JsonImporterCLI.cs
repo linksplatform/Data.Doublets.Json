@@ -26,8 +26,18 @@ namespace Platform.Data.Doublets.Json
             var importer = new JsonImporter<TLink>(storage);
             var cancallationToken = cancellation.Token;
             var documentName = Path.GetFileName(jsonFilePath);
-            importer.Import(documentName, ref utf8JsonReader, ref cancallationToken);
-            Console.WriteLine(cancellation.IsRequested ? "Import aborted." : "Import completed successfully.");
+            try
+            {
+                importer.Import(documentName, ref utf8JsonReader, ref cancallationToken);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+            if (cancellation.NotRequested)
+            {
+                Console.WriteLine("Import completed successfully.");
+            }
         }
     }
 }
