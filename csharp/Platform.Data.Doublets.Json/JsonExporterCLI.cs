@@ -31,9 +31,9 @@ namespace Platform.Data.Doublets.Json
             {
                 exporter.Export(document, ref utf8JsonWriter, ref cancellationToken);
             }
-            catch (Exception error)
+            catch (Exception exception)
             {
-                Console.WriteLine(error);
+                Console.WriteLine(exception);
             }
             finally
             {
