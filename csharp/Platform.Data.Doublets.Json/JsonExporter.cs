@@ -42,14 +42,21 @@ namespace Platform.Data.Doublets.Json
 
         public void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
-                cancellationToken.ThrowIfCancellationRequested();
-                var valueMarker = Storage.GetValueMarker(valueLink);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+            var valueMarker = Storage.GetValueMarker(valueLink);
             if (EqualityComparer.Equals(valueMarker, Storage.ObjectMarker))
             {
                 utf8JsonWriter.WriteStartObject(parent);
                 var membersLinks = Storage.GetMembersLinks(Storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     Write(ref utf8JsonWriter, Storage.GetString(memberLink), Storage.GetValueLink(memberLink), cancellationToken);
                 }
                 utf8JsonWriter.WriteEndObject();
@@ -65,6 +72,10 @@ namespace Platform.Data.Doublets.Json
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return;
+                        }
                         Write(ref utf8JsonWriter, element, ref cancellationToken);
                     }
                 }
@@ -94,7 +105,10 @@ namespace Platform.Data.Doublets.Json
 
         public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, ref CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
             var valueMarker = Storage.GetValueMarker(valueLink);
             if (EqualityComparer.Equals(valueMarker, Storage.ObjectMarker))
             {
@@ -102,6 +116,10 @@ namespace Platform.Data.Doublets.Json
                 var membersLinks = Storage.GetMembersLinks(Storage.GetObject(valueLink));
                 foreach (var memberLink in membersLinks)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     Write(ref utf8JsonWriter, Storage.GetString(memberLink), Storage.GetValueLink(memberLink), cancellationToken);
                 }
                 utf8JsonWriter.WriteEndObject();
@@ -117,6 +135,10 @@ namespace Platform.Data.Doublets.Json
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return;
+                        }
                         Write(ref utf8JsonWriter, element, ref cancellationToken);
                     }
                 }
