@@ -20,7 +20,6 @@ namespace Platform.Data.Doublets.Json
             {
                 Console.WriteLine("Entered JSON file does not exist.");
             }
-            var documentName = Path.GetFileName(jsonFilePath);
             using FileStream jsonFileStream = new(jsonFilePath, FileMode.Append);
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream);
             using ConsoleCancellation cancellation = new ();
@@ -28,6 +27,7 @@ namespace Platform.Data.Doublets.Json
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
+            var documentName = Path.GetFileName(jsonFilePath);
             var document = storage.GetDocumentOrDefault(documentName);
             Console.WriteLine("Press CTRL+C to stop.");
             var cancellationToken = cancellation.Token;
