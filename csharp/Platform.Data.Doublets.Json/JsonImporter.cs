@@ -28,13 +28,17 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, CancellationToken cancellationToken)
+        public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, ref CancellationToken cancellationToken)
         {
             Parents.Clear();
             TLink document = Storage.CreateDocument(documentName);
             Parents.Push(document);
             while (utf8JsonReader.Read())
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return default;
+                }
                 var parent = Parents.Peek();
                 var parentMarker = Storage.GetValueMarker(parent);
                 var tokenType = utf8JsonReader.TokenType;
