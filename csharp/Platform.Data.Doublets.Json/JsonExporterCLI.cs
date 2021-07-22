@@ -16,10 +16,6 @@ namespace Platform.Data.Doublets.Json
             {
                 Console.WriteLine("Entered links file does not exist.");
             }
-            if (!File.Exists(jsonFilePath))
-            {
-                Console.WriteLine("Entered JSON file does not exist.");
-            }
             using FileStream jsonFileStream = new(jsonFilePath, FileMode.Append);
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream);
             using ConsoleCancellation cancellation = new ();
