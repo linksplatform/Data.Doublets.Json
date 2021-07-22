@@ -20,7 +20,6 @@ namespace Platform.Data.Doublets.Json
             {
                 Console.WriteLine("Entered links file does not exist.");
             }
-            var documentName = Path.GetFileName(jsonFilePath);
             var json = FileHelpers.ReadAll<byte>(jsonFilePath);
             Utf8JsonReader utf8JsonReader = new(json);
             using var cancellation = new ConsoleCancellation();
@@ -30,6 +29,7 @@ namespace Platform.Data.Doublets.Json
             var storage = new DefaultJsonStorage<TLink>(links);
             var importer = new JsonImporter<TLink>(storage);
             var cancallationToken = cancellation.Token;
+            var documentName = Path.GetFileName(jsonFilePath);
             importer.Import(documentName, ref utf8JsonReader, ref cancallationToken);
             Console.WriteLine(cancellation.IsRequested ? "Import aborted." : "Import completed successfully.");
         }
