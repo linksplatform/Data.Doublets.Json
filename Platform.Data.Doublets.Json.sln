@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Data.Doublets.Json
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Data.Doublets.Json.Benchmarks", "csharp\Platform.Data.Doublets.Json.Benchmarks\Platform.Data.Doublets.Json.Benchmarks.csproj", "{D1695392-8558-486A-B6D6-E5DEC23F5B30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Data.Doublets.Json.Importer", "csharp\Platform.Data.Doublets.Json.Importer\Platform.Data.Doublets.Json.Importer.csproj", "{57B29A5E-88AC-4327-9DF2-E60C287BAC8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Data.Doublets.Json.Exporter", "csharp\Platform.Data.Doublets.Json.Exporter\Platform.Data.Doublets.Json.Exporter.csproj", "{40F233AA-4CEB-49FC-96B2-51BFD9EC1958}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{D1695392-8558-486A-B6D6-E5DEC23F5B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1695392-8558-486A-B6D6-E5DEC23F5B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1695392-8558-486A-B6D6-E5DEC23F5B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B29A5E-88AC-4327-9DF2-E60C287BAC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B29A5E-88AC-4327-9DF2-E60C287BAC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B29A5E-88AC-4327-9DF2-E60C287BAC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B29A5E-88AC-4327-9DF2-E60C287BAC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40F233AA-4CEB-49FC-96B2-51BFD9EC1958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F233AA-4CEB-49FC-96B2-51BFD9EC1958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40F233AA-4CEB-49FC-96B2-51BFD9EC1958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F233AA-4CEB-49FC-96B2-51BFD9EC1958}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
