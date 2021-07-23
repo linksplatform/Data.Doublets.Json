@@ -172,10 +172,7 @@ namespace Platform.Data.Doublets.Json
             var valueLink = Storage.GetValueLink(documentLink);
             Write(ref utf8JsonWriter, valueLink, ref cancellationToken);
             utf8JsonWriter.Flush();
-            if (cancellationToken.IsCancellationRequested)
-            {
-                throw new Exception("Export aborted.");
-            }
+            cancellationToken.ThrowIfCancellationRequested();
         }
 
         public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, ref cancellationToken);

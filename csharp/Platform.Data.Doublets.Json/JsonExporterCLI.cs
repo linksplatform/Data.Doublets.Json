@@ -35,6 +35,7 @@ namespace Platform.Data.Doublets.Json
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
+                return;
             }
             finally
             {
