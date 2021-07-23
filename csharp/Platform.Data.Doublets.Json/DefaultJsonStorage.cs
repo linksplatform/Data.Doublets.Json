@@ -209,9 +209,9 @@ namespace Platform.Data.Doublets.Json
                 TLink source = Links.GetSource(current);
                 if (EqualityComparer.Equals(source, StringMarker))
                 {
-                    var target = Links.GetTarget(current);
-                    var isEmptyString = EqualityComparer.Equals(target, EmptyStringMarker);
-                    return isEmptyString ? "" : UnicodeSequenceToStringConverter.Convert(target);
+                    var sequence = Links.GetTarget(current);
+                    var isEmpty = EqualityComparer.Equals(sequence, EmptyStringMarker);
+                    return isEmpty ? "" : UnicodeSequenceToStringConverter.Convert(sequence);
                 }
                 current = Links.GetTarget(current);
             }
