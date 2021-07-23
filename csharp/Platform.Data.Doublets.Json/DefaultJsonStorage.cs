@@ -195,7 +195,7 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetDocumentOrDefault(string name)
         {
-            var stringSequence = name == "" ? EmptyArrayMarker : StringToUnicodeSequenceConverter.Convert(name);
+            var stringSequence = name == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(name);
             var @string = Links.SearchOrDefault(StringMarker, stringSequence);
             return Links.SearchOrDefault(DocumentMarker, @string);
         }
