@@ -194,6 +194,10 @@ namespace Platform.Data.Doublets.Json
         {
             var stringSequence = GetStringSequence(name);
             var @string = Links.SearchOrDefault(StringMarker, stringSequence);
+            if (EqualityComparer.Equals(@string, default))
+            {
+                return default;
+            }
             return Links.SearchOrDefault(DocumentMarker, @string);
         }
 
