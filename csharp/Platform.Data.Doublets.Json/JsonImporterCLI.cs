@@ -27,11 +27,11 @@ namespace Platform.Data.Doublets.Json
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var importer = new JsonImporter<TLink>(storage);
-            var cancallationToken = cancellation.Token;
+            var cancellationToken = cancellation.Token;
             var documentName = Path.GetFileName(jsonFilePath);
             try
             {
-                importer.Import(documentName, ref utf8JsonReader, ref cancallationToken);
+                importer.Import(documentName, ref utf8JsonReader, ref cancellationToken);
             }
             catch (Exception exception)
             {
