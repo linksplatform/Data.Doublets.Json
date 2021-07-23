@@ -25,12 +25,12 @@ namespace Platform.Data.Doublets.Json
                 Indented = true,
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
-            Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, jsonWriterOptions);
-            using ConsoleCancellation cancellation = new ();
+            Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
             using UnitedMemoryLinks<TLink> memoryAdapter = new (linksFilePath);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
+            using ConsoleCancellation cancellation = new ();
             var document = storage.GetDocumentOrDefault(documentName);
             if (storage.EqualityComparer.Equals(document, default))
             {
