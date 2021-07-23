@@ -20,11 +20,13 @@ namespace Platform.Data.Doublets.Json
         public static readonly TLink One = Arithmetic.Increment(Zero);
         public readonly BalancedVariantConverter<TLink> BalancedVariantConverter;
         public readonly TLink MeaningRoot;
-        public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter  = new ();
-        public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter  = new ();
+        public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter = new();
+        public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter = new();
         public readonly IConverter<string, TLink> StringToUnicodeSequenceConverter;
         public readonly IConverter<TLink, string> UnicodeSequenceToStringConverter;
+
         public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
+
         // For sequences
         public readonly JsonArrayElementCriterionMatcher<TLink> JsonArrayElementCriterionMatcher;
         public readonly DefaultSequenceRightHeightProvider<TLink> DefaultSequenceRightHeightProvider;
@@ -66,14 +68,21 @@ namespace Platform.Data.Doublets.Json
             NullMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
             // Creates converters that are able to convert string to unicode sequence stored as link and back
-            BalancedVariantConverter = new (links);
-            TargetMatcher<TLink> unicodeSymbolCriterionMatcher = new (Links, unicodeSymbolMarker);
-            TargetMatcher<TLink> unicodeSequenceCriterionMatcher = new (Links, unicodeSequenceMarker);
-            CharToUnicodeSymbolConverter<TLink> charToUnicodeSymbolConverter = new(Links, AddressToNumberConverter, unicodeSymbolMarker);
-            UnicodeSymbolToCharConverter<TLink> unicodeSymbolToCharConverter = new (Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
-            RightSequenceWalker<TLink> sequenceWalker = new (Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
-            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter, BalancedVariantConverter, unicodeSequenceMarker));
-            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker, unicodeSymbolToCharConverter));
+            BalancedVariantConverter = new(links);
+            TargetMatcher<TLink> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolMarker);
+            TargetMatcher<TLink> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceMarker);
+            CharToUnicodeSymbolConverter<TLink> charToUnicodeSymbolConverter =
+                new(Links, AddressToNumberConverter, unicodeSymbolMarker);
+            UnicodeSymbolToCharConverter<TLink> unicodeSymbolToCharConverter =
+                new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
+            RightSequenceWalker<TLink> sequenceWalker =
+                new(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
+            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(
+                new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter,
+                    BalancedVariantConverter, unicodeSequenceMarker));
+            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(
+                new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
+                    unicodeSymbolToCharConverter));
             // For sequences
             JsonArrayElementCriterionMatcher = new(this);
             DefaultSequenceRightHeightProvider = new(Links, JsonArrayElementCriterionMatcher);
@@ -87,7 +96,7 @@ namespace Platform.Data.Doublets.Json
             TLink @string = content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
             return Links.GetOrCreate(StringMarker, @string);
         }
-        
+
         public TLink CreateStringValue(string content) => CreateValue(CreateString(content));
 
         public TLink CreateNumber(TLink number)
@@ -102,9 +111,12 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateNullValue() => CreateValue(NullMarker);
 
-        public TLink CreateDocument(string name) => Links.GetOrCreate(DocumentMarker, CreateString(name));
-        
-        public TLink CreateObject()
+        public TLink CreateDocument(string name)
+        {
+            return Links.GetOrCreate(DocumentMarker, CreateString(name));
+        }
+
+    public TLink CreateObject()
         {
             var objectInstance = Links.Create();
             return Links.Update(objectInstance, newSource: ObjectMarker, newTarget: objectInstance);
@@ -183,8 +195,9 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetDocumentOrDefault(string name)
         {
-            var utf8Content = StringToUnicodeSequenceConverter.Convert(name);
-            return Links.SearchOrDefault(DocumentMarker, utf8Content);
+            var stringSequence = name == "" ? EmptyArrayMarker : StringToUnicodeSequenceConverter.Convert(name);
+            var @string = Links.SearchOrDefault(StringMarker, stringSequence);
+            return Links.SearchOrDefault(DocumentMarker, @string);
         }
 
         public string GetString(TLink stringValue)
