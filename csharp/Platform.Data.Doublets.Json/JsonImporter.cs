@@ -39,10 +39,7 @@ namespace Platform.Data.Doublets.Json
             Parents.Push(document);
             while (utf8JsonReader.Read())
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    return default;
-                }
+                cancellationToken.ThrowIfCancellationRequested();
                 var parent = Parents.Peek();
                 var parentMarker = Storage.GetValueMarker(parent);
                 var tokenType = utf8JsonReader.TokenType;
@@ -105,8 +102,8 @@ namespace Platform.Data.Doublets.Json
                 }
                 else if (tokenType == JsonTokenType.Number)
                 {
-                    var number = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
-                    var value = Storage.CreateNumberValue(number);
+                    var convertedNumber = UncheckedConverter<decimal, TLink>.Default.Convert(utf8JsonReader.GetDecimal());
+                    var value = Storage.CreateNumberValue(convertedNumber);
                     if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
                     {
                         Parents.Pop();
