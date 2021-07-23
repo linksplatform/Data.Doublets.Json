@@ -195,9 +195,10 @@ namespace Platform.Data.Doublets.Json
                 TLink source = Links.GetSource(current);
                 if (DefaultEqualityComparer.Equals(source, StringMarker))
                 {
-                    return UnicodeSequenceToStringConverter.Convert(Links.GetTarget(current));
+                    var target = Links.GetTarget(current);
+                    var isEmptyString = DefaultEqualityComparer.Equals(target, EmptyArrayMarker);
+                    return isEmptyString ? "" : UnicodeSequenceToStringConverter.Convert(target);
                 }
-
                 current = Links.GetTarget(current);
             }
             throw new Exception("The passed link does not contain string link.");
