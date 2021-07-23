@@ -80,11 +80,7 @@ namespace Platform.Data.Doublets.Json
             DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
         }
 
-        private TLink GetOrDefault(TLink marker, string content)
-        {
-            var utf8Content = StringToUnicodeSequenceConverter.Convert(content);
-            return Links.SearchOrDefault(marker, utf8Content);
-        }
+
 
         public TLink CreateString(string content)
         {
@@ -185,7 +181,11 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public TLink GetDocumentOrDefault(string name) => GetOrDefault(DocumentMarker, name);
+        public TLink GetDocumentOrDefault(string name)
+        {
+            var utf8Content = StringToUnicodeSequenceConverter.Convert(name);
+            return Links.SearchOrDefault(DocumentMarker, utf8Content);
+        }
 
         public string GetString(TLink stringValue)
         {
