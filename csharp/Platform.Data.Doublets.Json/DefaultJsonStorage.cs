@@ -210,7 +210,7 @@ namespace Platform.Data.Doublets.Json
                 if (EqualityComparer.Equals(source, StringMarker))
                 {
                     var target = Links.GetTarget(current);
-                    var isEmptyString = EqualityComparer.Equals(target, EmptyArrayMarker);
+                    var isEmptyString = EqualityComparer.Equals(target, EmptyStringMarker);
                     return isEmptyString ? "" : UnicodeSequenceToStringConverter.Convert(target);
                 }
                 current = Links.GetTarget(current);
