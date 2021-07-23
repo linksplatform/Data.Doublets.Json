@@ -32,17 +32,16 @@ namespace Platform.Data.Doublets.Json
         public ILinks<TLink> Links { get; }
         public TLink DocumentMarker { get; }
         public TLink ObjectMarker { get; }
-        public TLink StringMarker { get; }
-        public TLink EmptyStringMarker { get; }
         public TLink MemberMarker { get; }
         public TLink ValueMarker { get; }
+        public TLink StringMarker { get; }
+        public TLink EmptyStringMarker { get; }
         public TLink NumberMarker { get; }
         public TLink ArrayMarker { get; }
         public TLink EmptyArrayMarker { get; }
         public TLink TrueMarker { get; }
         public TLink FalseMarker { get; }
         public TLink NullMarker { get; }
-
 
         public DefaultJsonStorage(ILinks<TLink> links)
         {
