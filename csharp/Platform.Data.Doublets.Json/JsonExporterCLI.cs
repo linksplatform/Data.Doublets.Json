@@ -17,7 +17,7 @@ namespace Platform.Data.Doublets.Json
             var documentName = ConsoleHelpers.GetOrReadArgument(2, "Document name", args);
             if (!File.Exists(linksFilePath))
             {
-                Console.WriteLine("Entered links file does not exist.");
+                Console.WriteLine($"${linksFilePath} file does not exist.");
             }
             using FileStream jsonFileStream = new(jsonFilePath, FileMode.Append);
             JsonWriterOptions utf8JsonWriterOptions = new()
