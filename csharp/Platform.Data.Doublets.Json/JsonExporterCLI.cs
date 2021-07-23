@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using System.Text.Encodings.Web;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.IO;
 using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -18,7 +20,11 @@ namespace Platform.Data.Doublets.Json
                 Console.WriteLine("Entered links file does not exist.");
             }
             using FileStream jsonFileStream = new(jsonFilePath, FileMode.Append);
-            JsonWriterOptions jsonWriterOptions = new() {Indented = true};
+            JsonWriterOptions utf8JsonWriterOptions = new()
+            {
+                Indented = true,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+            };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, jsonWriterOptions);
             using ConsoleCancellation cancellation = new ();
             using UnitedMemoryLinks<TLink> memoryAdapter = new (linksFilePath);
