@@ -88,8 +88,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateString(string content)
         {
-            var utf8Content = StringToUnicodeSequenceConverter.Convert(content);
-            return Links.GetOrCreate(StringMarker, utf8Content);
+            TLink @string = content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
+            return Links.GetOrCreate(StringMarker, @string);
         }
         
         public TLink CreateStringValue(string content) => CreateValue(CreateString(content));
