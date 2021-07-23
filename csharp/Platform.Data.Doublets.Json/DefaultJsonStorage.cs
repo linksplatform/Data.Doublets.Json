@@ -110,12 +110,9 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateNullValue() => CreateValue(NullMarker);
 
-        public TLink CreateDocument(string name)
-        {
-            return Links.GetOrCreate(DocumentMarker, CreateString(name));
-        }
+        public TLink CreateDocument(string name) => Links.GetOrCreate(DocumentMarker, CreateString(name));
 
-    public TLink CreateObject()
+            public TLink CreateObject()
         {
             var objectInstance = Links.Create();
             return Links.Update(objectInstance, newSource: ObjectMarker, newTarget: objectInstance);
