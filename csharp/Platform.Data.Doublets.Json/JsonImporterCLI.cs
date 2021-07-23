@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.IO;
 using System.Text.Json;
@@ -16,8 +17,10 @@ namespace Platform.Data.Doublets.Json
             {
                 Console.WriteLine("Entered JSON file does not exist.");
             }
-            var json = FileHelpers.ReadAll<byte>(jsonFilePath);
-            Utf8JsonReader utf8JsonReader = new(json);
+            var json = File.ReadAllText(jsonFilePath);
+            var encodedJson = Encoding.UTF8.GetBytes(json);
+            ReadOnlySpan<byte> readOnlySpanEncodedJson = new (encodedJson);
+            Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
             using var cancellation = new ConsoleCancellation();
             using var memoryAdapter = new UnitedMemoryLinks<TLink>(linksFilePath);
             Console.WriteLine("Press CTRL+C to stop.");
@@ -33,6 +36,7 @@ namespace Platform.Data.Doublets.Json
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
+                return;
             }
             if (cancellation.NotRequested)
             {
