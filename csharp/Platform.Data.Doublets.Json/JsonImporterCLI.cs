@@ -38,10 +38,7 @@ namespace Platform.Data.Doublets.Json
                 Console.WriteLine(exception);
                 return;
             }
-            if (cancellation.NotRequested)
-            {
-                Console.WriteLine("Import completed successfully.");
-            }
+            Console.WriteLine("Import completed successfully.");
         }
     }
 }

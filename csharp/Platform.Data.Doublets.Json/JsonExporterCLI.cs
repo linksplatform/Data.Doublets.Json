@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Encodings.Web;
 using Platform.Data.Doublets.Memory.United.Generic;
@@ -23,21 +24,26 @@ namespace Platform.Data.Doublets.Json
             JsonWriterOptions utf8JsonWriterOptions = new()
             {
                 Indented = true,
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
             using UnitedMemoryLinks<TLink> memoryAdapter = new (linksFilePath);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
-            using ConsoleCancellation cancellation = new ();
+            
             var document = storage.GetDocumentOrDefault(documentName);
+            var @string =
+                ((ILinks<ulong>) (object) storage.Links).FormatStructure((ulong) (object) document,
+                    link => link.IsFullPoint(), true);
+            Debug.WriteLine(@string);
             if (storage.EqualityComparer.Equals(document, default))
             {
                 Console.WriteLine("No document with this name.");
             }
-            Console.WriteLine("Press CTRL+C to stop.");
+            using ConsoleCancellation cancellation = new ();
             var cancellationToken = cancellation.Token;
+            Console.WriteLine("Press CTRL+C to stop.");
             try
             {
                 exporter.Export(document, ref utf8JsonWriter, ref cancellationToken);
