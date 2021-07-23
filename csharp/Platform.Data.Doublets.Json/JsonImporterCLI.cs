@@ -21,14 +21,14 @@ namespace Platform.Data.Doublets.Json
             var encodedJson = Encoding.UTF8.GetBytes(json);
             ReadOnlySpan<byte> readOnlySpanEncodedJson = new (encodedJson);
             Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
-            using var cancellation = new ConsoleCancellation();
             using var memoryAdapter = new UnitedMemoryLinks<TLink>(linksFilePath);
-            Console.WriteLine("Press CTRL+C to stop.");
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var importer = new JsonImporter<TLink>(storage);
-            var cancellationToken = cancellation.Token;
             var documentName = Path.GetFileName(jsonFilePath);
+            using var cancellation = new ConsoleCancellation();
+            var cancellationToken = cancellation.Token;
+            Console.WriteLine("Press CTRL+C to stop.");
             try
             {
                 importer.Import(documentName, ref utf8JsonReader, ref cancellationToken);
