@@ -45,10 +45,7 @@ namespace Platform.Data.Doublets.Json
             {
                 utf8JsonWriter.Dispose();
             }
-            if (cancellation.NotRequested)
-            {
-                Console.WriteLine("Export completed successfully.");
-            }
+            Console.WriteLine("Export completed successfully.");
         }
     }
 }
