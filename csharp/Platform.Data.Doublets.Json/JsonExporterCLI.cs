@@ -26,6 +26,10 @@ namespace Platform.Data.Doublets.Json
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
             var document = storage.GetDocumentOrDefault(documentName);
+            if (storage.EqualityComparer.Equals(document, default))
+            {
+                Console.WriteLine("No document with this name.");
+            }
             Console.WriteLine("Press CTRL+C to stop.");
             var cancellationToken = cancellation.Token;
             try
