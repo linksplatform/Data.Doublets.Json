@@ -20,11 +20,11 @@ namespace Platform.Data.Doublets.Json
         public static readonly TLink One = Arithmetic.Increment(Zero);
         public readonly BalancedVariantConverter<TLink> BalancedVariantConverter;
         public readonly TLink MeaningRoot;
-        public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter;
-        public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter;
+        public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter  = new ();
+        public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter  = new ();
         public readonly IConverter<string, TLink> StringToUnicodeSequenceConverter;
         public readonly IConverter<TLink, string> UnicodeSequenceToStringConverter;
-        public readonly EqualityComparer<TLink> DefaultEqualityComparer;
+        public readonly EqualityComparer<TLink> DefaultEqualityComparer = EqualityComparer<TLink>.Default;
         // For sequences
         public readonly JsonArrayElementCriterionMatcher<TLink> JsonArrayElementCriterionMatcher;
         public readonly DefaultSequenceRightHeightProvider<TLink> DefaultSequenceRightHeightProvider;
@@ -47,7 +47,6 @@ namespace Platform.Data.Doublets.Json
         public DefaultJsonStorage(ILinks<TLink> links)
         {
             Links = links;
-
             // Initializes constants
             Any = Links.Constants.Any;
             var markerIndex = One;
@@ -66,10 +65,7 @@ namespace Platform.Data.Doublets.Json
             TrueMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             FalseMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             NullMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            DefaultEqualityComparer = EqualityComparer<TLink>.Default;
             // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
-            NumberToAddressConverter = new ();
-            AddressToNumberConverter = new ();
             // Creates converters that are able to convert string to unicode sequence stored as link and back
             BalancedVariantConverter = new (links);
             TargetMatcher<TLink> unicodeSymbolCriterionMatcher = new (Links, unicodeSymbolMarker);
