@@ -80,20 +80,18 @@ namespace Platform.Data.Doublets.Json
             DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
         }
 
-        private TLink Create(TLink marker, string content)
-        {
-            var utf8Content = StringToUnicodeSequenceConverter.Convert(content);
-            return Links.GetOrCreate(marker, utf8Content);
-        }
-
         private TLink GetOrDefault(TLink marker, string content)
         {
             var utf8Content = StringToUnicodeSequenceConverter.Convert(content);
             return Links.SearchOrDefault(marker, utf8Content);
         }
 
-        public TLink CreateString(string content) => Create(StringMarker, content);
-
+        public TLink CreateString(string content)
+        {
+            var utf8Content = StringToUnicodeSequenceConverter.Convert(content);
+            return Links.GetOrCreate(StringMarker, utf8Content);
+        }
+        
         public TLink CreateStringValue(string content) => CreateValue(CreateString(content));
 
         public TLink CreateNumber(TLink number)
@@ -108,8 +106,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateNullValue() => CreateValue(NullMarker);
 
-        public TLink CreateDocument(string name) => Create(DocumentMarker, name);
-
+        public TLink CreateDocument(string name) => Links.GetOrCreate(DocumentMarker, CreateString(name));
+        
         public TLink CreateObject()
         {
             var objectInstance = Links.Create();
