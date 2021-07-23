@@ -89,7 +89,7 @@ namespace Platform.Data.Doublets.Json
             DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
         }
 
-        public TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
+        private TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
         public TLink CreateString(string content)
         {
             TLink @string = GetStringSequence(content);
