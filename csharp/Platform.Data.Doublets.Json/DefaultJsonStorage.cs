@@ -177,16 +177,17 @@ namespace Platform.Data.Doublets.Json
         {
             var array = GetArray(arrayValue);
             var arraySequence = Links.GetTarget(array);
-            TLink newArraySequence;
+            TLink newArrayValue;
             if (EqualityComparer.Equals(arraySequence, EmptyArrayMarker))
             {
-                return CreateArrayValue(appendant);
+                newArrayValue = CreateArrayValue(appendant);
             }
             else
             {
-                newArraySequence = DefaultSequenceAppender.Append(arraySequence, appendant);
-                return CreateArrayValue(newArraySequence);
+                var newArraySequence = DefaultSequenceAppender.Append(arraySequence, appendant);
+                newArrayValue = CreateArrayValue(newArraySequence);
             }
+            return newArrayValue;
         }
 
         public TLink GetDocumentOrDefault(string name)
