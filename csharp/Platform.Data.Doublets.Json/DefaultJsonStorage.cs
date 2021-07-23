@@ -33,6 +33,7 @@ namespace Platform.Data.Doublets.Json
         public TLink DocumentMarker { get; }
         public TLink ObjectMarker { get; }
         public TLink StringMarker { get; }
+        public TLink EmptyStringMarker { get; }
         public TLink MemberMarker { get; }
         public TLink ValueMarker { get; }
         public TLink NumberMarker { get; }
@@ -58,6 +59,7 @@ namespace Platform.Data.Doublets.Json
             MemberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             ValueMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             StringMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
+            EmptyStringMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             NumberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             ArrayMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             EmptyArrayMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));

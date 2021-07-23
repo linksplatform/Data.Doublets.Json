@@ -8,6 +8,7 @@ namespace Platform.Data.Doublets.Json
         public TLink DocumentMarker { get; }
         public TLink ObjectMarker { get; }
         public TLink StringMarker { get; }
+        public TLink EmptyStringMarker { get; }
         public TLink MemberMarker { get; }
         public TLink ValueMarker { get; }
         public TLink NumberMarker { get; }
