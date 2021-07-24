@@ -6,6 +6,8 @@ using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.IO;
 using System.Text.Json;
 using System.Text.Unicode;
+using Platform.Data.Doublets.Memory;
+using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -27,16 +29,13 @@ namespace Platform.Data.Doublets.Json
                     Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
             };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
-            using UnitedMemoryLinks<TLink> memoryAdapter = new (linksFilePath);
+            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
+            using UnitedMemoryLinks<TLink> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
             
             var document = storage.GetDocumentOrDefault(documentName);
-            var @string =
-                ((ILinks<ulong>) (object) storage.Links).FormatStructure((ulong) (object) document,
-                    link => link.IsFullPoint(), true);
-            Debug.WriteLine(@string);
             if (storage.EqualityComparer.Equals(document, default))
             {
                 Console.WriteLine("No document with this name.");
