@@ -25,8 +25,8 @@ namespace Platform.Data.Doublets.Json
             using FileStream jsonFileStream = new(jsonFilePath, FileMode.Append);
             JsonWriterOptions utf8JsonWriterOptions = new()
             {
-                Indented = true,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                Indented = true
             };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
