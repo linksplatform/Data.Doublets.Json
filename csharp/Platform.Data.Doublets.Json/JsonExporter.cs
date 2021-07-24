@@ -25,17 +25,17 @@ namespace Platform.Data.Doublets.Json
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
         }
         
-        public void WriteStringValue(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
+        public void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
 
-        public void WriteString(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
+        public void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
 
-        public void WriteNumberValue(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink)
+        public void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
         {
             var uncheckedConverter = UncheckedConverter<TLink, int>.Default;
             utf8JsonWriter.WriteNumberValue(uncheckedConverter.Convert(Storage.GetNumber(valueLink)));
         }
 
-        public void WriteNumber(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
+        public void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
         {
             var uncheckedConverter = UncheckedConverter<TLink, int>.Default;
             utf8JsonWriter.WriteNumber(parent, uncheckedConverter.Convert(Storage.GetNumber(valueLink)));
@@ -77,18 +77,18 @@ namespace Platform.Data.Doublets.Json
                         {
                             return;
                         }
-                        Write(ref utf8JsonWriter, element, ref cancellationToken);
+                        Write(ref utf8JsonWriter, element, in cancellationToken);
                     }
                 }
                 utf8JsonWriter.WriteEndArray();
             }
             else if (EqualityComparer.Equals(valueMarker, Storage.StringMarker))
             {
-                WriteString(ref utf8JsonWriter, parent, valueLink);
+                WriteString(in utf8JsonWriter, parent, valueLink);
             }
             else if (EqualityComparer.Equals(valueMarker, Storage.NumberMarker))
             {
-                WriteNumber(ref utf8JsonWriter, parent, valueLink);
+                WriteNumber(in utf8JsonWriter, parent, valueLink);
             }
             else if (EqualityComparer.Equals(valueMarker, Storage.TrueMarker))
             {
@@ -104,7 +104,7 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, ref CancellationToken cancellationToken)
+        public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -140,18 +140,18 @@ namespace Platform.Data.Doublets.Json
                         {
                             return;
                         }
-                        Write(ref utf8JsonWriter, element, ref cancellationToken);
+                        Write(ref utf8JsonWriter, element, in cancellationToken);
                     }
                 }
                 utf8JsonWriter.WriteEndArray();
             }
             else if (EqualityComparer.Equals(valueMarker, Storage.StringMarker))
             {
-                WriteStringValue(ref utf8JsonWriter, valueLink);
+                WriteStringValue(in utf8JsonWriter, valueLink);
             }
             else if (EqualityComparer.Equals(valueMarker, Storage.NumberMarker))
             {
-                WriteNumberValue(ref utf8JsonWriter, valueLink);
+                WriteNumberValue(in utf8JsonWriter, valueLink);
             }
             else if (EqualityComparer.Equals(valueMarker, Storage.TrueMarker))
             {
@@ -167,13 +167,13 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public void Export(TLink documentLink, ref Utf8JsonWriter utf8JsonWriter, ref CancellationToken cancellationToken)
+        public void Export(TLink documentLink, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
         {
             var valueLink = Storage.GetValueLink(documentLink);
-            Write(ref utf8JsonWriter, valueLink, ref cancellationToken);
+            Write(ref utf8JsonWriter, valueLink, in cancellationToken);
             utf8JsonWriter.Flush();
         }
 
-        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, ref cancellationToken);
+        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, in cancellationToken);
     }
 }

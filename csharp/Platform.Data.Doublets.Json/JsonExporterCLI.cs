@@ -26,7 +26,7 @@ namespace Platform.Data.Doublets.Json
             JsonWriterOptions utf8JsonWriterOptions = new()
             {
                 Indented = true,
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
@@ -34,7 +34,6 @@ namespace Platform.Data.Doublets.Json
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var exporter = new JsonExporter<TLink>(storage);
-            
             var document = storage.GetDocumentOrDefault(documentName);
             if (storage.EqualityComparer.Equals(document, default))
             {
@@ -45,7 +44,7 @@ namespace Platform.Data.Doublets.Json
             Console.WriteLine("Press CTRL+C to stop.");
             try
             {
-                exporter.Export(document, ref utf8JsonWriter, ref cancellationToken);
+                exporter.Export(document, ref utf8JsonWriter, in cancellationToken);
             }
             catch (Exception exception)
             {

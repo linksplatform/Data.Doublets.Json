@@ -34,7 +34,7 @@ namespace Platform.Data.Doublets.Json
             Console.WriteLine("Press CTRL+C to stop.");
             try
             {
-                importer.Import(documentName, ref utf8JsonReader, ref cancellationToken);
+                importer.Import(documentName, ref utf8JsonReader, in cancellationToken);
             }
             catch (Exception exception)
             {

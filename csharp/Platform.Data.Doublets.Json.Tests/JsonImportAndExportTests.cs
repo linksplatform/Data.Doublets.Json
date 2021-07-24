@@ -31,16 +31,16 @@ namespace Platform.Data.Doublets.Json.Tests
             JsonImporter<TLink> jsonImporter = new(storage);
             CancellationTokenSource importCancellationTokenSource = new();
             CancellationToken cancellationToken = importCancellationTokenSource.Token;
-            return jsonImporter.Import(documentName, ref utf8JsonReader, ref cancellationToken);
+            return jsonImporter.Import(documentName, ref utf8JsonReader, in cancellationToken);
         }
 
-        public void Export(TLink documentLink, IJsonStorage<TLink> storage, ref MemoryStream stream)
+        public void Export(TLink documentLink, IJsonStorage<TLink> storage, in MemoryStream stream)
         {
             Utf8JsonWriter writer = new(stream);
             JsonExporter<TLink> jsonExporter = new(storage);
             CancellationTokenSource exportCancellationTokenSource = new();
             CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
-            jsonExporter.Export(documentLink, ref writer, ref exportCancellationToken);
+            jsonExporter.Export(documentLink, ref writer, in exportCancellationToken);
             writer.Dispose();
         }
         
@@ -75,7 +75,7 @@ namespace Platform.Data.Doublets.Json.Tests
             var json = Encoding.UTF8.GetBytes(initialJson);
             var documentLink = Import(storage, "documentName", json);
             MemoryStream stream = new();
-            Export(documentLink, storage, ref stream);
+            Export(documentLink, storage, in stream);
             string exportedJson = Encoding.UTF8.GetString(stream.ToArray());
             stream.Dispose();
             var minimizedInitialJson = Regex.Replace(initialJson, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
