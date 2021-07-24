@@ -21,15 +21,15 @@ namespace Platform.Data.Doublets.Json
             }
             var json = File.ReadAllText(jsonFilePath);
             var encodedJson = Encoding.UTF8.GetBytes(json);
-            ReadOnlySpan<byte> readOnlySpanEncodedJson = new (encodedJson);
+            ReadOnlySpan<byte> readOnlySpanEncodedJson = new(encodedJson);
             Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
-            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
-            using UnitedMemoryLinks<TLink> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+            LinksConstants<TLink> linksConstants = new(enableExternalReferencesSupport: true);
+            using UnitedMemoryLinks<TLink> memoryAdapter = new(new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
-            var storage = new DefaultJsonStorage<TLink>(links);
-            var importer = new JsonImporter<TLink>(storage);
+            DefaultJsonStorage<TLink> storage = new(links);
+            JsonImporter<TLink> importer = new(storage);
             var documentName = Path.GetFileName(jsonFilePath);
-            using var cancellation = new ConsoleCancellation();
+            using ConsoleCancellation cancellation = new();
             var cancellationToken = cancellation.Token;
             Console.WriteLine("Press CTRL+C to stop.");
             try
