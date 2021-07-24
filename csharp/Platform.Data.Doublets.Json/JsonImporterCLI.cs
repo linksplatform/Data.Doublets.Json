@@ -4,6 +4,8 @@ using System.Text;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.IO;
 using System.Text.Json;
+using Platform.Data.Doublets.Memory;
+using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -21,7 +23,8 @@ namespace Platform.Data.Doublets.Json
             var encodedJson = Encoding.UTF8.GetBytes(json);
             ReadOnlySpan<byte> readOnlySpanEncodedJson = new (encodedJson);
             Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
-            using var memoryAdapter = new UnitedMemoryLinks<TLink>(linksFilePath);
+            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
+            using UnitedMemoryLinks<TLink> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             var storage = new DefaultJsonStorage<TLink>(links);
             var importer = new JsonImporter<TLink>(storage);
