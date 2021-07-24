@@ -313,7 +313,10 @@ namespace Platform.Data.Doublets.Json
             {
                 TLink memberLink = Links.GetTarget(objectMemberLink);
                 TLink memberMarker = Links.GetSource(memberLink);
-                if (EqualityComparer.Equals(memberMarker, MemberMarker)) { members.Add(Links.GetIndex(objectMemberLink)); }
+                if (EqualityComparer.Equals(memberMarker, MemberMarker))
+                {
+                    members.Add(Links.GetIndex(objectMemberLink));
+                }
                 return Links.Constants.Continue;
             }, query);
             return members;
