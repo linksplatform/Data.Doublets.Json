@@ -215,7 +215,7 @@ namespace Platform.Data.Doublets.Json
                 }
                 current = Links.GetTarget(current);
             }
-            throw new Exception("The passed link does not contain string link.");
+            throw new Exception("The passed link does not contain a string.");
         }
 
         public TLink GetNumber(TLink valueLink)
@@ -231,7 +231,7 @@ namespace Platform.Data.Doublets.Json
 
                 current = Links.GetTarget(current);
             }
-            throw new Exception("The passed link does not contain number link.");
+            throw new Exception("The passed link does not contain a number.");
         }
 
 
@@ -247,7 +247,7 @@ namespace Platform.Data.Doublets.Json
                 }
                 current = Links.GetTarget(current);
             }
-            throw new Exception("The passed link does not contain object link.");
+            throw new Exception("The passed link does not contain an object.");
         }
 
         public TLink GetArray(TLink arrayValueLink)
@@ -262,7 +262,7 @@ namespace Platform.Data.Doublets.Json
                 }
                 current = Links.GetTarget(current);
             }
-            throw new Exception("The passed link does not contain array link.");
+            throw new Exception("The passed link does not contain an array.");
         }
 
         public TLink GetArraySequence(TLink array) => Links.GetTarget(array);
@@ -285,7 +285,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        throw new InvalidOperationException("Is not a value link.");
+                        throw new InvalidOperationException("The passed link is not a value.");
                     }
                 case > 1:
                     throw new InvalidOperationException("More than 1 value found.");
