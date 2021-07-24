@@ -102,7 +102,7 @@ namespace Platform.Data.Doublets.Json
                 }
                 else if (tokenType == JsonTokenType.Number)
                 {
-                    var convertedNumber = UncheckedConverter<decimal, TLink>.Default.Convert(utf8JsonReader.GetDecimal());
+                    var convertedNumber = UncheckedConverter<int, TLink>.Default.Convert(utf8JsonReader.GetInt32());
                     var value = Storage.CreateNumberValue(convertedNumber);
                     if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
                     {
