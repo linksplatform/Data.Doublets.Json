@@ -6,7 +6,7 @@ namespace Platform.Data.Doublets.Json.Exporter
     {
         static void Main(params string[] args)
         {
-            new JsonExporterCLI<TLink>().Run(args);
+            new JsonExporterCli<TLink>().Run(args);
         }
     }
 }

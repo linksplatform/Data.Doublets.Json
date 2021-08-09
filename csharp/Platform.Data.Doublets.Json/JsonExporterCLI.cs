@@ -10,7 +10,7 @@ using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
-    public class JsonExporterCLI<TLink>
+    public class JsonExporterCli<TLink>
     where TLink : struct
     {
         public void Run(params string[] args)
