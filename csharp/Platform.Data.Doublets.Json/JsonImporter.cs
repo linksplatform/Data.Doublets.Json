@@ -58,7 +58,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        var @object = Storage.AttachObjectValue(parent, value);
+                        var @object = Storage.Attach(parent, value);
                         Parents.Push(@object);
                     }
                 }
@@ -82,7 +82,7 @@ namespace Platform.Data.Doublets.Json
                         var newParentArray = Storage.AppendArrayValue(parentArray, arrayValue);
                         Parents.Push(newParentArray);
                     }
-                    Storage.AttachArrayValue(parent, arrayValue);
+                    Storage.Attach(parent, arrayValue);
                 }
                 else if (tokenType == JsonTokenType.String)
                 {
@@ -96,7 +96,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        Storage.AttachStringValue(parent, value);
+                        Storage.Attach(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.Number)
@@ -110,7 +110,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        Storage.AttachNumberValue(parent, value);
+                        Storage.Attach(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.True)
@@ -124,7 +124,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        Storage.AttachBooleanValue(parent, value);
+                        Storage.Attach(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.False)
@@ -138,7 +138,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        Storage.AttachBooleanValue(parent, value);
+                        Storage.Attach(parent, value);
                     }
                 }
                 else if (tokenType == JsonTokenType.Null)
@@ -152,7 +152,7 @@ namespace Platform.Data.Doublets.Json
                     }
                     else
                     {
-                        Storage.AttachNullValue(parent, value);
+                        Storage.Attach(parent, value);
                     }
                 }
                 if (tokenType != JsonTokenType.PropertyName && tokenType != JsonTokenType.StartObject && tokenType != JsonTokenType.StartArray)
