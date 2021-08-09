@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
 using Platform.Data.Doublets.Sequences.Walkers;
@@ -11,12 +12,9 @@ namespace Platform.Data.Doublets.Json
         public readonly IJsonStorage<TLink> Storage;
         public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
 
-        public JsonExporter(IJsonStorage<TLink> storage)
-        {
-            Storage = storage;
-        }
+        public JsonExporter(IJsonStorage<TLink> storage) => Storage = storage;
 
-        private bool IsElement(TLink link)
+            private bool IsElement(TLink link)
         {
             var marker = Storage.Links.GetSource(link);
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
@@ -26,10 +24,7 @@ namespace Platform.Data.Doublets.Json
 
         private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
 
-        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
-        {
-            utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
-        }
+        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
 
         private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
 
@@ -159,9 +154,13 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public void Export(TLink documentLink, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
+        public void Export(TLink document, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
         {
-            var valueLink = Storage.GetValueLink(documentLink);
+            if (EqualityComparer.Equals(document, default))
+            {
+                throw new Exception("No document with this name exists");
+            }
+            var valueLink = Storage.GetValueLink(document);
             Write(ref utf8JsonWriter, valueLink, in cancellationToken);
             utf8JsonWriter.Flush();
         }
