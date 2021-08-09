@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
-using Platform.Converters;
 using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
 
@@ -11,12 +9,11 @@ namespace Platform.Data.Doublets.Json
     public class JsonExporter<TLink>
     {
         public readonly IJsonStorage<TLink> Storage;
-        public readonly EqualityComparer<TLink> EqualityComparer;
+        public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
 
         public JsonExporter(IJsonStorage<TLink> storage)
         {
             Storage = storage;
-            EqualityComparer = EqualityComparer<TLink>.Default;
         }
 
         private bool IsElement(TLink link)
@@ -24,20 +21,19 @@ namespace Platform.Data.Doublets.Json
             var marker = Storage.Links.GetSource(link);
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
         }
-        
-        public void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
 
-        public void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
+        private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
 
-        public void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
+        private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
+
+        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
         {
-            var uncheckedConverter = UncheckedConverter<TLink, int>.Default;
             utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
         }
 
-        public void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
+        private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
 
-        public void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
+        private void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -100,7 +96,7 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        public void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
+        private void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
