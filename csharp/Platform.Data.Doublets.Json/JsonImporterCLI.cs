@@ -27,7 +27,10 @@ namespace Platform.Data.Doublets.Json
             ReadOnlySpan<byte> readOnlySpanEncodedJson = new(encodedJson);
             Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
             LinksConstants<TLink> linksConstants = new(enableExternalReferencesSupport: true);
-            using UnitedMemoryLinks<TLink> memoryAdapter = new(new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+            FileMappedResizableDirectMemory fileMappedResizableDirectMemory = new(linksFilePath);
+            var unitedMemoryLinks = UnitedMemoryLinks<TLink>.DefaultLinksSizeStep;
+            const IndexTreeType indexTreeType = IndexTreeType.Default;
+            using UnitedMemoryLinks<TLink> memoryAdapter = new(fileMappedResizableDirectMemory, unitedMemoryLinks, linksConstants, indexTreeType);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             BalancedVariantConverter<TLink> balancedVariantConverter = new(links);
             DefaultJsonStorage<TLink> storage = new(links, balancedVariantConverter);
