@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
-using Platform.Converters;
 
 namespace Platform.Data.Doublets.Json
 {
@@ -18,7 +17,7 @@ namespace Platform.Data.Doublets.Json
             Parents = new ();
         }
 
-        public void PopIfParentIsMember()
+        private void PopIfParentIsMember()
         {
             var parent = Parents.Peek();
             var parentMarker = Storage.GetValueMarker(parent);

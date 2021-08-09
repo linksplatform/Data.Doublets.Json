@@ -4,8 +4,6 @@ using Platform.Data.Doublets.Memory;
 using Platform.Memory;
 using TLink = System.UInt32;
 using System.IO;
-using Platform.Collections.Stacks;
-using Platform.Data.Doublets.Sequences.Walkers;
 using System.Collections.Generic;
 using System;
 using Platform.Data.Doublets.Sequences.Converters;
