@@ -8,12 +8,14 @@ using Xunit.Abstractions;
 using Platform.Collections.Stacks;
 using Platform.Data.Doublets.Sequences.Walkers;
 using System.Collections.Generic;
+using Platform.Data.Doublets.Sequences.Converters;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
     public class JsonStorageTests
     {
         private readonly ITestOutputHelper output;
+        public static BalancedVariantConverter<TLink> BalancedVariantConverter;
 
         public JsonStorageTests(ITestOutputHelper output)
         {
@@ -27,9 +29,10 @@ namespace Platform.Data.Doublets.Json.Tests
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
-
-        public static DefaultJsonStorage<TLink> CreateJsonStorage() => new DefaultJsonStorage<TLink>(CreateLinks());
-        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new DefaultJsonStorage<TLink>(links);
+        
+        public static DefaultJsonStorage<TLink> CreateJsonStorage() => new (CreateLinks(), BalancedVariantConverter);
+        
+        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new (links, BalancedVariantConverter);
 
         [Fact]
         public void ConstructorsTest() => CreateJsonStorage();

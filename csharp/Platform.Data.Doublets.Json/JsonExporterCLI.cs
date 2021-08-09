@@ -7,11 +7,13 @@ using Platform.IO;
 using System.Text.Json;
 using System.Text.Unicode;
 using Platform.Data.Doublets.Memory;
+using Platform.Data.Doublets.Sequences.Converters;
 using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
     public class JsonExporterCLI<TLink>
+    where TLink : struct
     {
         public void Run(params string[] args)
         {
@@ -32,7 +34,8 @@ namespace Platform.Data.Doublets.Json
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             using UnitedMemoryLinks<TLink> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
-            var storage = new DefaultJsonStorage<TLink>(links);
+            BalancedVariantConverter<TLink> balancedVariantConverter = new(links);
+            var storage = new DefaultJsonStorage<TLink>(links, balancedVariantConverter);
             var exporter = new JsonExporter<TLink>(storage);
             var document = storage.GetDocumentOrDefault(documentName);
             if (storage.EqualityComparer.Equals(document, default))

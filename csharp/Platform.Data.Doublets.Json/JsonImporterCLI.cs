@@ -5,16 +5,19 @@ using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.IO;
 using System.Text.Json;
 using Platform.Data.Doublets.Memory;
+using Platform.Data.Doublets.Sequences.Converters;
 using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
     public class JsonImporterCLI<TLink>
+        where TLink : struct
     {
         public void Run(params string[] args)
         {
             var jsonFilePath = ConsoleHelpers.GetOrReadArgument(0, "JSON file path", args);
-            var linksFilePath = ConsoleHelpers.GetOrReadArgument(1, "Links file path", args);
+            var documentName = ConsoleHelpers.GetOrReadArgument(1, "Document name", args);
+            var linksFilePath = ConsoleHelpers.GetOrReadArgument(2, "Links file path", args);
             if (!File.Exists(jsonFilePath))
             {
                 Console.WriteLine($"${jsonFilePath} file does not exist.");
@@ -26,9 +29,9 @@ namespace Platform.Data.Doublets.Json
             LinksConstants<TLink> linksConstants = new(enableExternalReferencesSupport: true);
             using UnitedMemoryLinks<TLink> memoryAdapter = new(new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
-            DefaultJsonStorage<TLink> storage = new(links);
+            BalancedVariantConverter<TLink> balancedVariantConverter = new(links);
+            DefaultJsonStorage<TLink> storage = new(links, balancedVariantConverter);
             JsonImporter<TLink> importer = new(storage);
-            var documentName = Path.GetFileName(jsonFilePath);
             using ConsoleCancellation cancellation = new();
             var cancellationToken = cancellation.Token;
             Console.WriteLine("Press CTRL+C to stop.");

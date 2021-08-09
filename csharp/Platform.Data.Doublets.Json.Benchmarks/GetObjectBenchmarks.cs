@@ -8,6 +8,7 @@ using Platform.Collections.Stacks;
 using Platform.Data.Doublets.Sequences.Walkers;
 using System.Collections.Generic;
 using System;
+using Platform.Data.Doublets.Sequences.Converters;
 
 #pragma warning disable CA1822 // Mark members as static
 
@@ -16,6 +17,7 @@ namespace Platform.Data.Doublets.Json.Benchmarks
     public class GetObjectBenchmarks
     {
         private ILinks<TLink> _links;
+        private BalancedVariantConverter<TLink> _balancedVariantConverter;
         private DefaultJsonStorage<TLink> _defaultJsonStorage;
         private TLink _document;
         private TLink _documentObjectValueLink;
@@ -32,7 +34,8 @@ namespace Platform.Data.Doublets.Json.Benchmarks
         public void Setup()
         {
             _links = CreateLinks();
-            _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links);
+            _balancedVariantConverter = new(_links);
+            _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links, _balancedVariantConverter);
             _document = _defaultJsonStorage.CreateDocument("documentName");
             _documentObjectValueLink = _defaultJsonStorage.AttachObject(_document);
             _objectValueLink = _links.GetTarget(_documentObjectValueLink);

@@ -20,7 +20,7 @@ namespace Platform.Data.Doublets.Json
         TLink CreateString(string content);
         TLink CreateStringValue(string content);
         TLink CreateNumber(TLink number);
-        TLink CreateNumberValue(TLink number);
+        TLink CreateNumberValue(decimal number);
         TLink CreateBooleanValue(bool value);
         TLink CreateNullValue();
         TLink CreateDocument(string name);
@@ -50,7 +50,7 @@ namespace Platform.Data.Doublets.Json
         TLink Attach(TLink parent, TLink child);
         TLink AppendArrayValue(TLink arrayValue, TLink appendant);
         string GetString(TLink stringValue);
-        TLink GetNumber(TLink value);
+        decimal GetNumber(TLink value);
         TLink GetObject(TLink objectValue);
         TLink GetArray(TLink arrayValueLink);
         TLink GetArraySequence(TLink array);

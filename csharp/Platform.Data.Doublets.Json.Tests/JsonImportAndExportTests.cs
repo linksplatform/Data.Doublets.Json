@@ -8,11 +8,14 @@ using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Memory;
 using Platform.Data.Doublets.Memory;
 using System.Text.RegularExpressions;
+using Platform.Data.Doublets.Sequences.Converters;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
     public class JsonImportAndExportTests
     {
+        public static BalancedVariantConverter<TLink> BalancedVariantConverter;
+        
         public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new IO.TemporaryFile());
 
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
@@ -21,9 +24,7 @@ namespace Platform.Data.Doublets.Json.Tests
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
 
-        public static DefaultJsonStorage<TLink> CreateJsonStorage() => new DefaultJsonStorage<TLink>(CreateLinks());
-        
-        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new DefaultJsonStorage<TLink>(links);
+        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new (links, BalancedVariantConverter);
         
         public TLink Import(IJsonStorage<TLink> storage, string documentName, byte[] json)
         {
@@ -48,6 +49,7 @@ namespace Platform.Data.Doublets.Json.Tests
         [InlineData("{}")]
         [InlineData("\"stringValue\"")]
         [InlineData("228")]
+        [InlineData("0.5")]
         [InlineData("[]")]
         [InlineData("true")]
         [InlineData("false")]
@@ -60,18 +62,23 @@ namespace Platform.Data.Doublets.Json.Tests
         [InlineData("{ \"array\": [1] }")]
         [InlineData("{ \"object\": {} }")]
         [InlineData("{ \"number\": 1 }")]
+        [InlineData("{ \"decimal\": 0.5 }")]
         [InlineData("[null]")]
         [InlineData("[true]")]
         [InlineData("[false]")]
         [InlineData("[[]]")]
         [InlineData("[[1]]")]
+        [InlineData("[[0.5]]")]
         [InlineData("[{}]")]
         [InlineData("[\"The Venus Project\"]")]
         [InlineData("[{ \"title\": \"The Venus Project\" }]")]
         [InlineData("[1,2,3,4]")]
+        [InlineData("[-0.5, 0.5]")]
         public void Test(string initialJson)
         {
-            var storage = CreateJsonStorage();
+            var links = CreateLinks();
+            BalancedVariantConverter = new(links);
+            var storage = CreateJsonStorage(links);
             var json = Encoding.UTF8.GetBytes(initialJson);
             var documentLink = Import(storage, "documentName", json);
             MemoryStream stream = new();

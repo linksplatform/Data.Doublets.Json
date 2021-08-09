@@ -8,12 +8,15 @@ using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
 using System;
 using System.Collections.Generic;
+using Platform.Data.Doublets.Numbers.Rational;
+using Platform.Data.Doublets.Numbers.Raw;
 using Platform.Data.Doublets.Sequences.HeightProviders;
 using Platform.Data.Doublets.Sequences;
 
 namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
+        where TLink : struct
     {
         public readonly TLink Any;
         public static readonly TLink Zero = default;
@@ -22,6 +25,11 @@ namespace Platform.Data.Doublets.Json
         public readonly TLink MeaningRoot;
         public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter = new();
         public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter = new();
+        public readonly IConverter<IList<TLink>, TLink> ListToSequenceConverter;
+        public readonly BigIntegerToRawNumberSequenceConverter<TLink> BigIntegerToRawNumberSequenceConverter;
+        public readonly RawNumberSequenceToBigIntegerConverter<TLink> RawNumberSequenceToBigIntegerConverter;
+        public readonly DecimalToRationalConverter<TLink> DecimalToRationalConverter;
+        public readonly RationalToDecimalConverter<TLink> RationalToDecimalConverter;
         public readonly IConverter<string, TLink> StringToUnicodeSequenceConverter;
         public readonly IConverter<TLink, string> UnicodeSequenceToStringConverter;
 
@@ -39,15 +47,17 @@ namespace Platform.Data.Doublets.Json
         public TLink StringMarker { get; }
         public TLink EmptyStringMarker { get; }
         public TLink NumberMarker { get; }
+        public TLink NegativeNumberMarker { get; }
         public TLink ArrayMarker { get; }
         public TLink EmptyArrayMarker { get; }
         public TLink TrueMarker { get; }
         public TLink FalseMarker { get; }
         public TLink NullMarker { get; }
 
-        public DefaultJsonStorage(ILinks<TLink> links)
+        public DefaultJsonStorage(ILinks<TLink> links, IConverter<IList<TLink>, TLink> listToSequenceConverter)
         {
             Links = links;
+            ListToSequenceConverter = listToSequenceConverter;
             // Initializes constants
             Any = Links.Constants.Any;
             var markerIndex = One;
@@ -61,6 +71,7 @@ namespace Platform.Data.Doublets.Json
             StringMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             EmptyStringMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             NumberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
+            NegativeNumberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             ArrayMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             EmptyArrayMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             TrueMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
@@ -77,6 +88,11 @@ namespace Platform.Data.Doublets.Json
                 new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
             RightSequenceWalker<TLink> sequenceWalker =
                 new(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
+            BigIntegerToRawNumberSequenceConverter =
+                new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberMarker);
+            RawNumberSequenceToBigIntegerConverter = new(links, NumberToAddressConverter, NegativeNumberMarker);
+            DecimalToRationalConverter = new(links, BigIntegerToRawNumberSequenceConverter);
+            RationalToDecimalConverter = new(links, RawNumberSequenceToBigIntegerConverter);
             StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(
                 new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter,
                     BalancedVariantConverter, unicodeSequenceMarker));
@@ -104,7 +120,13 @@ namespace Platform.Data.Doublets.Json
             return Links.GetOrCreate(NumberMarker, numberAddress);
         }
 
-        public TLink CreateNumberValue(TLink number) => CreateValue(CreateNumber(number));
+        public TLink CreateNumber(decimal @decimal)
+        {
+            var numberAddress = DecimalToRationalConverter.Convert(@decimal);
+            return Links.GetOrCreate(NumberMarker, numberAddress);
+        }
+
+        public TLink CreateNumberValue(decimal number) => CreateValue(CreateNumber(number));
 
         public TLink CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
 
@@ -218,18 +240,18 @@ namespace Platform.Data.Doublets.Json
             throw new Exception("The passed link does not contain a string.");
         }
 
-        public TLink GetNumber(TLink valueLink)
+        public decimal GetNumber(TLink valueLink)
         {
-            TLink current = valueLink;
+            var current = valueLink;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = Links.GetSource(current);
+                var source = Links.GetSource(current);
+                var target = Links.GetTarget(current);
                 if (EqualityComparer.Equals(source, NumberMarker))
                 {
-                    return NumberToAddressConverter.Convert(Links.GetTarget(current));
+                    return RationalToDecimalConverter.Convert(target);
                 }
-
-                current = Links.GetTarget(current);
+                current = target;
             }
             throw new Exception("The passed link does not contain a number.");
         }

@@ -32,14 +32,10 @@ namespace Platform.Data.Doublets.Json
         public void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
         {
             var uncheckedConverter = UncheckedConverter<TLink, int>.Default;
-            utf8JsonWriter.WriteNumberValue(uncheckedConverter.Convert(Storage.GetNumber(valueLink)));
+            utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
         }
 
-        public void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
-        {
-            var uncheckedConverter = UncheckedConverter<TLink, int>.Default;
-            utf8JsonWriter.WriteNumber(parent, uncheckedConverter.Convert(Storage.GetNumber(valueLink)));
-        }
+        public void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
 
         public void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
