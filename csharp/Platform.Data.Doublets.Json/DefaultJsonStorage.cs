@@ -22,19 +22,21 @@ namespace Platform.Data.Doublets.Json
         public static readonly TLink Zero = default;
         public static readonly TLink One = Arithmetic.Increment(Zero);
         public readonly BalancedVariantConverter<TLink> BalancedVariantConverter;
+        public readonly IConverter<IList<TLink>, TLink> ListToSequenceConverter;
         public readonly TLink MeaningRoot;
+        public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
+        // Converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
         public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter = new();
         public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter = new();
-        public readonly IConverter<IList<TLink>, TLink> ListToSequenceConverter;
+        // Converters between BigInteger and raw number sequence
         public readonly BigIntegerToRawNumberSequenceConverter<TLink> BigIntegerToRawNumberSequenceConverter;
         public readonly RawNumberSequenceToBigIntegerConverter<TLink> RawNumberSequenceToBigIntegerConverter;
+        // Converters between decimal and rational number sequence
         public readonly DecimalToRationalConverter<TLink> DecimalToRationalConverter;
         public readonly RationalToDecimalConverter<TLink> RationalToDecimalConverter;
+        // Converters between string and unicode sequence
         public readonly IConverter<string, TLink> StringToUnicodeSequenceConverter;
         public readonly IConverter<TLink, string> UnicodeSequenceToStringConverter;
-
-        public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
-
         // For sequences
         public readonly JsonArrayElementCriterionMatcher<TLink> JsonArrayElementCriterionMatcher;
         public readonly DefaultSequenceRightHeightProvider<TLink> DefaultSequenceRightHeightProvider;
@@ -77,8 +79,6 @@ namespace Platform.Data.Doublets.Json
             TrueMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             FalseMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             NullMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            // Creates converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
-            // Creates converters that are able to convert string to unicode sequence stored as link and back
             BalancedVariantConverter = new(links);
             TargetMatcher<TLink> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolMarker);
             TargetMatcher<TLink> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceMarker);
@@ -86,23 +86,23 @@ namespace Platform.Data.Doublets.Json
                 new(Links, AddressToNumberConverter, unicodeSymbolMarker);
             UnicodeSymbolToCharConverter<TLink> unicodeSymbolToCharConverter =
                 new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
+            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(
+                new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter,
+                    BalancedVariantConverter, unicodeSequenceMarker));
             RightSequenceWalker<TLink> sequenceWalker =
                 new(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
+            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(
+                new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
+                    unicodeSymbolToCharConverter));
             BigIntegerToRawNumberSequenceConverter =
                 new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberMarker);
             RawNumberSequenceToBigIntegerConverter = new(links, NumberToAddressConverter, NegativeNumberMarker);
             DecimalToRationalConverter = new(links, BigIntegerToRawNumberSequenceConverter);
             RationalToDecimalConverter = new(links, RawNumberSequenceToBigIntegerConverter);
-            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(
-                new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter,
-                    BalancedVariantConverter, unicodeSequenceMarker));
-            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(
-                new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
-                    unicodeSymbolToCharConverter));
-            // For sequences
             JsonArrayElementCriterionMatcher = new(this);
             DefaultSequenceRightHeightProvider = new(Links, JsonArrayElementCriterionMatcher);
             DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
+            
         }
 
         private TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
