@@ -104,61 +104,72 @@ namespace Platform.Data.Doublets.Json
             DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
             
         }
-
-        private TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
+        
         public TLink CreateString(string content)
         {
-            TLink @string = GetStringSequence(content);
+            var @string = GetStringSequence(content);
             return Links.GetOrCreate(StringMarker, @string);
         }
 
-        public TLink CreateStringValue(string content) => CreateValue(CreateString(content));
-
-        public TLink CreateNumber(TLink number)
+        public TLink CreateStringValue(string content)
         {
-            var numberAddress = AddressToNumberConverter.Convert(number);
-            return Links.GetOrCreate(NumberMarker, numberAddress);
+            var @string = CreateString(content);
+            return CreateValue(@string);
         }
 
-        public TLink CreateNumber(decimal @decimal)
+        public TLink CreateNumber(decimal number)
         {
-            var numberAddress = DecimalToRationalConverter.Convert(@decimal);
-            return Links.GetOrCreate(NumberMarker, numberAddress);
+            var numberLink = DecimalToRationalConverter.Convert(number);
+            return Links.GetOrCreate(NumberMarker, numberLink);
         }
 
-        public TLink CreateNumberValue(decimal number) => CreateValue(CreateNumber(number));
+        public TLink CreateNumberValue(decimal number)
+        {
+            var numberLink = CreateNumber(number);
+            return CreateValue(numberLink);
+        }
 
         public TLink CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
 
         public TLink CreateNullValue() => CreateValue(NullMarker);
 
-        public TLink CreateDocument(string name) => Links.GetOrCreate(DocumentMarker, CreateString(name));
+        public TLink CreateDocument(string name)
+        {
+            var documentName = CreateString(name);
+            return Links.GetOrCreate(DocumentMarker, documentName);
+        }
 
-            public TLink CreateObject()
+        public TLink CreateObject()
         {
             var objectInstance = Links.Create();
             return Links.Update(objectInstance, newSource: ObjectMarker, newTarget: objectInstance);
         }
 
-        public TLink CreateObjectValue() => CreateValue(CreateObject());
+        public TLink CreateObjectValue()
+        {
+            var @object = CreateObject();
+            return CreateValue(@object);
+        }
 
         public TLink CreateArray(IList<TLink> array)
         {
-            switch (array.Count)
-            {
-                case 0:
-                    return CreateArray(EmptyArrayMarker);
-                default:
-                    var convertedArray = BalancedVariantConverter.Convert(array);
-                    return CreateArray(convertedArray);
-            }
+            var arraySequence = array.Count == 0 ? EmptyArrayMarker : BalancedVariantConverter.Convert(array);
+            return CreateArray(arraySequence);
         }
 
         public TLink CreateArray(TLink sequence) => Links.GetOrCreate(ArrayMarker, sequence);
 
-        public TLink CreateArrayValue(IList<TLink> array) => CreateValue(CreateArray(array));
+        public TLink CreateArrayValue(IList<TLink> array)
+        {
+            var arrayLink = CreateArray(array);
+            return CreateValue(arrayLink);
+        }
 
-        public TLink CreateArrayValue(TLink sequence) => CreateValue(CreateArray(sequence));
+        public TLink CreateArrayValue(TLink sequence)
+        {
+            var array = CreateArray(sequence);
+            return CreateValue(array);
+        }
 
         public TLink CreateMember(string name) => Links.GetOrCreate(MemberMarker, CreateString(name));
 
@@ -169,18 +180,37 @@ namespace Platform.Data.Doublets.Json
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
         
         public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
-        
-        public TLink AttachNumber(TLink parent, TLink number) => Attach(parent, CreateValue(CreateNumber(number)));
-        
-        public TLink AttachBoolean(TLink parent, bool value) => Attach(parent, CreateBooleanValue(value));
 
-        public TLink AttachNull(TLink parent) => Attach(parent, CreateNullValue());
-        
-        public TLink AttachArray(TLink parent, TLink array) => Attach(parent, CreateValue(array));
+        public TLink AttachNumber(TLink parent, decimal number)
+        {
+            var numberLInk = CreateNumber(number);
+            var numberValue = CreateValue(numberLInk);
+            return Attach(parent, numberValue);
+        }
 
-        public TLink AttachArray(TLink parent, IList<TLink> array) => Attach(parent, CreateArrayValue(array));
-        
-        public TLink AttachMemberToObject(TLink @object, string keyName) => Attach(@object, CreateMember(keyName));
+        public TLink AttachBoolean(TLink parent, bool value)
+        {
+            var booleanValue = CreateBooleanValue(value);
+            return Attach(parent, booleanValue);
+        }
+
+        public TLink AttachNull(TLink parent)
+        {
+            var nullValue = CreateNullValue();
+            return Attach(parent, nullValue);
+        }
+
+        public TLink AttachArray(TLink parent, IList<TLink> array)
+        {
+            var arrayValue = CreateArrayValue(array);
+            return Attach(parent, arrayValue);
+        }
+
+        public TLink AttachMemberToObject(TLink @object, string keyName)
+        {
+            var member = CreateMember(keyName); 
+            return Attach(@object, member);
+        }
 
         public TLink Attach(TLink parent, TLink child) => Links.GetOrCreate(parent, child);
 
@@ -195,8 +225,8 @@ namespace Platform.Data.Doublets.Json
             }
             else
             {
-                var newArraySequence = DefaultSequenceAppender.Append(arraySequence, appendant);
-                newArrayValue = CreateArrayValue(newArraySequence);
+                arraySequence = DefaultSequenceAppender.Append(arraySequence, appendant);
+                newArrayValue = CreateArrayValue(arraySequence);
             }
             return newArrayValue;
         }
@@ -212,12 +242,15 @@ namespace Platform.Data.Doublets.Json
             return Links.SearchOrDefault(DocumentMarker, @string);
         }
 
+        private TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
+        
         public string GetString(TLink stringValue)
         {
-            TLink current = stringValue;
+            var current = stringValue;
+            TLink source;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = Links.GetSource(current);
+                source = Links.GetSource(current);
                 if (EqualityComparer.Equals(source, StringMarker))
                 {
                     var sequence = Links.GetTarget(current);
@@ -232,10 +265,12 @@ namespace Platform.Data.Doublets.Json
         public decimal GetNumber(TLink valueLink)
         {
             var current = valueLink;
+            TLink source;
+            TLink target;
             for (int i = 0; i < 3; i++)
             {
-                var source = Links.GetSource(current);
-                var target = Links.GetTarget(current);
+                source = Links.GetSource(current);
+                target = Links.GetTarget(current);
                 if (EqualityComparer.Equals(source, NumberMarker))
                 {
                     return RationalToDecimalConverter.Convert(target);
@@ -248,10 +283,11 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetObject(TLink objectValueLink)
         {
-            TLink current = objectValueLink;
+            var current = objectValueLink;
+            TLink source;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = Links.GetSource(current);
+                source = Links.GetSource(current);
                 if (EqualityComparer.Equals(source, ObjectMarker))
                 {
                     return current;
@@ -263,10 +299,11 @@ namespace Platform.Data.Doublets.Json
 
         public TLink GetArray(TLink arrayValueLink)
         {
-            TLink current = arrayValueLink;
+            var current = arrayValueLink;
+            TLink source;
             for (int i = 0; i < 3; i++)
             {
-                TLink source = Links.GetSource(current);
+                source = Links.GetSource(current);
                 if (EqualityComparer.Equals(source, ArrayMarker))
                 {
                     return current;
@@ -282,8 +319,6 @@ namespace Platform.Data.Doublets.Json
         {
             var query = new Link<TLink>(index: Any, source: parent, target: Any);
             var resultLinks = Links.All(query);
-
-            // A value must be one link
             switch (resultLinks.Count)
             {
                 case 0:
@@ -322,8 +357,8 @@ namespace Platform.Data.Doublets.Json
             List<TLink> members = new();
             Links.Each(objectMemberLink =>
             {
-                TLink memberLink = Links.GetTarget(objectMemberLink);
-                TLink memberMarker = Links.GetSource(memberLink);
+                var memberLink = Links.GetTarget(objectMemberLink);
+                var memberMarker = Links.GetSource(memberLink);
                 if (EqualityComparer.Equals(memberMarker, MemberMarker))
                 {
                     members.Add(Links.GetIndex(objectMemberLink));

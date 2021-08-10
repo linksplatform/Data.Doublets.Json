@@ -19,7 +19,7 @@ namespace Platform.Data.Doublets.Json
         public TLink NullMarker { get; }
         TLink CreateString(string content);
         TLink CreateStringValue(string content);
-        TLink CreateNumber(TLink number);
+        TLink CreateNumber(decimal number);
         TLink CreateNumberValue(decimal number);
         TLink CreateBooleanValue(bool value);
         TLink CreateNullValue();
@@ -36,7 +36,7 @@ namespace Platform.Data.Doublets.Json
         TLink Attach(TLink source, TLink target);
         TLink AttachObject(TLink parent);
         TLink AttachString(TLink parent, string content);
-        TLink AttachNumber(TLink parent, TLink number);
+        TLink AttachNumber(TLink parent, decimal number);
         TLink AttachBoolean(TLink parent, bool value);
         TLink AttachNull(TLink parent);
         TLink AttachArray(TLink parent, IList<TLink> array);
