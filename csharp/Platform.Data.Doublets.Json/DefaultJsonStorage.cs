@@ -102,7 +102,6 @@ namespace Platform.Data.Doublets.Json
             JsonArrayElementCriterionMatcher = new(this);
             DefaultSequenceRightHeightProvider = new(Links, JsonArrayElementCriterionMatcher);
             DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
-            
         }
         
         public TLink CreateString(string content)
@@ -119,8 +118,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateNumber(decimal number)
         {
-            var numberLink = DecimalToRationalConverter.Convert(number);
-            return Links.GetOrCreate(NumberMarker, numberLink);
+            var numberSequence = DecimalToRationalConverter.Convert(number);
+            return Links.GetOrCreate(NumberMarker, numberSequence);
         }
 
         public TLink CreateNumberValue(decimal number)
@@ -141,8 +140,8 @@ namespace Platform.Data.Doublets.Json
 
         public TLink CreateObject()
         {
-            var objectInstance = Links.Create();
-            return Links.Update(objectInstance, newSource: ObjectMarker, newTarget: objectInstance);
+            var @object = Links.Create();
+            return Links.Update(@object, newSource: ObjectMarker, newTarget: @object);
         }
 
         public TLink CreateObjectValue()
@@ -171,20 +170,27 @@ namespace Platform.Data.Doublets.Json
             return CreateValue(array);
         }
 
-        public TLink CreateMember(string name) => Links.GetOrCreate(MemberMarker, CreateString(name));
+        public TLink CreateMember(string name)
+        {
+            var nameLink = CreateString(name);
+            return Links.GetOrCreate(MemberMarker, nameLink);
+        }
 
-        public TLink CreateValue(TLink key, TLink @object) => Links.GetOrCreate(key, CreateValue(@object));
-
-        public TLink CreateValue(TLink @object) => Links.GetOrCreate(ValueMarker, @object);
+        public TLink CreateValue(TLink value) => Links.GetOrCreate(ValueMarker, value);
 
         public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
-        
-        public TLink AttachString(TLink parent, string content) => Attach(parent, CreateValue(CreateString(content)));
+
+        public TLink AttachString(TLink parent, string content)
+        {
+            var @string = CreateString(content);
+            var stringValue = CreateValue(@string);
+            return Attach(parent, stringValue);
+        }
 
         public TLink AttachNumber(TLink parent, decimal number)
         {
-            var numberLInk = CreateNumber(number);
-            var numberValue = CreateValue(numberLInk);
+            var numberLink = CreateNumber(number);
+            var numberValue = CreateValue(numberLink);
             return Attach(parent, numberValue);
         }
 

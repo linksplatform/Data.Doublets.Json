@@ -31,8 +31,7 @@ namespace Platform.Data.Doublets.Json
         TLink CreateArrayValue(IList<TLink> array) => CreateValue(CreateArray(array));
         TLink CreateArrayValue(TLink array) => CreateValue(array);
         TLink CreateMember(string name);
-        TLink CreateValue(TLink keyLink, TLink @object);
-        TLink CreateValue(TLink @object);
+        TLink CreateValue(TLink value);
         TLink Attach(TLink source, TLink target);
         TLink AttachObject(TLink parent);
         TLink AttachString(TLink parent, string content);
