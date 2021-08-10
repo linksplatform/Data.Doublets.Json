@@ -29,10 +29,18 @@ namespace Platform.Data.Doublets.Json.Tests
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
-        
-        public static DefaultJsonStorage<TLink> CreateJsonStorage() => new (CreateLinks(), BalancedVariantConverter);
-        
-        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new (links, BalancedVariantConverter);
+
+        public static DefaultJsonStorage<TLink> CreateJsonStorage()
+        {
+            var links = CreateLinks();
+            return CreateJsonStorage(links);
+        }
+
+        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links)
+        {
+            BalancedVariantConverter = new(links);
+            return new DefaultJsonStorage<TLink>(links, BalancedVariantConverter);
+        }
 
         [Fact]
         public void ConstructorsTest() => CreateJsonStorage();
@@ -122,7 +130,7 @@ namespace Platform.Data.Doublets.Json.Tests
         public void AttachNumberToDocumentTest()
         {
             var links = CreateLinks();
-            var defaultJsonStorage =CreateJsonStorage(links);
+            var defaultJsonStorage = CreateJsonStorage(links);
             TLink document = defaultJsonStorage.CreateDocument("documentName");
             TLink documentNumberLink = defaultJsonStorage.AttachNumber(document, 2021);
             TLink createdNumberValue = links.GetTarget(documentNumberLink);
