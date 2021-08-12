@@ -6,7 +6,7 @@ namespace Platform.Data.Doublets.Json.Importer
     {
         static void Main(params string[] args)
         {
-            new JsonImporterCLI<TLink>().Run(args);
+            new JsonImporterCli<TLink>().Run(args);
         }
     }
 }

@@ -12,7 +12,7 @@ using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
-    public class JsonImporterCLI<TLink>
+    public class JsonImporterCli<TLink>
         where TLink : struct
     {
         public void Run(params string[] args)
