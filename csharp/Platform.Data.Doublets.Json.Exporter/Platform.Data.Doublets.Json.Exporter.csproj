@@ -33,6 +33,10 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(MSBuildRuntimeType)' == 'Core' AND '$(OS)' != 'Windows_NT'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
+    </ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Platform.Data.Doublets.Json\Platform.Data.Doublets.Json.csproj" />
     </ItemGroup>
