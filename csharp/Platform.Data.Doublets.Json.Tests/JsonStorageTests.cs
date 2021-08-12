@@ -3,7 +3,6 @@ using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Data.Doublets.Memory;
 using Platform.Memory;
 using TLink = System.UInt32;
-using System.IO;
 using Xunit.Abstractions;
 using Platform.Collections.Stacks;
 using Platform.Data.Doublets.Sequences.Walkers;
@@ -240,14 +239,14 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink document = defaultJsonStorage.CreateDocument("documentName");
 
             TLink arrayElement = defaultJsonStorage.CreateString("arrayElement");
-            TLink[] array = new TLink[3] { arrayElement, arrayElement, arrayElement };
+            TLink[] array = new TLink[] { arrayElement, arrayElement, arrayElement };
 
 
             TLink documentArrayValueLink = defaultJsonStorage.AttachArray(document, array);
             TLink createdArrayValue = links.GetTarget(documentArrayValueLink);
 
             DefaultStack<TLink> stack = new();
-            RightSequenceWalker<TLink> rightSequenceWalker = new(links, stack, (TLink arrayElementLink) => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
+            RightSequenceWalker<TLink> rightSequenceWalker = new(links, stack, arrayElementLink => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
             IEnumerable<TLink> arrayElementsValuesLink = rightSequenceWalker.Walk(createdArrayValue);
             Assert.NotEmpty(arrayElementsValuesLink);
 
@@ -353,7 +352,7 @@ namespace Platform.Data.Doublets.Json.Tests
             TLink @object = defaultJsonStorage.GetObject(documentObjectValue);
             TLink memberLink = defaultJsonStorage.AttachMemberToObject(@object, "keyName");
             TLink arrayElement = defaultJsonStorage.CreateString("arrayElement");
-            TLink[] array = new TLink[3] { arrayElement, arrayElement, arrayElement };
+            TLink[] array = { arrayElement, arrayElement, arrayElement };
             TLink memberArrayValueLink = defaultJsonStorage.AttachArray(memberLink, array);
             TLink arrayValueLink = links.GetTarget(memberArrayValueLink);
             List<TLink> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
