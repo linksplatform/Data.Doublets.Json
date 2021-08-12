@@ -1,7 +1,6 @@
-﻿using Platform.Data.Doublets.Json;
-using TLink = System.UInt64;
+﻿using TLink = System.UInt64;
 
-namespace JsonImporter
+namespace Platform.Data.Doublets.Json.Importer
 {
     class Program
     {
