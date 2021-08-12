@@ -8,6 +8,8 @@ using Platform.Data.Doublets.Memory;
 using Platform.Data.Doublets.Sequences.Converters;
 using Platform.Memory;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace Platform.Data.Doublets.Json
 {
     public class JsonImporterCLI<TLink>

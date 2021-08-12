@@ -13,6 +13,8 @@ using Platform.Data.Doublets.Numbers.Raw;
 using Platform.Data.Doublets.Sequences.HeightProviders;
 using Platform.Data.Doublets.Sequences;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace Platform.Data.Doublets.Json
 {
     public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>

@@ -13,6 +13,8 @@ using Platform.Data.Doublets.Sequences.HeightProviders;
 using Platform.Data.Doublets.Sequences.CriterionMatchers;
 using Platform.Interfaces;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace Platform.Data.Doublets.Json
 {
     public class JsonArrayElementCriterionMatcher<TLink> : ICriterionMatcher<TLink>

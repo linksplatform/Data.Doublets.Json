@@ -5,6 +5,8 @@ using System.Threading;
 using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace Platform.Data.Doublets.Json
 {
     public class JsonExporter<TLink>
