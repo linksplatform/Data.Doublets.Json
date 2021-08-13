@@ -98,15 +98,15 @@
 <li><code>DOCUMENT_NAME</code> - a document name. <strong>Default</strong>: <code>SOURCE</code>'s file name without extension.</li>
 </ul>
 <h4 id="note">Note:</h4>
-<p><code>DOCUMENT_NAME</code> is used to choose which json document to export from links storage. Links storage can contain multiple json documents.</p>
+<p><code>DOCUMENT_NAME</code> is used to define what name to save a document with. A links storage can contain multiple json documents.</p>
 <h4 id="example">Example</h4>
 <ol>
 <li>Install
 <pre><code class="lang-shell">dotnet tool install --global json2links
 </code></pre>
 </li>
-<li>Import json file to doublets links storage
-<pre><code class="lang-shell">json2links /home/json.json /home/links tsconfig
+<li>Import a json file from a doublets links storage
+<pre><code class="lang-shell">json2links documents/enwiki.json databases/wikimedia.links &quot;English Wikipedia&quot;
 </code></pre>
 </li>
 </ol>
@@ -122,7 +122,7 @@
 <li><code>DOCUMENT_NAME</code> - a document name. <strong>Default</strong>: <code>DESTINATION</code>'s file name without extension.</li>
 </ul>
 <h4 id="note-1">Note:</h4>
-<p><code>DOCUMENT_NAME</code> is used to choose which json document to export from links storage. Links storage can contain multiple json documents.</p>
+<p><code>DOCUMENT_NAME</code> is used to choose which json document to export from a links storage. A links storage can contain multiple json documents.</p>
 <h4 id="example-1">Example</h4>
 <ol>
 <li>Install
@@ -130,7 +130,7 @@
 </code></pre>
 </li>
 <li>Export json file to doublets links storage
-<pre><code class="lang-shell">links2json /home/links /home/tsconfig.json tsconfig
+<pre><code class="lang-shell">links2json databases/wikimedia.links documents/enwiki.json &quot;English Wikipedia&quot;
 </code></pre>
 </li>
 </ol>
