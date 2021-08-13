@@ -30,15 +30,15 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
    * `DESTINATION` - a links storage path.
    * `DOCUMENT_NAME` - a document name. **Default**: `SOURCE`'s file name without extension.
    #### Note:
-   `DOCUMENT_NAME` is used to choose which json document to export from links storage. Links storage can contain multiple json documents.
+   `DOCUMENT_NAME` is used to define what name to save a document with. A links storage can contain multiple json documents.
    #### Example
 1. Install
     ```shell
     dotnet tool install --global json2links
     ```
-2. Import json file to doublets links storage
+2. Import a json file from a doublets links storage
     ```shell
-   json2links /home/json.json /home/links tsconfig
+   json2links documents/enwiki.json databases/wikimedia.links "English Wikipedia"
    ```
 ---
 ### [links2json](https://www.nuget.org/packages/links2json)
@@ -51,7 +51,7 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
 * `DESTINATION` - a json file path.
 * `DOCUMENT_NAME` - a document name. **Default**: `DESTINATION`'s file name without extension.
 #### Note:
-`DOCUMENT_NAME` is used to choose which json document to export from links storage. Links storage can contain multiple json documents.
+`DOCUMENT_NAME` is used to choose which json document to export from a links storage. A links storage can contain multiple json documents.
 #### Example
 1. Install
     ```shell
@@ -59,5 +59,5 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
     ```
 2. Export json file to doublets links storage
     ```shell
-   links2json /home/links /home/tsconfig.json tsconfig
+   links2json databases/wikimedia.links documents/enwiki.json "English Wikipedia"
    ```
