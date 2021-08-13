@@ -11,7 +11,6 @@
         <IsPackable>false</IsPackable>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>json2links</ToolCommandName>
-        <PackageOutputPath>./nupkg</PackageOutputPath>
         <AssemblyName>Platform.Data.Doublets.Json.Importer</AssemblyName>
         <PackageId>json2links</PackageId>
         <PackageTags>LinksPlatform;Data.Doublets.Json; Data.Doublets.Json.Importer</PackageTags>
