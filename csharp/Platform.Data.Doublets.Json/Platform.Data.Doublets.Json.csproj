@@ -4,7 +4,7 @@
 		<Description>LinksPlatform's Platform.Data.Doublets.Json Class Library</Description>
 		<Copyright>FreePhoenix888</Copyright>
 		<AssemblyTitle>Platform.Data.Doublets.Json</AssemblyTitle>
-		<VersionPrefix>0.0.2</VersionPrefix>
+		<VersionPrefix>0.1.0</VersionPrefix>
 		<Authors>FreePhoenix888</Authors>
 		<TargetFramework>net5</TargetFramework>
 		<AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
