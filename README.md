@@ -28,9 +28,9 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
    #### PARAMETERS
    * `SOURCE` - a json file path.
    * `DESTINATION` - a links storage path.
-   * `DOCUMENT_NAME` - a document name. **Default**: `SOURCE`'s file name.
+   * `DOCUMENT_NAME` - a document name. **Default**: `SOURCE`'s file name without extension.
    #### Note:
-   `DOUCMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
+   `DOCUMENT_NAME` is used to choose which json document to export from links storage. Links storage can contain multiple json documents.
    #### Example
 1. Install
     ```shell
@@ -47,11 +47,11 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
    links2json SOURCE DESTINATION [DOCUMENT_NAME]
    ```
 #### PARAMETERS
-* `SOURCE` - a json file path.
-* `DESTINATION` - a links storage path.
-* `DOCUMENT_NAME` - a document name. **Default**: `DESTINATION`'s file name.
+* `SOURCE` - a links storage path.
+* `DESTINATION` - a json file path.
+* `DOCUMENT_NAME` - a document name. **Default**: `DESTINATION`'s file name without extension.
 #### Note:
-`DOCUMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
+`DOCUMENT_NAME` is used to choose which json document to export from links storage. Links storage can contain multiple json documents.
 #### Example
 1. Install
     ```shell
