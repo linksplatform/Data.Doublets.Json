@@ -24,7 +24,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<LangVersion>latest</LangVersion>
-		<PackageReleaseNotes>.</PackageReleaseNotes>
+		<PackageReleaseNotes>Initial release.</PackageReleaseNotes>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
