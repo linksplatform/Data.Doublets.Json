@@ -19,7 +19,7 @@
         <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>git://github.com/linksplatform/Data.Doublets.Json.Importer</RepositoryUrl>
+        <RepositoryUrl>git://github.com/linksplatform/Data.Doublets.Json</RepositoryUrl>
         <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
         <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
