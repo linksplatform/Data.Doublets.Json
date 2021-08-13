@@ -7,7 +7,7 @@
         <VersionPrefix>0.0.1</VersionPrefix>
         <Authors>FreePhoenix888</Authors>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net5</TargetFramework>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>json2links</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
