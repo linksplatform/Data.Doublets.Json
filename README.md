@@ -23,7 +23,7 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
 - [json2links](https://www.nuget.org/packages/json2links)
 - [links2json](https://www.nuget.org/packages/links2json)
 
-## Tutorial
+## Manual
 ### [json2links](https://www.nuget.org/packages/json2links)
    #### SYNOPSIS
    ```shell
@@ -44,7 +44,7 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
     ```shell
    json2links /home/json.json /home/links tsconfig
    ```
-
+---
 ### [links2json](https://www.nuget.org/packages/links2json)
 #### SYNOPSIS
    ```shell
