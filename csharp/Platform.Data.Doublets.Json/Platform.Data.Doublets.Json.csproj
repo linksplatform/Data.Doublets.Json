@@ -9,7 +9,7 @@
 		<TargetFramework>net5</TargetFramework>
 		<AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
 		<PackageId>Platform.Data.Doublets.Json</PackageId>
-		<PackageTags>LinksPlatform;Data.Doublets.Json</PackageTags>
+		<PackageTags>LinksPlatform;Data.Doublets;Json</PackageTags>
 		<PackageIconUrl>https://raw.githubusercontent.com/linksplatform/Documentation/18469f4d033ee9a5b7b84caab9c585acab2ac519/doc/Avatar-rainbow-icon-64x64.png</PackageIconUrl>
 		<PackageProjectUrl>https://linksplatform.github.io/Data.Doublets.Json</PackageProjectUrl>
 		<PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
