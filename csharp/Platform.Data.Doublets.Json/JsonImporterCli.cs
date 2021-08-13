@@ -23,7 +23,7 @@ namespace Platform.Data.Doublets.Json
             var documentName = ConsoleHelpers.GetOrReadArgument(2, $"Document name (default: {defaultDocumentName})", args);
             if (string.IsNullOrWhiteSpace(documentName))
             {
-                documentName = Path.GetFileName(jsonFilePath);
+                documentName = defaultDocumentName;
             }
             if (!File.Exists(jsonFilePath))
             {
