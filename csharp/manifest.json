@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.DefaultJsonStorage-1.html",
-          "hash": "2uKSLCEH02fz55xosNOM1Q=="
+          "hash": "WiHu3DCb+kfzAW+nfAF+nw=="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.IJsonStorage-1.html",
-          "hash": "+63xflzr/ILTkVC7CiPf1w=="
+          "hash": "o9iNmkwOh0ceg77Y8nbssQ=="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonArrayElementCriterionMatcher-1.html",
-          "hash": "kHmYrOd8FyU07yBQ9z/JKw=="
+          "hash": "YYJtfT4OJeHwoX8YxJ5WfQ=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonExporter-1.html",
-          "hash": "RH4MckABoF6Y1l8mBhk7Ew=="
+          "hash": "d99c+SI1ZsmoY1EUKp7lBA=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonExporterCli-1.html",
-          "hash": "JZZdWtIklbwuXYGyMUatzQ=="
+          "hash": "/jjk5hm5LStGP1Sp81riWw=="
         }
       },
       "is_incremental": false,
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonImporter-1.html",
-          "hash": "ntR0dWDpwVsOJ3mit+4t1g=="
+          "hash": "ZcZi9mFOO9ulF4G5hK0R+w=="
         }
       },
       "is_incremental": false,
@@ -102,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonImporterCli-1.html",
-          "hash": "ldF081jJPT40LohkA9cKUw=="
+          "hash": "7EAnBMb2AFihWZ49lC61cw=="
         }
       },
       "is_incremental": false,
