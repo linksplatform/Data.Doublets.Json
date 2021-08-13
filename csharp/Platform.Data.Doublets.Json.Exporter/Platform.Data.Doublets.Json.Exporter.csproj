@@ -11,7 +11,6 @@
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>links2json</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <AssemblyName>Platform.Data.Doublets.Json.Exporter</AssemblyName>
         <PackageId>links2json</PackageId>
         <PackageTags>LinksPlatform;Data.Doublets.Json; Data.Doublets.Json.Exporter</PackageTags>
