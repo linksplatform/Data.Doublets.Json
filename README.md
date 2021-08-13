@@ -30,8 +30,8 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
     ```
 2. Install tools.
     ```shell
-    dotnet tool install --local json2links
-    dotnet tool install --local links2json
+    dotnet tool install --global json2links
+    dotnet tool install --global links2json
     ```
 3. Import or export your json.
     ```shell
