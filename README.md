@@ -1,6 +1,6 @@
 [![NuGet Version and Downloads count](https://buildstats.info/nuget/Platform.Data.Doublets.Json)](https://www.nuget.org/packages/Platform.Data.Doublets.Json)
 [![Actions Status](https://github.com/linksplatform/Data.Doublets.Json/workflows/CD/badge.svg)](https://github.com/linksplatform/Data.Doublets.Json/actions?workflow=CD)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b38e839402d9451aa3e58fe05521325f)](https://app.codacy.com/gh/linksplatform/Data.Doublets.Json?utm_source=github.com&utm_medium=referral&utm_content=linksplatform/Data.Doublets.Json&utm_campaign=Badge_Grade_Settings)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/cd23af97753f4dc2be394daeb2175042)](https://www.codacy.com/gh/linksplatform/Data.Doublets.Json/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=linksplatform/Data.Doublets.Json&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/linksplatform/Data.Doublets.Json/badge)](https://www.codefactor.io/repository/github/linksplatform/Data.Doublets.Json)
 
 # [Data.Doublets.Json](https://github.com/linksplatform/Data.Doublets.Json)
