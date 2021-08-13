@@ -32,11 +32,11 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
    #### Note:
    `DOUCMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
    #### Example
-1. Install tools.
+1. Install
     ```shell
     dotnet tool install --global json2links
     ```
-2. Import json file to doublets links storage.
+2. Import json file to doublets links storage
     ```shell
    json2links /home/json.json /home/links tsconfig
    ```
@@ -51,13 +51,13 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
 * `DESTINATION` - a links storage path.
 * `DOCUMENT_NAME` - a document name. **Default**: `DESTINATION`'s file name.
 #### Note:
-`DOUCMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
+`DOCUMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
 #### Example
-1. Install tools.
+1. Install
     ```shell
     dotnet tool install --global links2json
     ```
-2. Import json file to doublets links storage.
+2. Export json file to doublets links storage
     ```shell
    links2json /home/links /home/tsconfig.json tsconfig
    ```
