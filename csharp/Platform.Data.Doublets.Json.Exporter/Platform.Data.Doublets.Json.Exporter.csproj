@@ -8,7 +8,6 @@
         <Authors>FreePhoenix888</Authors>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5</TargetFramework>
-        <IsPackable>true</IsPackable>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>links2json</ToolCommandName>
         <AssemblyName>Platform.Data.Doublets.Json.Exporter</AssemblyName>
