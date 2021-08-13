@@ -20,7 +20,7 @@ namespace Platform.Data.Doublets.Json
             var jsonFilePath = ConsoleHelpers.GetOrReadArgument(0, "JSON file path", args);
             var linksFilePath = ConsoleHelpers.GetOrReadArgument(1, "Links file path", args);
             var documentName = ConsoleHelpers.GetOrReadArgument(2, "Document name", args);
-            if (documentName.Length == 0)
+            if (string.IsNullOrWhiteSpace(documentName))
             {
                 documentName = Path.GetFileName(jsonFilePath);
             }
