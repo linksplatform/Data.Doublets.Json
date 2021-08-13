@@ -95,10 +95,10 @@
 <ul>
 <li><code>SOURCE</code> - a json file path.</li>
 <li><code>DESTINATION</code> - a links storage path.</li>
-<li><code>DOCUMENT_NAME</code> - a document name. <strong>Default</strong>: <code>SOURCE</code>'s file name.</li>
+<li><code>DOCUMENT_NAME</code> - a document name. <strong>Default</strong>: <code>SOURCE</code>'s file name without extension.</li>
 </ul>
 <h4 id="note">Note:</h4>
-<p><code>DOUCMENT_NAME</code> parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.</p>
+<p><code>DOCUMENT_NAME</code> is used to choose which json document to export from links storage. Links storage can contain multiple json documents.</p>
 <h4 id="example">Example</h4>
 <ol>
 <li>Install
@@ -117,12 +117,12 @@
 </code></pre>
 <h4 id="parameters-1">PARAMETERS</h4>
 <ul>
-<li><code>SOURCE</code> - a json file path.</li>
-<li><code>DESTINATION</code> - a links storage path.</li>
-<li><code>DOCUMENT_NAME</code> - a document name. <strong>Default</strong>: <code>DESTINATION</code>'s file name.</li>
+<li><code>SOURCE</code> - a links storage path.</li>
+<li><code>DESTINATION</code> - a json file path.</li>
+<li><code>DOCUMENT_NAME</code> - a document name. <strong>Default</strong>: <code>DESTINATION</code>'s file name without extension.</li>
 </ul>
 <h4 id="note-1">Note:</h4>
-<p><code>DOCUMENT_NAME</code> parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.</p>
+<p><code>DOCUMENT_NAME</code> is used to choose which json document to export from links storage. Links storage can contain multiple json documents.</p>
 <h4 id="example-1">Example</h4>
 <ol>
 <li>Install

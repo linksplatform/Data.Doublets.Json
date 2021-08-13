@@ -18,7 +18,7 @@
       "output": {
         ".html": {
           "relative_path": "README.html",
-          "hash": "VFlqyCw9wbpB0goiXfq9aA=="
+          "hash": "QJXWdOxbeTnv5k283Ac+Wg=="
         }
       },
       "is_incremental": false,
@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.DefaultJsonStorage-1.html",
-          "hash": "PYUjdt3dAHk2S1fviVH9PA=="
+          "hash": "qFu6XLxBEGqmaRFozQS0Ng=="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.IJsonStorage-1.html",
-          "hash": "VsKGYWwWxTofpLsG4GofYA=="
+          "hash": "Wv8TpEyOIWHuxJ2QSWxl6A=="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonArrayElementCriterionMatcher-1.html",
-          "hash": "sBZ2NjjBg46FpWBv7cbqjw=="
+          "hash": "wYoKfHZBqgx7MgGq9ht5hg=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonExporter-1.html",
-          "hash": "DxHjUSodzgZGschnU5tfrA=="
+          "hash": "61LF7tIfe0C7Ftiz9twtSw=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonExporterCli-1.html",
-          "hash": "R33TRNtGAV3qH1Wcx2ugyg=="
+          "hash": "6kyfPPT2BWVpnu7Pr7WeBA=="
         }
       },
       "is_incremental": false,
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonImporter-1.html",
-          "hash": "pBku4wA3mARNF1CWZltY2Q=="
+          "hash": "TilG+GfR+i3zH4eyljbODQ=="
         }
       },
       "is_incremental": false,
@@ -102,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonImporterCli-1.html",
-          "hash": "vR1sO/OqAn8rzmfm/inFFQ=="
+          "hash": "Y0pjDYj1kxa8IyZnJooYNQ=="
         }
       },
       "is_incremental": false,
