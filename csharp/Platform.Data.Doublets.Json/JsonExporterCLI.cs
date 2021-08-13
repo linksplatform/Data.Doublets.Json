@@ -20,6 +20,10 @@ namespace Platform.Data.Doublets.Json
             var linksFilePath = ConsoleHelpers.GetOrReadArgument(0, "Links file path", args);
             var jsonFilePath = ConsoleHelpers.GetOrReadArgument(1, "JSON file path", args);
             var documentName = ConsoleHelpers.GetOrReadArgument(2, "Document name", args);
+            if (documentName.Length == 0)
+            {
+                documentName = Path.GetFileName(jsonFilePath);
+            }
             if (!File.Exists(linksFilePath))
             {
                 Console.WriteLine($"${linksFilePath} file does not exist.");
