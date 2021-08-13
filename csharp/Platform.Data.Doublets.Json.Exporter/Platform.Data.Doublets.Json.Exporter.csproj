@@ -4,7 +4,7 @@
         <Description>LinksPlatform's Platform.Data.Doublets.Json.Importer CLI tool (links2json).</Description>
         <Copyright>FreePhoenix888</Copyright>
         <AssemblyTitle>Platform.Data.Doublets.Json.Exporter</AssemblyTitle>
-        <VersionPrefix>0.0.1</VersionPrefix>
+        <VersionPrefix>0.1.0</VersionPrefix>
         <Authors>FreePhoenix888</Authors>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5</TargetFramework>
@@ -26,7 +26,7 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+        <PackageReleaseNotes>Arguments order is changed.</PackageReleaseNotes>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
