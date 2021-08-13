@@ -23,22 +23,45 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
 - [json2links](https://www.nuget.org/packages/json2links)
 - [links2json](https://www.nuget.org/packages/links2json)
 
-# Tutorial
-1. Create tool-manifest that will contain tools.
-    ```shell
-    dotnet new tool-manifest
-    ```
-2. Install tools.
+## Tutorial
+### [json2links](https://www.nuget.org/packages/json2links)
+   #### SYNOPSIS
+   ```shell
+   json2links SOURCE DESTINATION [DOCUMENT_NAME]
+   ```
+   #### PARAMETERS
+   * `SOURCE` - a json file path.
+   * `DESTINATION` - a links storage path.
+   * `DOCUMENT_NAME` - a document name. **Default**: `SOURCE`'s file name.
+   #### Note:
+   `DOUCMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
+   #### Example
+1. Install tools.
     ```shell
     dotnet tool install --global json2links
+    ```
+2. Import json file to doublets links storage.
+    ```shell
+   json2links /home/json.json /home/links tsconfig
+   ```
+
+### [links2json](https://www.nuget.org/packages/links2json)
+#### SYNOPSIS
+   ```shell
+   links2json SOURCE DESTINATION [DOCUMENT_NAME]
+   ```
+#### PARAMETERS
+* `SOURCE` - a json file path.
+* `DESTINATION` - a links storage path.
+* `DOCUMENT_NAME` - a document name. **Default**: `DESTINATION`'s file name.
+#### Note:
+`DOUCMENT_NAME` parameter is required to export json from a links storage. This parameter exists because links storage can contain more than 1 json documents.
+#### Example
+1. Install tools.
+    ```shell
     dotnet tool install --global links2json
     ```
-3. Import or export your json.
+2. Import json file to doublets links storage.
     ```shell
-   dotnet json2links path2json path2linksDb documentName
-   // or dotnet tool run json2links path2json path2linksDb documentName
-   
-   dotnet links2json path2linksDb path2json documentName
-   // or dotnet tool run links2json path2linksDb path2json documentName
+   links2json /home/links /home/tsconfig.json tsconfig
    ```
-   Note: `documentName` is optional. **Defaul value**: json file name.
