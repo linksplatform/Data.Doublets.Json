@@ -6,8 +6,7 @@
 		<AssemblyTitle>Platform.Data.Doublets.Json</AssemblyTitle>
 		<VersionPrefix>0.0.1</VersionPrefix>
 		<Authors>FreePhoenix888</Authors>
-		<TargetFramework>net5.0</TargetFramework>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<TargetFramework>net5</TargetFramework>
 		<AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
 		<PackageId>Platform.Data.Doublets.Json</PackageId>
 		<PackageTags>LinksPlatform;Data.Doublets.Json</PackageTags>
