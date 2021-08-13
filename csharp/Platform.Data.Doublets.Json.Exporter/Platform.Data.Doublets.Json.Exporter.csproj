@@ -13,7 +13,7 @@
         <ToolCommandName>links2json</ToolCommandName>
         <AssemblyName>Platform.Data.Doublets.Json.Exporter</AssemblyName>
         <PackageId>links2json</PackageId>
-        <PackageTags>LinksPlatform;Data.Doublets.Json;Exporter</PackageTags>
+        <PackageTags>LinksPlatform;Data;Doublets;Json;Exporter</PackageTags>
         <PackageIconUrl>https://raw.githubusercontent.com/linksplatform/Documentation/18469f4d033ee9a5b7b84caab9c585acab2ac519/doc/Avatar-rainbow-icon-64x64.png</PackageIconUrl>
         <PackageProjectUrl>https://linksplatform.github.io/Data.Doublets.Json.Exporter</PackageProjectUrl>
         <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>

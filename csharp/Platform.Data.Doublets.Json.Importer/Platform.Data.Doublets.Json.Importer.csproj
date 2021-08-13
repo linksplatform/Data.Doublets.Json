@@ -13,7 +13,7 @@
         <ToolCommandName>json2links</ToolCommandName>
         <AssemblyName>Platform.Data.Doublets.Json.Importer</AssemblyName>
         <PackageId>json2links</PackageId>
-        <PackageTags>LinksPlatform;Data.Doublets.Json;Importer</PackageTags>
+        <PackageTags>LinksPlatform;Data;Doublets;Json;Importer</PackageTags>
         <PackageIconUrl>https://raw.githubusercontent.com/linksplatform/Documentation/18469f4d033ee9a5b7b84caab9c585acab2ac519/doc/Avatar-rainbow-icon-64x64.png</PackageIconUrl>
         <PackageProjectUrl>https://linksplatform.github.io/Data.Doublets.Json.Importer</PackageProjectUrl>
         <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
