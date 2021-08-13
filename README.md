@@ -20,10 +20,6 @@ Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/
 *   [Platform.Data.Doublets](https://github.com/linksplatform/Data.Doublets)
 
 ## Tools
-- [json2links](https://www.nuget.org/packages/json2links)
-- [links2json](https://www.nuget.org/packages/links2json)
-
-## Manual
 ### [json2links](https://www.nuget.org/packages/json2links)
    #### SYNOPSIS
    ```shell
