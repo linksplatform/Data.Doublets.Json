@@ -35,7 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Platform.Data.Doublets.Json" Version="0.0.1" />
+      <PackageReference Include="Platform.Data.Doublets.Json" Version="0.1.0" />
     </ItemGroup>
 
 </Project>
