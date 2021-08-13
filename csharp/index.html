@@ -86,6 +86,31 @@
 <ul>
 <li><a href="https://github.com/linksplatform/Data.Doublets">Platform.Data.Doublets</a></li>
 </ul>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a href="https://www.nuget.org/packages/json2links">json2links</a></li>
+<li><a href="https://www.nuget.org/packages/links2json">links2json</a></li>
+</ul>
+<h1 id="tutorial">Tutorial</h1>
+<ol>
+<li>Create tool-manifest that will contain tools.
+<pre><code class="lang-shell">dotnet new tool-manifest
+</code></pre>
+</li>
+<li>Install tools.
+<pre><code class="lang-shell">dotnet tool install --local json2links
+dotnet tool install --local links2json
+</code></pre>
+</li>
+<li>Import or export your json.
+<pre><code class="lang-shell">dotnet json2links path2json path2linksDb documentName
+// or dotnet tool run json2links path2json path2linksDb documentName
+
+dotnet links2json path2linksDb path2json documentName
+// or dotnet tool run links2json path2linksDb path2json documentName
+</code></pre>
+Note: <code>documentName</code> is optional. <strong>Defaul value</strong>: json file name.</li>
+</ol>
 </article>
           </div>
           

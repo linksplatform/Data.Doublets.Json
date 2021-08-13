@@ -42,6 +42,6 @@
   "README.html": {
     "href": "README.html",
     "title": "Data.Doublets.Json | LinksPlatform's Platform.Data.Doublets.Json Library",
-    "keywords": "Data.Doublets.Json LinksPlatform's Platform.Data.Doublets.Json Class Library. Namespace: Platform.Data.Doublets.Json NuGet package: Platform.Data.Doublets.Json Documentation Interface IJsonStorage . PDF file with code for e-readers. Depends on Platform.Data.Doublets"
+    "keywords": "Data.Doublets.Json LinksPlatform's Platform.Data.Doublets.Json Class Library. Namespace: Platform.Data.Doublets.Json NuGet package: Platform.Data.Doublets.Json Documentation Interface IJsonStorage . PDF file with code for e-readers. Depends on Platform.Data.Doublets Tools json2links links2json Tutorial Create tool-manifest that will contain tools. dotnet new tool-manifest Install tools. dotnet tool install --local json2links dotnet tool install --local links2json Import or export your json. dotnet json2links path2json path2linksDb documentName // or dotnet tool run json2links path2json path2linksDb documentName dotnet links2json path2linksDb path2json documentName // or dotnet tool run links2json path2linksDb path2json documentName Note: documentName is optional. Defaul value : json file name."
   }
 }
