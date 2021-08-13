@@ -27,7 +27,6 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <LangVersion>latest</LangVersion>
         <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
