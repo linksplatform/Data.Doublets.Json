@@ -8,7 +8,7 @@
         <Authors>FreePhoenix888</Authors>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5</TargetFramework>
-        <IsPackable>false</IsPackable>
+        <IsPackable>true</IsPackable>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>json2links</ToolCommandName>
         <AssemblyName>Platform.Data.Doublets.Json.Importer</AssemblyName>
@@ -36,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Platform.Data.Doublets.Json\Platform.Data.Doublets.Json.csproj" />
+      <PackageReference Include="Platform.Data.Doublets.Json" Version="0.0.1" />
     </ItemGroup>
 
 </Project>
