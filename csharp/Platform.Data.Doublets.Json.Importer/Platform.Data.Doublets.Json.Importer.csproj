@@ -8,7 +8,6 @@
         <Authors>FreePhoenix888</Authors>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5</TargetFramework>
-        <IsPackable>false</IsPackable>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>json2links</ToolCommandName>
         <AssemblyName>Platform.Data.Doublets.Json.Importer</AssemblyName>
@@ -19,7 +18,7 @@
         <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>git://github.com/linksplatform/Data.Doublets.Json.Importer</RepositoryUrl>
+        <RepositoryUrl>git://github.com/linksplatform/Data.Doublets.Json</RepositoryUrl>
         <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
         <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -36,7 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Platform.Data.Doublets.Json\Platform.Data.Doublets.Json.csproj" />
+      <PackageReference Include="Platform.Data.Doublets.Json" Version="0.0.1" />
     </ItemGroup>
 
 </Project>
