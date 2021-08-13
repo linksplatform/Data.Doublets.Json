@@ -8,6 +8,7 @@
         <Authors>FreePhoenix888</Authors>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5</TargetFramework>
+        <IsPackable>false</IsPackable>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>links2json</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
