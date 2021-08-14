@@ -11,8 +11,7 @@ Namespace: [Platform.Data.Doublets.Json](https://linksplatform.github.io/Data.Do
 
 NuGet package: [Platform.Data.Doublets.Json](https://www.nuget.org/packages/Platform.Data.Doublets.Json)
 
-## [Documentation](https://linksplatform.github.io/Data.Doublets.Json)
-Interface [IJsonStorage<TLink>](https://linksplatform.github.io/Data/csharp/api/IJsonStorage.html).
+## [Documentation](https://linksplatform.github.io/Data.Doublets.Json/csharp/api/Platform.Data.Doublets.Json.html)
 
 [PDF file](https://linksplatform.github.io/Data.Doublets.Json/csharp/Platform.Data.Doublets.Json.pdf) with code for e-readers.
 
