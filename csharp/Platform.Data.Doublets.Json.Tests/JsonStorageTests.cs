@@ -11,39 +11,131 @@ using Platform.Data.Doublets.Sequences.Converters;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
+    /// <summary>
+    /// <para>
+    /// Represents the json storage tests.
+    /// </para>
+    /// <para></para>
+    /// </summary>
     public class JsonStorageTests
     {
+        /// <summary>
+        /// <para>
+        /// The output.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private readonly ITestOutputHelper output;
+        /// <summary>
+        /// <para>
+        /// The balanced variant converter.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         public static BalancedVariantConverter<TLink> BalancedVariantConverter;
 
+        /// <summary>
+        /// <para>
+        /// Initializes a new <see cref="JsonStorageTests"/> instance.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="output">
+        /// <para>A output.</para>
+        /// <para></para>
+        /// </param>
         public JsonStorageTests(ITestOutputHelper output)
         {
             this.output = output;
         }
 
+        /// <summary>
+        /// <para>
+        /// Creates the links.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <returns>
+        /// <para>A links of t link</para>
+        /// <para></para>
+        /// </returns>
         public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new Platform.IO.TemporaryFile());
 
+        /// <summary>
+        /// <para>
+        /// Creates the links using the specified data db filename.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <typeparam name="TLink">
+        /// <para>The link.</para>
+        /// <para></para>
+        /// </typeparam>
+        /// <param name="dataDBFilename">
+        /// <para>The data db filename.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>A links of t link</para>
+        /// <para></para>
+        /// </returns>
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
 
+        /// <summary>
+        /// <para>
+        /// Creates the json storage.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <returns>
+        /// <para>A default json storage of t link</para>
+        /// <para></para>
+        /// </returns>
         public static DefaultJsonStorage<TLink> CreateJsonStorage()
         {
             var links = CreateLinks();
             return CreateJsonStorage(links);
         }
 
+        /// <summary>
+        /// <para>
+        /// Creates the json storage using the specified links.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="links">
+        /// <para>The links.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>A default json storage of t link</para>
+        /// <para></para>
+        /// </returns>
         public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links)
         {
             BalancedVariantConverter = new(links);
             return new DefaultJsonStorage<TLink>(links, BalancedVariantConverter);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that constructors test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void ConstructorsTest() => CreateJsonStorage();
 
+        /// <summary>
+        /// <para>
+        /// Tests that create document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void CreateDocumentTest()
         {
@@ -51,6 +143,12 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.CreateDocument("documentName");
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that get document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void GetDocumentTest()
         {
@@ -60,6 +158,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdDocumentLink, foundDocumentLink);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that create object test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void CreateObjectTest()
         {
@@ -69,6 +173,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.NotEqual(object0, object1);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that create string test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void CreateStringTest()
         {
@@ -76,6 +186,12 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.CreateString("string");
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that create member test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void CreateMemberTest()
         {
@@ -85,6 +201,12 @@ namespace Platform.Data.Doublets.Json.Tests
             defaultJsonStorage.CreateMember("keyName");
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach object value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachObjectValueToDocumentTest()
         {
@@ -105,6 +227,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdObjectValue, foundDocumentValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach string value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachStringValueToDocumentTest()
         {
@@ -125,6 +253,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdStringValue, foundStringValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach number to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachNumberToDocumentTest()
         {
@@ -145,6 +279,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdNumberValue, foundNumberValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach true value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachTrueValueToDocumentTest()
         {
@@ -165,6 +305,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdTrueValue, foundTrueValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach false value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachFalseValueToDocumentTest()
         {
@@ -185,6 +331,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdFalseValue, foundFalseValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach null value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachNullValueToDocumentTest()
         {
@@ -205,6 +357,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdNullValue, foundNullValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach empty array value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachEmptyArrayValueToDocumentTest()
         {
@@ -231,6 +389,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach array value to document test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachArrayValueToDocumentTest()
         {
@@ -268,6 +432,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(createdArrayValue, foundArrayValue);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that get object from document object value link test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void GetObjectFromDocumentObjectValueLinkTest()
         {
@@ -282,6 +452,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that get object from object value link test.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void GetObjectFromObjectValueLinkTest()
         {
@@ -294,6 +470,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(links.GetTarget(objectValueLink), objectFromGetObject);
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach string value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachStringValueToKey()
         {
@@ -310,6 +492,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(stringValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach number value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachNumberValueToKey()
         {
@@ -326,6 +514,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(numberValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach object value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachObjectValueToKey()
         {
@@ -342,6 +536,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(objectValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach array value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachArrayValueToKey()
         {
@@ -360,6 +560,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(arrayValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach true value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachTrueValueToKey()
         {
@@ -376,6 +582,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(trueValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach false value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachFalseValueToKey()
         {
@@ -392,6 +604,12 @@ namespace Platform.Data.Doublets.Json.Tests
             Assert.Equal(falseValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
 
+        /// <summary>
+        /// <para>
+        /// Tests that attach null value to key.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         [Fact]
         public void AttachNullValueToKey()
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
@@ -9,27 +9,155 @@ using Platform.Collections.Stacks;
 
 namespace Platform.Data.Doublets.Json
 {
+    /// <summary>
+    /// <para>
+    /// Represents the json exporter.
+    /// </para>
+    /// <para></para>
+    /// </summary>
     public class JsonExporter<TLink>
     {
+        /// <summary>
+        /// <para>
+        /// The storage.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         public readonly IJsonStorage<TLink> Storage;
+        /// <summary>
+        /// <para>
+        /// The default.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
 
+        /// <summary>
+        /// <para>
+        /// Initializes a new <see cref="JsonExporter"/> instance.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="storage">
+        /// <para>A storage.</para>
+        /// <para></para>
+        /// </param>
         public JsonExporter(IJsonStorage<TLink> storage) => Storage = storage;
 
+            /// <summary>
+            /// <para>
+            /// Determines whether this instance is element.
+            /// </para>
+            /// <para></para>
+            /// </summary>
+            /// <param name="link">
+            /// <para>The link.</para>
+            /// <para></para>
+            /// </param>
+            /// <returns>
+            /// <para>The bool</para>
+            /// <para></para>
+            /// </returns>
             private bool IsElement(TLink link)
         {
             var marker = Storage.Links.GetSource(link);
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
         }
 
+        /// <summary>
+        /// <para>
+        /// Writes the string value using the specified utf 8 json writer.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="valueLink">
+        /// <para>The value link.</para>
+        /// <para></para>
+        /// </param>
         private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
 
+        /// <summary>
+        /// <para>
+        /// Writes the string using the specified utf 8 json writer.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="parent">
+        /// <para>The parent.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="valueLink">
+        /// <para>The value link.</para>
+        /// <para></para>
+        /// </param>
         private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
 
+        /// <summary>
+        /// <para>
+        /// Writes the number value using the specified utf 8 json writer.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="valueLink">
+        /// <para>The value link.</para>
+        /// <para></para>
+        /// </param>
         private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
 
+        /// <summary>
+        /// <para>
+        /// Writes the number using the specified utf 8 json writer.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="parent">
+        /// <para>The parent.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="valueLink">
+        /// <para>The value link.</para>
+        /// <para></para>
+        /// </param>
         private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
 
+        /// <summary>
+        /// <para>
+        /// Writes the utf 8 json writer.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="parent">
+        /// <para>The parent.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="valueLink">
+        /// <para>The value link.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="cancellationToken">
+        /// <para>The cancellation token.</para>
+        /// <para></para>
+        /// </param>
         private void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -93,6 +221,24 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
+        /// <summary>
+        /// <para>
+        /// Writes the utf 8 json writer.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="valueLink">
+        /// <para>The value link.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="cancellationToken">
+        /// <para>The cancellation token.</para>
+        /// <para></para>
+        /// </param>
         private void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -156,6 +302,28 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
+        /// <summary>
+        /// <para>
+        /// Exports the document.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="document">
+        /// <para>The document.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="cancellationToken">
+        /// <para>The cancellation token.</para>
+        /// <para></para>
+        /// </param>
+        /// <exception cref="Exception">
+        /// <para>No document with this name exists</para>
+        /// <para></para>
+        /// </exception>
         public void Export(TLink document, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
         {
             if (EqualityComparer.Equals(document, default))
@@ -167,6 +335,24 @@ namespace Platform.Data.Doublets.Json
             utf8JsonWriter.Flush();
         }
 
+        /// <summary>
+        /// <para>
+        /// Exports the document name.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="documentName">
+        /// <para>The document name.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="utf8JsonWriter">
+        /// <para>The utf json writer.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="cancellationToken">
+        /// <para>The cancellation token.</para>
+        /// <para></para>
+        /// </param>
         public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, in cancellationToken);
     }
 }

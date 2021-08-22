@@ -12,9 +12,25 @@ using Platform.Memory;
 
 namespace Platform.Data.Doublets.Json
 {
+    /// <summary>
+    /// <para>
+    /// Represents the json importer cli.
+    /// </para>
+    /// <para></para>
+    /// </summary>
     public class JsonImporterCli<TLink>
         where TLink : struct
     {
+        /// <summary>
+        /// <para>
+        /// Runs the args.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="args">
+        /// <para>The args.</para>
+        /// <para></para>
+        /// </param>
         public void Run(params string[] args)
         {
             var argumentIndex = 0;
