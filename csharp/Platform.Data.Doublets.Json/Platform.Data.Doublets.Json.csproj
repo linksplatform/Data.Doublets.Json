@@ -4,7 +4,7 @@
 		<Description>LinksPlatform's Platform.Data.Doublets.Json Class Library</Description>
 		<Copyright>FreePhoenix888</Copyright>
 		<AssemblyTitle>Platform.Data.Doublets.Json</AssemblyTitle>
-		<VersionPrefix>0.1.1</VersionPrefix>
+		<VersionPrefix>0.1.2</VersionPrefix>
 		<Authors>FreePhoenix888</Authors>
 		<TargetFramework>net5</TargetFramework>
 		<AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
@@ -23,7 +23,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageReleaseNotes>This release is the same as 0.1.0. 0.1.1 is released to trigger tools publication.</PackageReleaseNotes>
+		<PackageReleaseNotes>Platform.Data.Doublets.Sequences dependency is used instead of Platform.Data.Doublets.</PackageReleaseNotes>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
@@ -33,7 +33,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Platform.Converters" Version="0.3.1" />
-		<PackageReference Include="Platform.Data.Doublets" Version="0.7.0" />
 		<PackageReference Include="Platform.Data.Doublets.Sequences" Version="0.0.1" />
 	</ItemGroup>
 
