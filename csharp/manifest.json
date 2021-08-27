@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.DefaultJsonStorage-1.html",
-          "hash": "xsDNfoL3V12EBYFXRvA7uQ=="
+          "hash": "nYxZqQLI/dDme76FfD2gkg=="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.IJsonStorage-1.html",
-          "hash": "8fnSM98znFyBKfCWNj0m6A=="
+          "hash": "/gwuoMVrwZUYWCvotsozVA=="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonArrayElementCriterionMatcher-1.html",
-          "hash": "T6hoB1HeN/EckJ5TbTW0/A=="
+          "hash": "7zkWZX+sCw4LFMQ8EMr5jA=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonExporter-1.html",
-          "hash": "7swa4/A0ZZ9nVdvB+3u/4Q=="
+          "hash": "uKMETxqe7RydXNzr5ut/EA=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonExporterCli-1.html",
-          "hash": "ONx5GlslTyY29tCaelG04w=="
+          "hash": "+iWdbrSJNUkYhsHgf/sopg=="
         }
       },
       "is_incremental": false,
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonImporter-1.html",
-          "hash": "0rANdToMLdiG02kmWs6byA=="
+          "hash": "rgjaCdNANbKT57bEMkV2Gg=="
         }
       },
       "is_incremental": false,
@@ -102,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.JsonImporterCli-1.html",
-          "hash": "eV7BX4/IpXp5hl6CeyMPug=="
+          "hash": "jKNTZ9U593YBBqTFuuuwWQ=="
         }
       },
       "is_incremental": false,
@@ -114,7 +114,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Platform.Data.Doublets.Json.html",
-          "hash": "SZPBHLh/eFx53XYvcNZspA=="
+          "hash": "fPLuL9CuJlmMZPbvqerKCg=="
         }
       },
       "is_incremental": false,
