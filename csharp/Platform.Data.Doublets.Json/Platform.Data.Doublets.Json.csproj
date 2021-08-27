@@ -23,7 +23,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageReleaseNotes>Platform.Data.Doublets.Sequences dependency is added.</PackageReleaseNotes>
+		<PackageReleaseNotes>Platform.Data.Doublets.Sequences dependency is used instead of Platform.Data.Doublets.</PackageReleaseNotes>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
