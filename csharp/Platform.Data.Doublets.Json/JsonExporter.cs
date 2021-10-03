@@ -44,120 +44,20 @@ namespace Platform.Data.Doublets.Json
         /// </param>
         public JsonExporter(IJsonStorage<TLink> storage) => Storage = storage;
 
-            /// <summary>
-            /// <para>
-            /// Determines whether this instance is element.
-            /// </para>
-            /// <para></para>
-            /// </summary>
-            /// <param name="link">
-            /// <para>The link.</para>
-            /// <para></para>
-            /// </param>
-            /// <returns>
-            /// <para>The bool</para>
-            /// <para></para>
-            /// </returns>
             private bool IsElement(TLink link)
         {
             var marker = Storage.Links.GetSource(link);
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
         }
 
-        /// <summary>
-        /// <para>
-        /// Writes the string value using the specified utf 8 json writer.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="valueLink">
-        /// <para>The value link.</para>
-        /// <para></para>
-        /// </param>
         private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
 
-        /// <summary>
-        /// <para>
-        /// Writes the string using the specified utf 8 json writer.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="parent">
-        /// <para>The parent.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="valueLink">
-        /// <para>The value link.</para>
-        /// <para></para>
-        /// </param>
         private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
 
-        /// <summary>
-        /// <para>
-        /// Writes the number value using the specified utf 8 json writer.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="valueLink">
-        /// <para>The value link.</para>
-        /// <para></para>
-        /// </param>
         private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
 
-        /// <summary>
-        /// <para>
-        /// Writes the number using the specified utf 8 json writer.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="parent">
-        /// <para>The parent.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="valueLink">
-        /// <para>The value link.</para>
-        /// <para></para>
-        /// </param>
         private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
 
-        /// <summary>
-        /// <para>
-        /// Writes the utf 8 json writer.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="parent">
-        /// <para>The parent.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="valueLink">
-        /// <para>The value link.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="cancellationToken">
-        /// <para>The cancellation token.</para>
-        /// <para></para>
-        /// </param>
         private void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -221,24 +121,6 @@ namespace Platform.Data.Doublets.Json
             }
         }
 
-        /// <summary>
-        /// <para>
-        /// Writes the utf 8 json writer.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="valueLink">
-        /// <para>The value link.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="cancellationToken">
-        /// <para>The cancellation token.</para>
-        /// <para></para>
-        /// </param>
         private void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)

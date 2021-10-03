@@ -2,13 +2,7 @@ using TLink = System.UInt64;
 
 namespace Platform.Data.Doublets.Json.Importer
 {
-    /// <summary>
-    /// <para>
-    /// Represents the program.
-    /// </para>
-    /// <para></para>
-    /// </summary>
-    class Program
+    private Program
     {
         /// <summary>
         /// <para>
