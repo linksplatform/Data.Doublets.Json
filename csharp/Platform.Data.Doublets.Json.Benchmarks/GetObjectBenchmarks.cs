@@ -20,12 +20,54 @@ namespace Platform.Data.Doublets.Json.Benchmarks
     /// </summary>
     public class GetObjectBenchmarks
     {
+        /// <summary>
+        /// <para>
+        /// The links.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private ILinks<TLink> _links;
+        /// <summary>
+        /// <para>
+        /// The balanced variant converter.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private BalancedVariantConverter<TLink> _balancedVariantConverter;
+        /// <summary>
+        /// <para>
+        /// The default json storage.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private DefaultJsonStorage<TLink> _defaultJsonStorage;
+        /// <summary>
+        /// <para>
+        /// The document.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private TLink _document;
+        /// <summary>
+        /// <para>
+        /// The document object value link.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private TLink _documentObjectValueLink;
+        /// <summary>
+        /// <para>
+        /// The object value link.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private TLink _objectValueLink;
+        /// <summary>
+        /// <para>
+        /// The object.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private TLink _object;
         /// <summary>
         /// <para>
