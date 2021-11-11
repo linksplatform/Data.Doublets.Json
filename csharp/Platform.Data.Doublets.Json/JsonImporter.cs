@@ -47,6 +47,13 @@ namespace Platform.Data.Doublets.Json
         /// <para></para>
         /// </param>
         public JsonImporter(IJsonStorage<TLink> storage) => Storage = storage;
+
+            /// <summary>
+            /// <para>
+            /// Pops the if parent is member.
+            /// </para>
+            /// <para></para>
+            /// </summary>
             private void PopIfParentIsMember()
         {
             var parent = Parents.Peek();

@@ -828,6 +828,21 @@ namespace Platform.Data.Doublets.Json
             }
             return Links.SearchOrDefault(DocumentMarker, @string);
         }
+
+        /// <summary>
+        /// <para>
+        /// Gets the string sequence using the specified content.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="content">
+        /// <para>The content.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>The link</para>
+        /// <para></para>
+        /// </returns>
         private TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
         
         /// <summary>

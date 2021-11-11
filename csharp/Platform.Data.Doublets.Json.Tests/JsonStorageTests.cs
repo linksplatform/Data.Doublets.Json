@@ -19,6 +19,12 @@ namespace Platform.Data.Doublets.Json.Tests
     /// </summary>
     public class JsonStorageTests
     {
+        /// <summary>
+        /// <para>
+        /// The output.
+        /// </para>
+        /// <para></para>
+        /// </summary>
         private readonly ITestOutputHelper output;
         /// <summary>
         /// <para>

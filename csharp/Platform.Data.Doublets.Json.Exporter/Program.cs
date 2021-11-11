@@ -2,6 +2,12 @@ using TLink = System.UInt64;
 
 namespace Platform.Data.Doublets.Json.Exporter
 {
+    /// <summary>
+    /// <para>
+    /// Represents the program.
+    /// </para>
+    /// <para></para>
+    /// </summary>
     class Program
     {
         /// <summary>
