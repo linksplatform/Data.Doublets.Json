@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Text.Encodings.Web;
-using Platform.Data.Doublets.Memory.United.Generic;
-using Platform.IO;
 using System.Text.Json;
 using Platform.Data.Doublets.Memory;
+using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Data.Doublets.Sequences.Converters;
+using Platform.IO;
 using Platform.Memory;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -13,23 +13,22 @@ using Platform.Memory;
 namespace Platform.Data.Doublets.Json
 {
     /// <summary>
-    /// <para>
-    /// Represents the json exporter cli.
-    /// </para>
-    /// <para></para>
+    ///     <para>
+    ///         Represents the json exporter cli.
+    ///     </para>
+    ///     <para></para>
     /// </summary>
-    public class JsonExporterCli<TLink>
-        where TLink : struct
+    public class JsonExporterCli<TLink> where TLink : struct
     {
         /// <summary>
-        /// <para>
-        /// Runs the args.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         Runs the args.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="args">
-        /// <para>The args.</para>
-        /// <para></para>
+        ///     <para>The args.</para>
+        ///     <para></para>
         /// </param>
         public void Run(params string[] args)
         {
@@ -53,8 +52,8 @@ namespace Platform.Data.Doublets.Json
                 Indented = true
             };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
-            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
-            using UnitedMemoryLinks<TLink> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+            var linksConstants = new LinksConstants<TLink>(true);
+            using UnitedMemoryLinks<TLink> memoryAdapter = new(new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
             BalancedVariantConverter<TLink> balancedVariantConverter = new(links);
             var storage = new DefaultJsonStorage<TLink>(links, balancedVariantConverter);
@@ -64,7 +63,7 @@ namespace Platform.Data.Doublets.Json
             {
                 Console.WriteLine("No document with this name.");
             }
-            using ConsoleCancellation cancellation = new ();
+            using ConsoleCancellation cancellation = new();
             var cancellationToken = cancellation.Token;
             Console.WriteLine("Press CTRL+C to stop.");
             try

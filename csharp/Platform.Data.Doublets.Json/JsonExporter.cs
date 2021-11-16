@@ -2,56 +2,78 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
-using Platform.Data.Doublets.Sequences.Walkers;
 using Platform.Collections.Stacks;
+using Platform.Data.Doublets.Sequences.Walkers;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Platform.Data.Doublets.Json
 {
     /// <summary>
-    /// <para>
-    /// Represents the json exporter.
-    /// </para>
-    /// <para></para>
+    ///     <para>
+    ///         Represents the json exporter.
+    ///     </para>
+    ///     <para></para>
     /// </summary>
     public class JsonExporter<TLink>
     {
         /// <summary>
-        /// <para>
-        /// The storage.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        public readonly IJsonStorage<TLink> Storage;
-        /// <summary>
-        /// <para>
-        /// The default.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         The default.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
 
         /// <summary>
-        /// <para>
-        /// Initializes a new <see cref="JsonExporter"/> instance.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         The storage.
+        ///     </para>
+        ///     <para></para>
+        /// </summary>
+        public readonly IJsonStorage<TLink> Storage;
+
+        /// <summary>
+        ///     <para>
+        ///         Initializes a new <see cref="JsonExporter" /> instance.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="storage">
-        /// <para>A storage.</para>
-        /// <para></para>
+        ///     <para>A storage.</para>
+        ///     <para></para>
         /// </param>
-        public JsonExporter(IJsonStorage<TLink> storage) => Storage = storage;
-            private bool IsElement(TLink link)
+        public JsonExporter(IJsonStorage<TLink> storage)
+        {
+            Storage = storage;
+        }
+
+        private bool IsElement(TLink link)
         {
             var marker = Storage.Links.GetSource(link);
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
         }
-        private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
-        private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
-        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
-        private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
+
+        private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
+        {
+            utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
+        }
+
+        private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
+        {
+            utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
+        }
+
+        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink)
+        {
+            utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
+        }
+
+        private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink)
+        {
+            utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
+        }
+
         private void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -114,6 +136,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteNull(parent);
             }
         }
+
         private void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -178,26 +201,26 @@ namespace Platform.Data.Doublets.Json
         }
 
         /// <summary>
-        /// <para>
-        /// Exports the document.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         Exports the document.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="document">
-        /// <para>The document.</para>
-        /// <para></para>
+        ///     <para>The document.</para>
+        ///     <para></para>
         /// </param>
         /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
+        ///     <para>The utf json writer.</para>
+        ///     <para></para>
         /// </param>
         /// <param name="cancellationToken">
-        /// <para>The cancellation token.</para>
-        /// <para></para>
+        ///     <para>The cancellation token.</para>
+        ///     <para></para>
         /// </param>
         /// <exception cref="Exception">
-        /// <para>No document with this name exists</para>
-        /// <para></para>
+        ///     <para>No document with this name exists</para>
+        ///     <para></para>
         /// </exception>
         public void Export(TLink document, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
         {
@@ -211,23 +234,26 @@ namespace Platform.Data.Doublets.Json
         }
 
         /// <summary>
-        /// <para>
-        /// Exports the document name.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         Exports the document name.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="documentName">
-        /// <para>The document name.</para>
-        /// <para></para>
+        ///     <para>The document name.</para>
+        ///     <para></para>
         /// </param>
         /// <param name="utf8JsonWriter">
-        /// <para>The utf json writer.</para>
-        /// <para></para>
+        ///     <para>The utf json writer.</para>
+        ///     <para></para>
         /// </param>
         /// <param name="cancellationToken">
-        /// <para>The cancellation token.</para>
-        /// <para></para>
+        ///     <para>The cancellation token.</para>
+        ///     <para></para>
         /// </param>
-        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken) => Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, in cancellationToken);
+        public void Export(string documentName, Utf8JsonWriter utf8JsonWriter, CancellationToken cancellationToken)
+        {
+            Export(Storage.GetDocumentOrDefault(documentName), ref utf8JsonWriter, in cancellationToken);
+        }
     }
 }
