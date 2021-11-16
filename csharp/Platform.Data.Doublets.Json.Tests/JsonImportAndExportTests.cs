@@ -23,14 +23,6 @@ namespace Platform.Data.Doublets.Json.Tests
     {
         /// <summary>
         ///     <para>
-        ///         The balanced variant converter.
-        ///     </para>
-        ///     <para></para>
-        /// </summary>
-        public static BalancedVariantConverter<ulong> BalancedVariantConverter;
-
-        /// <summary>
-        ///     <para>
         ///         Creates the links.
         ///     </para>
         ///     <para></para>
@@ -84,7 +76,7 @@ namespace Platform.Data.Doublets.Json.Tests
         /// </returns>
         public static DefaultJsonStorage<ulong> CreateJsonStorage(ILinks<ulong> links)
         {
-            return new(links, BalancedVariantConverter);
+            return new(links, new BalancedVariantConverter<ulong>(links));
         }
 
         /// <summary>
@@ -188,7 +180,6 @@ namespace Platform.Data.Doublets.Json.Tests
         public void Test(string initialJson)
         {
             var links = CreateLinks();
-            BalancedVariantConverter = new BalancedVariantConverter<ulong>(links);
             var storage = CreateJsonStorage(links);
             var json = Encoding.UTF8.GetBytes(initialJson);
             var documentLink = Import(storage, "documentName", json);

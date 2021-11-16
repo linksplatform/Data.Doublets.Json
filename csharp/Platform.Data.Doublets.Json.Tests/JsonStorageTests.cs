@@ -19,14 +19,6 @@ namespace Platform.Data.Doublets.Json.Tests
     /// </summary>
     public class JsonStorageTests
     {
-        /// <summary>
-        ///     <para>
-        ///         The balanced variant converter.
-        ///     </para>
-        ///     <para></para>
-        /// </summary>
-        public static BalancedVariantConverter<uint> BalancedVariantConverter;
-
         private readonly ITestOutputHelper output;
 
         /// <summary>
@@ -115,8 +107,8 @@ namespace Platform.Data.Doublets.Json.Tests
         /// </returns>
         public static DefaultJsonStorage<uint> CreateJsonStorage(ILinks<uint> links)
         {
-            BalancedVariantConverter = new BalancedVariantConverter<uint>(links);
-            return new DefaultJsonStorage<uint>(links, BalancedVariantConverter);
+            var balancedVariantConverter = new BalancedVariantConverter<uint>(links);
+            return new DefaultJsonStorage<uint>(links, balancedVariantConverter);
         }
 
         /// <summary>
