@@ -31,11 +31,11 @@
     </PropertyGroup>
 
     <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(MSBuildRuntimeType)' == 'Core' AND '$(OS)' != 'Windows_NT'">
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Platform.Data.Doublets.Json" Version="0.1.2" />
+        <PackageReference Include="Platform.Data.Doublets.Json" Version="0.1.2"/>
     </ItemGroup>
 
 </Project>

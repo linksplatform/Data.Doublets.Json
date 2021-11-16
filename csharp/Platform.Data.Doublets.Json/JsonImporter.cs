@@ -8,46 +8,53 @@ using System.Threading;
 namespace Platform.Data.Doublets.Json
 {
     /// <summary>
-    /// <para>
-    /// Represents the json importer.
-    /// </para>
-    /// <para></para>
+    ///     <para>
+    ///         Represents the json importer.
+    ///     </para>
+    ///     <para></para>
     /// </summary>
     public class JsonImporter<TLink>
     {
         /// <summary>
-        /// <para>
-        /// The storage.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        public readonly IJsonStorage<TLink> Storage;
-        /// <summary>
-        /// <para>
-        /// The default.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         The default.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
+
         /// <summary>
-        /// <para>
-        /// The parents.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         The parents.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
-        public readonly Stack<TLink> Parents = new ();
+        public readonly Stack<TLink> Parents = new();
+
         /// <summary>
-        /// <para>
-        /// Initializes a new <see cref="JsonImporter"/> instance.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         The storage.
+        ///     </para>
+        ///     <para></para>
+        /// </summary>
+        public readonly IJsonStorage<TLink> Storage;
+
+        /// <summary>
+        ///     <para>
+        ///         Initializes a new <see cref="JsonImporter" /> instance.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="storage">
-        /// <para>A storage.</para>
-        /// <para></para>
+        ///     <para>A storage.</para>
+        ///     <para></para>
         /// </param>
-        public JsonImporter(IJsonStorage<TLink> storage) => Storage = storage;
-            private void PopIfParentIsMember()
+        public JsonImporter(IJsonStorage<TLink> storage)
+        {
+            Storage = storage;
+        }
+
+        private void PopIfParentIsMember()
         {
             var parent = Parents.Peek();
             var parentMarker = Storage.GetValueMarker(parent);
@@ -58,30 +65,30 @@ namespace Platform.Data.Doublets.Json
         }
 
         /// <summary>
-        /// <para>
-        /// Imports the document name.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         Imports the document name.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="documentName">
-        /// <para>The document name.</para>
-        /// <para></para>
+        ///     <para>The document name.</para>
+        ///     <para></para>
         /// </param>
         /// <param name="utf8JsonReader">
-        /// <para>The utf json reader.</para>
-        /// <para></para>
+        ///     <para>The utf json reader.</para>
+        ///     <para></para>
         /// </param>
         /// <param name="cancellationToken">
-        /// <para>The cancellation token.</para>
-        /// <para></para>
+        ///     <para>The cancellation token.</para>
+        ///     <para></para>
         /// </param>
         /// <exception cref="Exception">
-        /// <para>The document with the specified name already exists.</para>
-        /// <para></para>
+        ///     <para>The document with the specified name already exists.</para>
+        ///     <para></para>
         /// </exception>
         /// <returns>
-        /// <para>The document.</para>
-        /// <para></para>
+        ///     <para>The document.</para>
+        ///     <para></para>
         /// </returns>
         public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, in CancellationToken cancellationToken)
         {

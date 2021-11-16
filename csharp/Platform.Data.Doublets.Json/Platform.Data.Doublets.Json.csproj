@@ -1,39 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<Description>LinksPlatform's Platform.Data.Doublets.Json Class Library</Description>
-		<Copyright>FreePhoenix888</Copyright>
-		<AssemblyTitle>Platform.Data.Doublets.Json</AssemblyTitle>
-		<VersionPrefix>0.1.2</VersionPrefix>
-		<Authors>FreePhoenix888</Authors>
-		<TargetFramework>net5</TargetFramework>
-		<AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
-		<PackageId>Platform.Data.Doublets.Json</PackageId>
-		<PackageTags>LinksPlatform;Data;Doublets;Json</PackageTags>
-		<PackageIconUrl>https://raw.githubusercontent.com/linksplatform/Documentation/18469f4d033ee9a5b7b84caab9c585acab2ac519/doc/Avatar-rainbow-icon-64x64.png</PackageIconUrl>
-		<PackageProjectUrl>https://linksplatform.github.io/Data.Doublets.Json</PackageProjectUrl>
-		<PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
-		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>git://github.com/linksplatform/Data.Doublets.Json</RepositoryUrl>
-		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageReleaseNotes>Platform.Data.Doublets.Sequences dependency is used instead of Platform.Data.Doublets.</PackageReleaseNotes>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+    <PropertyGroup>
+        <Description>LinksPlatform's Platform.Data.Doublets.Json Class Library</Description>
+        <Copyright>FreePhoenix888</Copyright>
+        <AssemblyTitle>Platform.Data.Doublets.Json</AssemblyTitle>
+        <VersionPrefix>0.1.2</VersionPrefix>
+        <Authors>FreePhoenix888</Authors>
+        <TargetFramework>net5</TargetFramework>
+        <AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
+        <PackageId>Platform.Data.Doublets.Json</PackageId>
+        <PackageTags>LinksPlatform;Data;Doublets;Json</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/linksplatform/Documentation/18469f4d033ee9a5b7b84caab9c585acab2ac519/doc/Avatar-rainbow-icon-64x64.png</PackageIconUrl>
+        <PackageProjectUrl>https://linksplatform.github.io/Data.Doublets.Json</PackageProjectUrl>
+        <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>git://github.com/linksplatform/Data.Doublets.Json</RepositoryUrl>
+        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageReleaseNotes>Platform.Data.Doublets.Sequences dependency is used instead of Platform.Data.Doublets.</PackageReleaseNotes>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(MSBuildRuntimeType)' == 'Core' AND '$(OS)' != 'Windows_NT'">
-		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
-	</ItemGroup>
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(MSBuildRuntimeType)' == 'Core' AND '$(OS)' != 'Windows_NT'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Platform.Converters" Version="0.3.1" />
-		<PackageReference Include="Platform.Data.Doublets.Sequences" Version="0.0.1" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Platform.Converters" Version="0.3.1"/>
+        <PackageReference Include="Platform.Data.Doublets.Sequences" Version="0.0.1"/>
+    </ItemGroup>
 
 </Project>

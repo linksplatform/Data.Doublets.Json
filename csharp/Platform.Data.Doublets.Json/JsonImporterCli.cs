@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Text;
-using Platform.Data.Doublets.Memory.United.Generic;
-using Platform.IO;
 using System.Text.Json;
 using Platform.Data.Doublets.Memory;
+using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Data.Doublets.Sequences.Converters;
+using Platform.IO;
 using Platform.Memory;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -13,23 +13,22 @@ using Platform.Memory;
 namespace Platform.Data.Doublets.Json
 {
     /// <summary>
-    /// <para>
-    /// Represents the json importer cli.
-    /// </para>
-    /// <para></para>
+    ///     <para>
+    ///         Represents the json importer cli.
+    ///     </para>
+    ///     <para></para>
     /// </summary>
-    public class JsonImporterCli<TLink>
-        where TLink : struct
+    public class JsonImporterCli<TLink> where TLink : struct
     {
         /// <summary>
-        /// <para>
-        /// Runs the args.
-        /// </para>
-        /// <para></para>
+        ///     <para>
+        ///         Runs the args.
+        ///     </para>
+        ///     <para></para>
         /// </summary>
         /// <param name="args">
-        /// <para>The args.</para>
-        /// <para></para>
+        ///     <para>The args.</para>
+        ///     <para></para>
         /// </param>
         public void Run(params string[] args)
         {
@@ -50,7 +49,7 @@ namespace Platform.Data.Doublets.Json
             var encodedJson = Encoding.UTF8.GetBytes(json);
             ReadOnlySpan<byte> readOnlySpanEncodedJson = new(encodedJson);
             Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
-            LinksConstants<TLink> linksConstants = new(enableExternalReferencesSupport: true);
+            LinksConstants<TLink> linksConstants = new(true);
             FileMappedResizableDirectMemory fileMappedResizableDirectMemory = new(linksFilePath);
             var unitedMemoryLinks = UnitedMemoryLinks<TLink>.DefaultLinksSizeStep;
             const IndexTreeType indexTreeType = IndexTreeType.Default;
