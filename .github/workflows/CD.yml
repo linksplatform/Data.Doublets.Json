@@ -10,7 +10,7 @@ env:
   NUGETTOKEN: ${{ secrets.NUGET_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SCRIPTS_BASE_URL: https://raw.githubusercontent.com/linksplatform/Scripts/master/MultiProjectRepository
-  CHANGED_FILES: ${{ git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA} }}
+  CHANGED_FILES: ${{ git config user.name "GitHub Actions Bot"; git config user.email "<>"; git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA} }}
 
 jobs:
   test:
