@@ -12,96 +12,20 @@ using Platform.Data.Doublets.Sequences.Converters;
 
 namespace Platform.Data.Doublets.Json.Tests
 {
-    /// <summary>
-    /// <para>
-    /// Represents the json import and export tests.
-    /// </para>
-    /// <para></para>
-    /// </summary>
     public class JsonImportAndExportTests
     {
-        /// <summary>
-        /// <para>
-        /// The balanced variant converter.
-        /// </para>
-        /// <para></para>
-        /// </summary>
         public static BalancedVariantConverter<TLink> BalancedVariantConverter;
         
-        /// <summary>
-        /// <para>
-        /// Creates the links.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <returns>
-        /// <para>A links of t link</para>
-        /// <para></para>
-        /// </returns>
         public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new IO.TemporaryFile());
 
-        /// <summary>
-        /// <para>
-        /// Creates the links using the specified data db filename.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <typeparam name="TLink">
-        /// <para>The link.</para>
-        /// <para></para>
-        /// </typeparam>
-        /// <param name="dataDBFilename">
-        /// <para>The data db filename.</para>
-        /// <para></para>
-        /// </param>
-        /// <returns>
-        /// <para>A links of t link</para>
-        /// <para></para>
-        /// </returns>
         public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
         {
             var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
             return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
 
-        /// <summary>
-        /// <para>
-        /// Creates the json storage using the specified links.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="links">
-        /// <para>The links.</para>
-        /// <para></para>
-        /// </param>
-        /// <returns>
-        /// <para>A default json storage of t link</para>
-        /// <para></para>
-        /// </returns>
         public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new (links, BalancedVariantConverter);
         
-        /// <summary>
-        /// <para>
-        /// Imports the storage.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="storage">
-        /// <para>The storage.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="documentName">
-        /// <para>The document name.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="json">
-        /// <para>The json.</para>
-        /// <para></para>
-        /// </param>
-        /// <returns>
-        /// <para>The link</para>
-        /// <para></para>
-        /// </returns>
         public TLink Import(IJsonStorage<TLink> storage, string documentName, byte[] json)
         {
             Utf8JsonReader utf8JsonReader = new(json);
@@ -111,24 +35,6 @@ namespace Platform.Data.Doublets.Json.Tests
             return jsonImporter.Import(documentName, ref utf8JsonReader, in cancellationToken);
         }
 
-        /// <summary>
-        /// <para>
-        /// Exports the document link.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="documentLink">
-        /// <para>The document link.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="storage">
-        /// <para>The storage.</para>
-        /// <para></para>
-        /// </param>
-        /// <param name="stream">
-        /// <para>The stream.</para>
-        /// <para></para>
-        /// </param>
         public void Export(TLink documentLink, IJsonStorage<TLink> storage, in MemoryStream stream)
         {
             Utf8JsonWriter writer = new(stream);
@@ -139,16 +45,6 @@ namespace Platform.Data.Doublets.Json.Tests
             writer.Dispose();
         }
         
-        /// <summary>
-        /// <para>
-        /// Tests that test.
-        /// </para>
-        /// <para></para>
-        /// </summary>
-        /// <param name="initialJson">
-        /// <para>The initial json.</para>
-        /// <para></para>
-        /// </param>
         [Theory]
         [InlineData("{}")]
         [InlineData("\"stringValue\"")]
