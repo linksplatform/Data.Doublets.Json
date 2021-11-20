@@ -31,7 +31,7 @@ jobs:
         run: dotnet test -c Release -f net5
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && env.IS_CS_FILE_CHANGED
+    if: github.event_name == 'push' && ${{env.IS_CS_FILE_CHANGED}}
     steps:
       - uses: actions/checkout@v1
         with:
