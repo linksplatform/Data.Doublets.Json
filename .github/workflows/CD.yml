@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           echo "CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA})" >> $GITHUB_ENV
-          echo "IS_CS_FILE_CHANGED=$(printf "${{CHANGED_FILES}}" | grep "*.cs")" >> $GITHUB_ENV
+          echo "IS_CS_FILE_CHANGED=$(printf "${{env.CHANGED_FILES}}" | grep "*.cs")" >> $GITHUB_ENV
   test:
     runs-on: ubuntu-latest
     steps:
