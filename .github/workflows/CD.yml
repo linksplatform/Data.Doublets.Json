@@ -10,9 +10,15 @@ env:
   NUGETTOKEN: ${{ secrets.NUGET_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SCRIPTS_BASE_URL: https://raw.githubusercontent.com/linksplatform/Scripts/master/MultiProjectRepository
-  CHANGED_FILES: ${{ git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA} }}
 
 jobs:
+  add_changed_files_to_env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: echo "CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA})" >> $GITHUB_ENV
   test:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +29,7 @@ jobs:
         run: dotnet test -c Release -f net5
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && printf "${CHANGED_FILES}" | grep "*.cs"
+    if: github.event_name == 'push' && printf "${env.CHANGED_FILES}" | grep "*.cs"
     steps:
       - uses: actions/checkout@v1
         with:
@@ -61,7 +67,7 @@ jobs:
           wget "$SCRIPTS_BASE_URL/publish-release.sh"
           bash ./publish-release.sh
   pushCSharpNuGetToGitHubPackageRegistry:
-    needs: testAndDeploy
+    needs: [test, deploy]
     if: github.event_name == 'push'
     runs-on: windows-latest
     steps:
