@@ -29,7 +29,7 @@ jobs:
         run: dotnet test -c Release -f net5
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && printf "${env.CHANGED_FILES}" | grep "*.cs"
+    if: github.event_name == 'push' && echo "${env.CHANGED_FILES}" | grep "*.cs"
     steps:
       - uses: actions/checkout@v1
         with:
