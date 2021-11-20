@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - run: |
           echo "CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA})" >> $GITHUB_ENV
           echo "IS_CS_FILE_CHANGED=$(printf "${env.CHANGED_FILES}" | grep "*.cs")" >> $GITHUB_ENV
@@ -31,7 +29,7 @@ jobs:
         run: dotnet test -c Release -f net5
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && ${{IS_CS_FILE_CHANGED}}
+    if: github.event_name == 'push' && IS_CS_FILE_CHANGED
     steps:
       - uses: actions/checkout@v1
         with:
