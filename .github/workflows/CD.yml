@@ -23,8 +23,8 @@ jobs:
       - name: Get changed cs files
         id: get_changed_cs_files
         run: |
-          $output=(echo git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA} | grep "*.cs")
-          echo "::set-output name=CHANGED_CS_FILES::$output"
+          $changed_cs_files=(git diff-tree --no-commit-id --name-only -r ${GITHUB_SHA} | grep ".*cs")
+          echo "::set-output name=CHANGED_CS_FILES::$changed_cs_files"
   test:
     runs-on: ubuntu-latest
     steps:
