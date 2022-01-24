@@ -255,7 +255,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateArray(IList<TLink> array);
+        TLink CreateArray(IList<TLink>? array);
         /// <summary>
         /// <para>
         /// Creates the array value using the specified array.
