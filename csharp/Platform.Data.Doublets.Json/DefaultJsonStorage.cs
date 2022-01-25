@@ -271,7 +271,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>A list to sequence converter.</para>
         /// <para></para>
         /// </param>
-        public DefaultJsonStorage(ILinks<TLink> links, IConverter<IList<TLink>, TLink> listToSequenceConverter)
+        public DefaultJsonStorage(ILinks<TLink> links, IConverter<IList<TLink>?, TLink> listToSequenceConverter)
         {
             Links = links;
             ListToSequenceConverter = listToSequenceConverter;
@@ -493,7 +493,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateArray(IList<TLink> array)
+        public TLink CreateArray(IList<TLink>? array)
         {
             var arraySequence = array.Count == 0 ? EmptyArrayMarker : BalancedVariantConverter.Convert(array);
             return CreateArray(arraySequence);
@@ -529,7 +529,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateArrayValue(IList<TLink> array)
+        public TLink CreateArrayValue(IList<TLink>? array)
         {
             var arrayLink = CreateArray(array);
             return CreateValue(arrayLink);
@@ -719,7 +719,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachArray(TLink parent, IList<TLink> array)
+        public TLink AttachArray(TLink parent, IList<TLink>? array)
         {
             var arrayValue = CreateArrayValue(array);
             return Attach(parent, arrayValue);

@@ -270,7 +270,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateArrayValue(IList<TLink> array) => CreateValue(CreateArray(array));
+        TLink CreateArrayValue(IList<TLink>? array) => CreateValue(CreateArray(array));
         /// <summary>
         /// <para>
         /// Creates the array value using the specified array.
@@ -440,7 +440,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachArray(TLink parent, IList<TLink> array);
+        TLink AttachArray(TLink parent, IList<TLink>? array);
         /// <summary>
         /// <para>
         /// Attaches the member to object using the specified object.
