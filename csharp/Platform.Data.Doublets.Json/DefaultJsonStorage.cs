@@ -23,9 +23,9 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    /// <seealso cref="IJsonStorage{TLink}"/>
-    public class DefaultJsonStorage<TLink> : IJsonStorage<TLink>
-        where TLink : struct
+    /// <seealso cref="IJsonStorage{TLinkAddress}"/>
+    public class DefaultJsonStorage<TLinkAddress> : IJsonStorage<TLinkAddress>
+        where TLinkAddress : struct
     {
         /// <summary>
         /// <para>
@@ -33,49 +33,49 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly TLink Any;
+        public readonly TLinkAddress Any;
         /// <summary>
         /// <para>
         /// The zero.
         /// </para>
         /// <para></para>
         /// </summary>
-        public static readonly TLink Zero = default;
+        public static readonly TLinkAddress Zero = default;
         /// <summary>
         /// <para>
         /// The zero.
         /// </para>
         /// <para></para>
         /// </summary>
-        public static readonly TLink One = Arithmetic.Increment(Zero);
+        public static readonly TLinkAddress One = Arithmetic.Increment(Zero);
         /// <summary>
         /// <para>
         /// The balanced variant converter.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly BalancedVariantConverter<TLink> BalancedVariantConverter;
+        public readonly BalancedVariantConverter<TLinkAddress> BalancedVariantConverter;
         /// <summary>
         /// <para>
         /// The list to sequence converter.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly IConverter<IList<TLink>?, TLink> ListToSequenceConverter;
+        public readonly IConverter<IList<TLinkAddress>?, TLinkAddress> ListToSequenceConverter;
         /// <summary>
         /// <para>
         /// The meaning root.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly TLink MeaningRoot;
+        public readonly TLinkAddress MeaningRoot;
         /// <summary>
         /// <para>
         /// The default.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
+        public readonly EqualityComparer<TLinkAddress> EqualityComparer = EqualityComparer<TLinkAddress>.Default;
         // Converters that are able to convert link's address (UInt64 value) to a raw number represented with another UInt64 value and back
         /// <summary>
         /// <para>
@@ -83,14 +83,14 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly RawNumberToAddressConverter<TLink> NumberToAddressConverter = new();
+        public readonly RawNumberToAddressConverter<TLinkAddress> NumberToAddressConverter = new();
         /// <summary>
         /// <para>
         /// The address to number converter.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly AddressToRawNumberConverter<TLink> AddressToNumberConverter = new();
+        public readonly AddressToRawNumberConverter<TLinkAddress> AddressToNumberConverter = new();
         // Converters between BigInteger and raw number sequence
         /// <summary>
         /// <para>
@@ -98,14 +98,14 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly BigIntegerToRawNumberSequenceConverter<TLink> BigIntegerToRawNumberSequenceConverter;
+        public readonly BigIntegerToRawNumberSequenceConverter<TLinkAddress> BigIntegerToRawNumberSequenceConverter;
         /// <summary>
         /// <para>
         /// The raw number sequence to big integer converter.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly RawNumberSequenceToBigIntegerConverter<TLink> RawNumberSequenceToBigIntegerConverter;
+        public readonly RawNumberSequenceToBigIntegerConverter<TLinkAddress> RawNumberSequenceToBigIntegerConverter;
         // Converters between decimal and rational number sequence
         /// <summary>
         /// <para>
@@ -113,14 +113,14 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly DecimalToRationalConverter<TLink> DecimalToRationalConverter;
+        public readonly DecimalToRationalConverter<TLinkAddress> DecimalToRationalConverter;
         /// <summary>
         /// <para>
         /// The rational to decimal converter.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly RationalToDecimalConverter<TLink> RationalToDecimalConverter;
+        public readonly RationalToDecimalConverter<TLinkAddress> RationalToDecimalConverter;
         // Converters between string and unicode sequence
         /// <summary>
         /// <para>
@@ -128,14 +128,14 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly IConverter<string, TLink> StringToUnicodeSequenceConverter;
+        public readonly IConverter<string, TLinkAddress> StringToUnicodeSequenceConverter;
         /// <summary>
         /// <para>
         /// The unicode sequence to string converter.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly IConverter<TLink, string> UnicodeSequenceToStringConverter;
+        public readonly IConverter<TLinkAddress, string> UnicodeSequenceToStringConverter;
         // For sequences
         /// <summary>
         /// <para>
@@ -143,119 +143,119 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly JsonArrayElementCriterionMatcher<TLink> JsonArrayElementCriterionMatcher;
+        public readonly JsonArrayElementCriterionMatcher<TLinkAddress> JsonArrayElementCriterionMatcher;
         /// <summary>
         /// <para>
         /// The default sequence right height provider.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly DefaultSequenceRightHeightProvider<TLink> DefaultSequenceRightHeightProvider;
+        public readonly DefaultSequenceRightHeightProvider<TLinkAddress> DefaultSequenceRightHeightProvider;
         /// <summary>
         /// <para>
         /// The default sequence appender.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly DefaultSequenceAppender<TLink> DefaultSequenceAppender;
+        public readonly DefaultSequenceAppender<TLinkAddress> DefaultSequenceAppender;
         /// <summary>
         /// <para>
         /// Gets the links value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public ILinks<TLink> Links { get; }
+        public ILinks<TLinkAddress> Links { get; }
         /// <summary>
         /// <para>
         /// Gets the document marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink DocumentMarker { get; }
+        public TLinkAddress DocumentMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the object marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink ObjectMarker { get; }
+        public TLinkAddress ObjectMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the member marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink MemberMarker { get; }
+        public TLinkAddress MemberMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the value marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink ValueMarker { get; }
+        public TLinkAddress ValueMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the string marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink StringMarker { get; }
+        public TLinkAddress StringMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the empty string marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink EmptyStringMarker { get; }
+        public TLinkAddress EmptyStringMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the number marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink NumberMarker { get; }
+        public TLinkAddress NumberMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the negative number marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink NegativeNumberMarker { get; }
+        public TLinkAddress NegativeNumberMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the array marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink ArrayMarker { get; }
+        public TLinkAddress ArrayMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the empty array marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink EmptyArrayMarker { get; }
+        public TLinkAddress EmptyArrayMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the true marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink TrueMarker { get; }
+        public TLinkAddress TrueMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the false marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink FalseMarker { get; }
+        public TLinkAddress FalseMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the null marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink NullMarker { get; }
+        public TLinkAddress NullMarker { get; }
 
         /// <summary>
         /// <para>
@@ -271,7 +271,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>A list to sequence converter.</para>
         /// <para></para>
         /// </param>
-        public DefaultJsonStorage(ILinks<TLink> links, IConverter<IList<TLink>?, TLink> listToSequenceConverter)
+        public DefaultJsonStorage(ILinks<TLinkAddress> links, IConverter<IList<TLinkAddress>?, TLinkAddress> listToSequenceConverter)
         {
             Links = links;
             ListToSequenceConverter = listToSequenceConverter;
@@ -295,19 +295,19 @@ namespace Platform.Data.Doublets.Json
             FalseMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             NullMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
             BalancedVariantConverter = new(links);
-            TargetMatcher<TLink> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolMarker);
-            TargetMatcher<TLink> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceMarker);
-            CharToUnicodeSymbolConverter<TLink> charToUnicodeSymbolConverter =
+            TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolMarker);
+            TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceMarker);
+            CharToUnicodeSymbolConverter<TLinkAddress> charToUnicodeSymbolConverter =
                 new(Links, AddressToNumberConverter, unicodeSymbolMarker);
-            UnicodeSymbolToCharConverter<TLink> unicodeSymbolToCharConverter =
+            UnicodeSymbolToCharConverter<TLinkAddress> unicodeSymbolToCharConverter =
                 new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
-            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLink>(
-                new StringToUnicodeSequenceConverter<TLink>(Links, charToUnicodeSymbolConverter,
+            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLinkAddress>(
+                new StringToUnicodeSequenceConverter<TLinkAddress>(Links, charToUnicodeSymbolConverter,
                     BalancedVariantConverter, unicodeSequenceMarker));
-            RightSequenceWalker<TLink> sequenceWalker =
-                new(Links, new DefaultStack<TLink>(), unicodeSymbolCriterionMatcher.IsMatched);
-            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLink, string>(
-                new UnicodeSequenceToStringConverter<TLink>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
+            RightSequenceWalker<TLinkAddress> sequenceWalker =
+                new(Links, new DefaultStack<TLinkAddress>(), unicodeSymbolCriterionMatcher.IsMatched);
+            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLinkAddress, string>(
+                new UnicodeSequenceToStringConverter<TLinkAddress>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
                     unicodeSymbolToCharConverter));
             BigIntegerToRawNumberSequenceConverter =
                 new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberMarker);
@@ -316,7 +316,7 @@ namespace Platform.Data.Doublets.Json
             RationalToDecimalConverter = new(links, RawNumberSequenceToBigIntegerConverter);
             JsonArrayElementCriterionMatcher = new(this);
             DefaultSequenceRightHeightProvider = new(Links, JsonArrayElementCriterionMatcher);
-            DefaultSequenceAppender = new(Links, new DefaultStack<TLink>(), DefaultSequenceRightHeightProvider);
+            DefaultSequenceAppender = new(Links, new DefaultStack<TLinkAddress>(), DefaultSequenceRightHeightProvider);
         }
         
         /// <summary>
@@ -333,7 +333,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateString(string content)
+        public TLinkAddress CreateString(string content)
         {
             var @string = GetStringSequence(content);
             return Links.GetOrCreate(StringMarker, @string);
@@ -353,7 +353,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateStringValue(string content)
+        public TLinkAddress CreateStringValue(string content)
         {
             var @string = CreateString(content);
             return CreateValue(@string);
@@ -373,7 +373,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateNumber(decimal number)
+        public TLinkAddress CreateNumber(decimal number)
         {
             var numberSequence = DecimalToRationalConverter.Convert(number);
             return Links.GetOrCreate(NumberMarker, numberSequence);
@@ -393,7 +393,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateNumberValue(decimal number)
+        public TLinkAddress CreateNumberValue(decimal number)
         {
             var numberLink = CreateNumber(number);
             return CreateValue(numberLink);
@@ -413,7 +413,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
+        public TLinkAddress CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
 
         /// <summary>
         /// <para>
@@ -425,7 +425,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateNullValue() => CreateValue(NullMarker);
+        public TLinkAddress CreateNullValue() => CreateValue(NullMarker);
 
         /// <summary>
         /// <para>
@@ -441,7 +441,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateDocument(string name)
+        public TLinkAddress CreateDocument(string name)
         {
             var documentName = CreateString(name);
             return Links.GetOrCreate(DocumentMarker, documentName);
@@ -457,7 +457,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateObject()
+        public TLinkAddress CreateObject()
         {
             var @object = Links.Create();
             return Links.Update(@object, newSource: ObjectMarker, newTarget: @object);
@@ -473,7 +473,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateObjectValue()
+        public TLinkAddress CreateObjectValue()
         {
             var @object = CreateObject();
             return CreateValue(@object);
@@ -493,7 +493,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateArray(IList<TLink>? array)
+        public TLinkAddress CreateArray(IList<TLinkAddress>? array)
         {
             var arraySequence = array.Count == 0 ? EmptyArrayMarker : BalancedVariantConverter.Convert(array);
             return CreateArray(arraySequence);
@@ -513,7 +513,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateArray(TLink sequence) => Links.GetOrCreate(ArrayMarker, sequence);
+        public TLinkAddress CreateArray(TLinkAddress sequence) => Links.GetOrCreate(ArrayMarker, sequence);
 
         /// <summary>
         /// <para>
@@ -529,7 +529,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateArrayValue(IList<TLink>? array)
+        public TLinkAddress CreateArrayValue(IList<TLinkAddress>? array)
         {
             var arrayLink = CreateArray(array);
             return CreateValue(arrayLink);
@@ -549,7 +549,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateArrayValue(TLink sequence)
+        public TLinkAddress CreateArrayValue(TLinkAddress sequence)
         {
             var array = CreateArray(sequence);
             return CreateValue(array);
@@ -569,7 +569,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateMember(string name)
+        public TLinkAddress CreateMember(string name)
         {
             var nameLink = CreateString(name);
             return Links.GetOrCreate(MemberMarker, nameLink);
@@ -589,7 +589,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink CreateValue(TLink value) => Links.GetOrCreate(ValueMarker, value);
+        public TLinkAddress CreateValue(TLinkAddress value) => Links.GetOrCreate(ValueMarker, value);
 
         /// <summary>
         /// <para>
@@ -605,7 +605,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachObject(TLink parent) => Attach(parent, CreateObjectValue());
+        public TLinkAddress AttachObject(TLinkAddress parent) => Attach(parent, CreateObjectValue());
 
         /// <summary>
         /// <para>
@@ -625,7 +625,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachString(TLink parent, string content)
+        public TLinkAddress AttachString(TLinkAddress parent, string content)
         {
             var @string = CreateString(content);
             var stringValue = CreateValue(@string);
@@ -650,7 +650,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachNumber(TLink parent, decimal number)
+        public TLinkAddress AttachNumber(TLinkAddress parent, decimal number)
         {
             var numberLink = CreateNumber(number);
             var numberValue = CreateValue(numberLink);
@@ -675,7 +675,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachBoolean(TLink parent, bool value)
+        public TLinkAddress AttachBoolean(TLinkAddress parent, bool value)
         {
             var booleanValue = CreateBooleanValue(value);
             return Attach(parent, booleanValue);
@@ -695,7 +695,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachNull(TLink parent)
+        public TLinkAddress AttachNull(TLinkAddress parent)
         {
             var nullValue = CreateNullValue();
             return Attach(parent, nullValue);
@@ -719,7 +719,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachArray(TLink parent, IList<TLink>? array)
+        public TLinkAddress AttachArray(TLinkAddress parent, IList<TLinkAddress>? array)
         {
             var arrayValue = CreateArrayValue(array);
             return Attach(parent, arrayValue);
@@ -743,7 +743,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink AttachMemberToObject(TLink @object, string keyName)
+        public TLinkAddress AttachMemberToObject(TLinkAddress @object, string keyName)
         {
             var member = CreateMember(keyName); 
             return Attach(@object, member);
@@ -767,7 +767,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink Attach(TLink parent, TLink child) => Links.GetOrCreate(parent, child);
+        public TLinkAddress Attach(TLinkAddress parent, TLinkAddress child) => Links.GetOrCreate(parent, child);
 
         /// <summary>
         /// <para>
@@ -787,11 +787,11 @@ namespace Platform.Data.Doublets.Json
         /// <para>The new array value.</para>
         /// <para></para>
         /// </returns>
-        public TLink AppendArrayValue(TLink arrayValue, TLink appendant)
+        public TLinkAddress AppendArrayValue(TLinkAddress arrayValue, TLinkAddress appendant)
         {
             var array = GetArray(arrayValue);
             var arraySequence = Links.GetTarget(array);
-            TLink newArrayValue;
+            TLinkAddress newArrayValue;
             if (EqualityComparer.Equals(arraySequence, EmptyArrayMarker))
             {
                 newArrayValue = CreateArrayValue(appendant);
@@ -818,7 +818,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink GetDocumentOrDefault(string name)
+        public TLinkAddress GetDocumentOrDefault(string name)
         {
             var stringSequence = GetStringSequence(name);
             var @string = Links.SearchOrDefault(StringMarker, stringSequence);
@@ -828,7 +828,7 @@ namespace Platform.Data.Doublets.Json
             }
             return Links.SearchOrDefault(DocumentMarker, @string);
         }
-        private TLink GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
+        private TLinkAddress GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
         
         /// <summary>
         /// <para>
@@ -848,10 +848,10 @@ namespace Platform.Data.Doublets.Json
         /// <para>The string</para>
         /// <para></para>
         /// </returns>
-        public string GetString(TLink stringValue)
+        public string GetString(TLinkAddress stringValue)
         {
             var current = stringValue;
-            TLink source;
+            TLinkAddress source;
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
@@ -884,11 +884,11 @@ namespace Platform.Data.Doublets.Json
         /// <para>The decimal</para>
         /// <para></para>
         /// </returns>
-        public decimal GetNumber(TLink valueLink)
+        public decimal GetNumber(TLinkAddress valueLink)
         {
             var current = valueLink;
-            TLink source;
-            TLink target;
+            TLinkAddress source;
+            TLinkAddress target;
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
@@ -921,10 +921,10 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink GetObject(TLink objectValueLink)
+        public TLinkAddress GetObject(TLinkAddress objectValueLink)
         {
             var current = objectValueLink;
-            TLink source;
+            TLinkAddress source;
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
@@ -955,10 +955,10 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink GetArray(TLink arrayValueLink)
+        public TLinkAddress GetArray(TLinkAddress arrayValueLink)
         {
             var current = arrayValueLink;
-            TLink source;
+            TLinkAddress source;
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
@@ -985,7 +985,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink GetArraySequence(TLink array) => Links.GetTarget(array);
+        public TLinkAddress GetArraySequence(TLinkAddress array) => Links.GetTarget(array);
 
         /// <summary>
         /// <para>
@@ -1013,9 +1013,9 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLink GetValueLink(TLink parent)
+        public TLinkAddress GetValueLink(TLinkAddress parent)
         {
-            var query = new Link<TLink>(index: Any, source: parent, target: Any);
+            var query = new Link<TLinkAddress>(index: Any, source: parent, target: Any);
             var resultLinks = Links.All(query);
             switch (resultLinks.Count)
             {
@@ -1052,7 +1052,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The target source.</para>
         /// <para></para>
         /// </returns>
-        public TLink GetValueMarker(TLink value)
+        public TLinkAddress GetValueMarker(TLinkAddress value)
         {
             var target = Links.GetTarget(value);
             var targetSource = Links.GetSource(target);
@@ -1077,10 +1077,10 @@ namespace Platform.Data.Doublets.Json
         /// <para>The members.</para>
         /// <para></para>
         /// </returns>
-        public List<TLink> GetMembersLinks(TLink @object)
+        public List<TLinkAddress> GetMembersLinks(TLinkAddress @object)
         {
-            Link<TLink> query = new(index: Any, source: @object, target: Any);
-            List<TLink> members = new();
+            Link<TLinkAddress> query = new(index: Any, source: @object, target: Any);
+            List<TLinkAddress> members = new();
             Links.Each(objectMemberLink =>
             {
                 var memberLink = Links.GetTarget(objectMemberLink);

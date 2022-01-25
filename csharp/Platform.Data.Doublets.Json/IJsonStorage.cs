@@ -10,7 +10,7 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    public interface IJsonStorage<TLink>
+    public interface IJsonStorage<TLinkAddress>
     {
         /// <summary>
         /// <para>
@@ -18,91 +18,91 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public ILinks<TLink> Links { get; }
+        public ILinks<TLinkAddress> Links { get; }
         /// <summary>
         /// <para>
         /// Gets the document marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink DocumentMarker { get; }
+        public TLinkAddress DocumentMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the object marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink ObjectMarker { get; }
+        public TLinkAddress ObjectMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the string marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink StringMarker { get; }
+        public TLinkAddress StringMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the empty string marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink EmptyStringMarker { get; }
+        public TLinkAddress EmptyStringMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the member marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink MemberMarker { get; }
+        public TLinkAddress MemberMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the value marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink ValueMarker { get; }
+        public TLinkAddress ValueMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the number marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink NumberMarker { get; }
+        public TLinkAddress NumberMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the array marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink ArrayMarker { get; }
+        public TLinkAddress ArrayMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the empty array marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink EmptyArrayMarker { get; }
+        public TLinkAddress EmptyArrayMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the true marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink TrueMarker { get; }
+        public TLinkAddress TrueMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the false marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink FalseMarker { get; }
+        public TLinkAddress FalseMarker { get; }
         /// <summary>
         /// <para>
         /// Gets the null marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLink NullMarker { get; }
+        public TLinkAddress NullMarker { get; }
         /// <summary>
         /// <para>
         /// Creates the string using the specified content.
@@ -117,7 +117,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateString(string content);
+        TLinkAddress CreateString(string content);
         /// <summary>
         /// <para>
         /// Creates the string value using the specified content.
@@ -132,7 +132,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateStringValue(string content);
+        TLinkAddress CreateStringValue(string content);
         /// <summary>
         /// <para>
         /// Creates the number using the specified number.
@@ -147,7 +147,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateNumber(decimal number);
+        TLinkAddress CreateNumber(decimal number);
         /// <summary>
         /// <para>
         /// Creates the number value using the specified number.
@@ -162,7 +162,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateNumberValue(decimal number);
+        TLinkAddress CreateNumberValue(decimal number);
         /// <summary>
         /// <para>
         /// Creates the boolean value using the specified value.
@@ -177,7 +177,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateBooleanValue(bool value);
+        TLinkAddress CreateBooleanValue(bool value);
         /// <summary>
         /// <para>
         /// Creates the null value.
@@ -188,7 +188,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateNullValue();
+        TLinkAddress CreateNullValue();
         /// <summary>
         /// <para>
         /// Creates the document using the specified name.
@@ -203,7 +203,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateDocument(string name);
+        TLinkAddress CreateDocument(string name);
         /// <summary>
         /// <para>
         /// Gets the document or default using the specified name.
@@ -218,7 +218,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink GetDocumentOrDefault(string name);
+        TLinkAddress GetDocumentOrDefault(string name);
         /// <summary>
         /// <para>
         /// Creates the object.
@@ -229,7 +229,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateObject();
+        TLinkAddress CreateObject();
         /// <summary>
         /// <para>
         /// Creates the object value.
@@ -240,7 +240,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateObjectValue();
+        TLinkAddress CreateObjectValue();
         /// <summary>
         /// <para>
         /// Creates the array using the specified array.
@@ -255,7 +255,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateArray(IList<TLink>? array);
+        TLinkAddress CreateArray(IList<TLinkAddress>? array);
         /// <summary>
         /// <para>
         /// Creates the array value using the specified array.
@@ -270,7 +270,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateArrayValue(IList<TLink>? array) => CreateValue(CreateArray(array));
+        TLinkAddress CreateArrayValue(IList<TLinkAddress>? array) => CreateValue(CreateArray(array));
         /// <summary>
         /// <para>
         /// Creates the array value using the specified array.
@@ -285,7 +285,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateArrayValue(TLink array) => CreateValue(array);
+        TLinkAddress CreateArrayValue(TLinkAddress array) => CreateValue(array);
         /// <summary>
         /// <para>
         /// Creates the member using the specified name.
@@ -300,7 +300,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateMember(string name);
+        TLinkAddress CreateMember(string name);
         /// <summary>
         /// <para>
         /// Creates the value using the specified value.
@@ -315,7 +315,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink CreateValue(TLink value);
+        TLinkAddress CreateValue(TLinkAddress value);
         /// <summary>
         /// <para>
         /// Attaches the source.
@@ -334,7 +334,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink Attach(TLink source, TLink target);
+        TLinkAddress Attach(TLinkAddress source, TLinkAddress target);
         /// <summary>
         /// <para>
         /// Attaches the object using the specified parent.
@@ -349,7 +349,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachObject(TLink parent);
+        TLinkAddress AttachObject(TLinkAddress parent);
         /// <summary>
         /// <para>
         /// Attaches the string using the specified parent.
@@ -368,7 +368,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachString(TLink parent, string content);
+        TLinkAddress AttachString(TLinkAddress parent, string content);
         /// <summary>
         /// <para>
         /// Attaches the number using the specified parent.
@@ -387,7 +387,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachNumber(TLink parent, decimal number);
+        TLinkAddress AttachNumber(TLinkAddress parent, decimal number);
         /// <summary>
         /// <para>
         /// Attaches the boolean using the specified parent.
@@ -406,7 +406,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachBoolean(TLink parent, bool value);
+        TLinkAddress AttachBoolean(TLinkAddress parent, bool value);
         /// <summary>
         /// <para>
         /// Attaches the null using the specified parent.
@@ -421,7 +421,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachNull(TLink parent);
+        TLinkAddress AttachNull(TLinkAddress parent);
         /// <summary>
         /// <para>
         /// Attaches the array using the specified parent.
@@ -440,7 +440,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachArray(TLink parent, IList<TLink>? array);
+        TLinkAddress AttachArray(TLinkAddress parent, IList<TLinkAddress>? array);
         /// <summary>
         /// <para>
         /// Attaches the member to object using the specified object.
@@ -459,7 +459,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AttachMemberToObject(TLink @object, string keyName);
+        TLinkAddress AttachMemberToObject(TLinkAddress @object, string keyName);
         /// <summary>
         /// <para>
         /// Appends the array value using the specified array value.
@@ -478,7 +478,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink AppendArrayValue(TLink arrayValue, TLink appendant);
+        TLinkAddress AppendArrayValue(TLinkAddress arrayValue, TLinkAddress appendant);
         /// <summary>
         /// <para>
         /// Gets the string using the specified string value.
@@ -493,7 +493,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The string</para>
         /// <para></para>
         /// </returns>
-        string GetString(TLink stringValue);
+        string GetString(TLinkAddress stringValue);
         /// <summary>
         /// <para>
         /// Gets the number using the specified value.
@@ -508,7 +508,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The decimal</para>
         /// <para></para>
         /// </returns>
-        decimal GetNumber(TLink value);
+        decimal GetNumber(TLinkAddress value);
         /// <summary>
         /// <para>
         /// Gets the object using the specified object value.
@@ -523,7 +523,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink GetObject(TLink objectValue);
+        TLinkAddress GetObject(TLinkAddress objectValue);
         /// <summary>
         /// <para>
         /// Gets the array using the specified array value link.
@@ -538,7 +538,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink GetArray(TLink arrayValueLink);
+        TLinkAddress GetArray(TLinkAddress arrayValueLink);
         /// <summary>
         /// <para>
         /// Gets the array sequence using the specified array.
@@ -553,7 +553,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink GetArraySequence(TLink array);
+        TLinkAddress GetArraySequence(TLinkAddress array);
         /// <summary>
         /// <para>
         /// Gets the value link using the specified parent.
@@ -568,7 +568,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink GetValueLink(TLink parent);
+        TLinkAddress GetValueLink(TLinkAddress parent);
         /// <summary>
         /// <para>
         /// Gets the value marker using the specified link.
@@ -583,7 +583,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLink GetValueMarker(TLink link);
+        TLinkAddress GetValueMarker(TLinkAddress link);
         /// <summary>
         /// <para>
         /// Gets the members links using the specified object.
@@ -598,6 +598,6 @@ namespace Platform.Data.Doublets.Json
         /// <para>A list of t link</para>
         /// <para></para>
         /// </returns>
-        List<TLink> GetMembersLinks(TLink @object);
+        List<TLinkAddress> GetMembersLinks(TLinkAddress @object);
     }
 }

@@ -18,8 +18,8 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    public class JsonExporterCli<TLink>
-        where TLink : struct
+    public class JsonExporterCli<TLinkAddress>
+        where TLinkAddress : struct
     {
         /// <summary>
         /// <para>
@@ -53,12 +53,12 @@ namespace Platform.Data.Doublets.Json
                 Indented = true
             };
             Utf8JsonWriter utf8JsonWriter = new(jsonFileStream, utf8JsonWriterOptions);
-            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
-            using UnitedMemoryLinks<TLink> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+            var linksConstants = new LinksConstants<TLinkAddress>(enableExternalReferencesSupport: true);
+            using UnitedMemoryLinks<TLinkAddress> memoryAdapter = new (new FileMappedResizableDirectMemory(linksFilePath), UnitedMemoryLinks<TLinkAddress>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
-            BalancedVariantConverter<TLink> balancedVariantConverter = new(links);
-            var storage = new DefaultJsonStorage<TLink>(links, balancedVariantConverter);
-            var exporter = new JsonExporter<TLink>(storage);
+            BalancedVariantConverter<TLinkAddress> balancedVariantConverter = new(links);
+            var storage = new DefaultJsonStorage<TLinkAddress>(links, balancedVariantConverter);
+            var exporter = new JsonExporter<TLinkAddress>(storage);
             var document = storage.GetDocumentOrDefault(documentName);
             if (storage.EqualityComparer.Equals(document, default))
             {

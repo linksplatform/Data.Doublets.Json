@@ -13,7 +13,7 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    public class JsonImporter<TLink>
+    public class JsonImporter<TLinkAddress>
     {
         /// <summary>
         /// <para>
@@ -21,21 +21,21 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly IJsonStorage<TLink> Storage;
+        public readonly IJsonStorage<TLinkAddress> Storage;
         /// <summary>
         /// <para>
         /// The default.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
+        public readonly EqualityComparer<TLinkAddress> EqualityComparer = EqualityComparer<TLinkAddress>.Default;
         /// <summary>
         /// <para>
         /// The parents.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly Stack<TLink> Parents = new ();
+        public readonly Stack<TLinkAddress> Parents = new ();
         /// <summary>
         /// <para>
         /// Initializes a new <see cref="JsonImporter"/> instance.
@@ -46,7 +46,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>A storage.</para>
         /// <para></para>
         /// </param>
-        public JsonImporter(IJsonStorage<TLink> storage) => Storage = storage;
+        public JsonImporter(IJsonStorage<TLinkAddress> storage) => Storage = storage;
             private void PopIfParentIsMember()
         {
             var parent = Parents.Peek();
@@ -83,7 +83,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The document.</para>
         /// <para></para>
         /// </returns>
-        public TLink Import(string documentName, ref Utf8JsonReader utf8JsonReader, in CancellationToken cancellationToken)
+        public TLinkAddress Import(string documentName, ref Utf8JsonReader utf8JsonReader, in CancellationToken cancellationToken)
         {
             Parents.Clear();
             if (!EqualityComparer.Equals(Storage.GetDocumentOrDefault(documentName), default))
@@ -92,11 +92,11 @@ namespace Platform.Data.Doublets.Json
             }
             var document = Storage.CreateDocument(documentName);
             Parents.Push(document);
-            TLink parent;
-            TLink parentMarker;
+            TLinkAddress parent;
+            TLinkAddress parentMarker;
             JsonTokenType tokenType;
-            TLink value;
-            TLink newParentArray;
+            TLinkAddress value;
+            TLinkAddress newParentArray;
             while (utf8JsonReader.Read())
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -132,7 +132,7 @@ namespace Platform.Data.Doublets.Json
                         Parents.Pop();
                         break;
                     case JsonTokenType.StartArray:
-                        value = Storage.CreateArrayValue(Array.Empty<TLink>());
+                        value = Storage.CreateArrayValue(Array.Empty<TLinkAddress>());
                         Parents.Push(value);
                         break;
                     case JsonTokenType.EndArray:

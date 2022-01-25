@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Threading;
 using System.IO;
 using Xunit;
-using TLink = System.UInt64;
+using TLinkAddress = System.UInt64;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Memory;
 using Platform.Data.Doublets.Memory;
@@ -14,31 +14,31 @@ namespace Platform.Data.Doublets.Json.Tests
 {
     public class JsonImportAndExportTests
     {
-        public static BalancedVariantConverter<TLink> BalancedVariantConverter;
+        public static BalancedVariantConverter<TLinkAddress> BalancedVariantConverter;
         
-        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(new IO.TemporaryFile());
+        public static ILinks<TLinkAddress> CreateLinks() => CreateLinks<TLinkAddress>(new IO.TemporaryFile());
 
-        public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
+        public static ILinks<TLinkAddress> CreateLinks<TLinkAddress>(string dataDBFilename)
         {
-            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
-            return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+            var linksConstants = new LinksConstants<TLinkAddress>(enableExternalReferencesSupport: true);
+            return new UnitedMemoryLinks<TLinkAddress>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLinkAddress>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
 
-        public static DefaultJsonStorage<TLink> CreateJsonStorage(ILinks<TLink> links) => new (links, BalancedVariantConverter);
+        public static DefaultJsonStorage<TLinkAddress> CreateJsonStorage(ILinks<TLinkAddress> links) => new (links, BalancedVariantConverter);
         
-        public TLink Import(IJsonStorage<TLink> storage, string documentName, byte[] json)
+        public TLinkAddress Import(IJsonStorage<TLinkAddress> storage, string documentName, byte[] json)
         {
             Utf8JsonReader utf8JsonReader = new(json);
-            JsonImporter<TLink> jsonImporter = new(storage);
+            JsonImporter<TLinkAddress> jsonImporter = new(storage);
             CancellationTokenSource importCancellationTokenSource = new();
             CancellationToken cancellationToken = importCancellationTokenSource.Token;
             return jsonImporter.Import(documentName, ref utf8JsonReader, in cancellationToken);
         }
 
-        public void Export(TLink documentLink, IJsonStorage<TLink> storage, in MemoryStream stream)
+        public void Export(TLinkAddress documentLink, IJsonStorage<TLinkAddress> storage, in MemoryStream stream)
         {
             Utf8JsonWriter writer = new(stream);
-            JsonExporter<TLink> jsonExporter = new(storage);
+            JsonExporter<TLinkAddress> jsonExporter = new(storage);
             CancellationTokenSource exportCancellationTokenSource = new();
             CancellationToken exportCancellationToken = exportCancellationTokenSource.Token;
             jsonExporter.Export(documentLink, ref writer, in exportCancellationToken);

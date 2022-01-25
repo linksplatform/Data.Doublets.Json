@@ -23,8 +23,8 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    /// <seealso cref="ICriterionMatcher{TLink}"/>
-    public class JsonArrayElementCriterionMatcher<TLink> : ICriterionMatcher<TLink>
+    /// <seealso cref="ICriterionMatcher{TLinkAddress}"/>
+    public class JsonArrayElementCriterionMatcher<TLinkAddress> : ICriterionMatcher<TLinkAddress>
     {
         /// <summary>
         /// <para>
@@ -32,7 +32,7 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly IJsonStorage<TLink> Storage;
+        public readonly IJsonStorage<TLinkAddress> Storage;
         /// <summary>
         /// <para>
         /// Initializes a new <see cref="JsonArrayElementCriterionMatcher"/> instance.
@@ -43,7 +43,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>A storage.</para>
         /// <para></para>
         /// </param>
-        public JsonArrayElementCriterionMatcher(IJsonStorage<TLink> storage) => Storage = storage;
+        public JsonArrayElementCriterionMatcher(IJsonStorage<TLinkAddress> storage) => Storage = storage;
         /// <summary>
         /// <para>
         /// Determines whether this instance is matched.
@@ -58,6 +58,6 @@ namespace Platform.Data.Doublets.Json
         /// <para>The bool</para>
         /// <para></para>
         /// </returns>
-        public bool IsMatched(TLink link) => EqualityComparer<TLink>.Default.Equals(Storage.Links.GetSource(link), Storage.ValueMarker);
+        public bool IsMatched(TLinkAddress link) => EqualityComparer<TLinkAddress>.Default.Equals(Storage.Links.GetSource(link), Storage.ValueMarker);
     }
 }

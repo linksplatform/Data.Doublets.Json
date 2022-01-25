@@ -15,7 +15,7 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    public class JsonExporter<TLink>
+    public class JsonExporter<TLinkAddress>
     {
         /// <summary>
         /// <para>
@@ -23,14 +23,14 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly IJsonStorage<TLink> Storage;
+        public readonly IJsonStorage<TLinkAddress> Storage;
         /// <summary>
         /// <para>
         /// The default.
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly EqualityComparer<TLink> EqualityComparer = EqualityComparer<TLink>.Default;
+        public readonly EqualityComparer<TLinkAddress> EqualityComparer = EqualityComparer<TLinkAddress>.Default;
 
         /// <summary>
         /// <para>
@@ -42,17 +42,17 @@ namespace Platform.Data.Doublets.Json
         /// <para>A storage.</para>
         /// <para></para>
         /// </param>
-        public JsonExporter(IJsonStorage<TLink> storage) => Storage = storage;
-            private bool IsElement(TLink link)
+        public JsonExporter(IJsonStorage<TLinkAddress> storage) => Storage = storage;
+            private bool IsElement(TLinkAddress link)
         {
             var marker = Storage.Links.GetSource(link);
             return EqualityComparer.Equals(marker, Storage.ValueMarker);
         }
-        private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
-        private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
-        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLink valueLink) => utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
-        private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
-        private void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLink valueLink, CancellationToken cancellationToken)
+        private void WriteStringValue(in Utf8JsonWriter utf8JsonWriter, TLinkAddress valueLink) => utf8JsonWriter.WriteStringValue(Storage.GetString(valueLink));
+        private void WriteString(in Utf8JsonWriter utf8JsonWriter, string parent, TLinkAddress valueLink) => utf8JsonWriter.WriteString(parent, Storage.GetString(valueLink));
+        private void WriteNumberValue(in Utf8JsonWriter utf8JsonWriter, TLinkAddress valueLink) => utf8JsonWriter.WriteNumberValue(Storage.GetNumber(valueLink));
+        private void WriteNumber(in Utf8JsonWriter utf8JsonWriter, string parent, TLinkAddress valueLink) => utf8JsonWriter.WriteNumber(parent, Storage.GetNumber(valueLink));
+        private void Write(ref Utf8JsonWriter utf8JsonWriter, string parent, TLinkAddress valueLink, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -80,7 +80,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteStartArray(parent);
                 if (!EqualityComparer.Equals(sequence, Storage.EmptyArrayMarker))
                 {
-                    RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, new DefaultStack<TLink>(), IsElement);
+                    RightSequenceWalker<TLinkAddress> rightSequenceWalker = new(Storage.Links, new DefaultStack<TLinkAddress>(), IsElement);
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
@@ -114,7 +114,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteNull(parent);
             }
         }
-        private void Write(ref Utf8JsonWriter utf8JsonWriter, TLink valueLink, in CancellationToken cancellationToken)
+        private void Write(ref Utf8JsonWriter utf8JsonWriter, TLinkAddress valueLink, in CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -142,7 +142,7 @@ namespace Platform.Data.Doublets.Json
                 utf8JsonWriter.WriteStartArray();
                 if (!EqualityComparer.Equals(sequence, Storage.EmptyArrayMarker))
                 {
-                    RightSequenceWalker<TLink> rightSequenceWalker = new(Storage.Links, new DefaultStack<TLink>(), IsElement);
+                    RightSequenceWalker<TLinkAddress> rightSequenceWalker = new(Storage.Links, new DefaultStack<TLinkAddress>(), IsElement);
                     var elements = rightSequenceWalker.Walk(sequence);
                     foreach (var element in elements)
                     {
@@ -199,7 +199,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>No document with this name exists</para>
         /// <para></para>
         /// </exception>
-        public void Export(TLink document, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
+        public void Export(TLinkAddress document, ref Utf8JsonWriter utf8JsonWriter, in CancellationToken cancellationToken)
         {
             if (EqualityComparer.Equals(document, default))
             {

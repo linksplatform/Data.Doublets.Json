@@ -18,8 +18,8 @@ namespace Platform.Data.Doublets.Json
     /// </para>
     /// <para></para>
     /// </summary>
-    public class JsonImporterCli<TLink>
-        where TLink : struct
+    public class JsonImporterCli<TLinkAddress>
+        where TLinkAddress : struct
     {
         /// <summary>
         /// <para>
@@ -50,15 +50,15 @@ namespace Platform.Data.Doublets.Json
             var encodedJson = Encoding.UTF8.GetBytes(json);
             ReadOnlySpan<byte> readOnlySpanEncodedJson = new(encodedJson);
             Utf8JsonReader utf8JsonReader = new(readOnlySpanEncodedJson);
-            LinksConstants<TLink> linksConstants = new(enableExternalReferencesSupport: true);
+            LinksConstants<TLinkAddress> linksConstants = new(enableExternalReferencesSupport: true);
             FileMappedResizableDirectMemory fileMappedResizableDirectMemory = new(linksFilePath);
-            var unitedMemoryLinks = UnitedMemoryLinks<TLink>.DefaultLinksSizeStep;
+            var unitedMemoryLinks = UnitedMemoryLinks<TLinkAddress>.DefaultLinksSizeStep;
             const IndexTreeType indexTreeType = IndexTreeType.Default;
-            using UnitedMemoryLinks<TLink> memoryAdapter = new(fileMappedResizableDirectMemory, unitedMemoryLinks, linksConstants, indexTreeType);
+            using UnitedMemoryLinks<TLinkAddress> memoryAdapter = new(fileMappedResizableDirectMemory, unitedMemoryLinks, linksConstants, indexTreeType);
             var links = memoryAdapter.DecorateWithAutomaticUniquenessAndUsagesResolution();
-            BalancedVariantConverter<TLink> balancedVariantConverter = new(links);
-            DefaultJsonStorage<TLink> storage = new(links, balancedVariantConverter);
-            JsonImporter<TLink> importer = new(storage);
+            BalancedVariantConverter<TLinkAddress> balancedVariantConverter = new(links);
+            DefaultJsonStorage<TLinkAddress> storage = new(links, balancedVariantConverter);
+            JsonImporter<TLinkAddress> importer = new(storage);
             using ConsoleCancellation cancellation = new();
             var cancellationToken = cancellation.Token;
             Console.WriteLine("Press CTRL+C to stop.");

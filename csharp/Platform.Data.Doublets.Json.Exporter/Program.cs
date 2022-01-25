@@ -1,4 +1,4 @@
-using TLink = System.UInt64;
+using TLinkAddress = System.UInt64;
 
 namespace Platform.Data.Doublets.Json.Exporter
 {
@@ -16,7 +16,7 @@ namespace Platform.Data.Doublets.Json.Exporter
         /// </param>
         static void Main(params string[] args)
         {
-            new JsonExporterCli<TLink>().Run(args);
+            new JsonExporterCli<TLinkAddress>().Run(args);
         }
     }
 }

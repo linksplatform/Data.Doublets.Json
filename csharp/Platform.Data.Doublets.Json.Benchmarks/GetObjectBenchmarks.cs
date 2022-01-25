@@ -2,7 +2,7 @@ using BenchmarkDotNet.Attributes;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Data.Doublets.Memory;
 using Platform.Memory;
-using TLink = System.UInt32;
+using TLinkAddress = System.UInt32;
 using System.IO;
 using System.Collections.Generic;
 using System;
@@ -14,18 +14,18 @@ namespace Platform.Data.Doublets.Json.Benchmarks
 {
     public class GetObjectBenchmarks
     {
-        private ILinks<TLink> _links;
-        private BalancedVariantConverter<TLink> _balancedVariantConverter;
-        private DefaultJsonStorage<TLink> _defaultJsonStorage;
-        private TLink _document;
-        private TLink _documentObjectValueLink;
-        private TLink _objectValueLink;
-        private TLink _object;
-        public static ILinks<TLink> CreateLinks() => CreateLinks<TLink>(Path.GetTempFileName());
-        public static ILinks<TLink> CreateLinks<TLink>(string dataDBFilename)
+        private ILinks<TLinkAddress> _links;
+        private BalancedVariantConverter<TLinkAddress> _balancedVariantConverter;
+        private DefaultJsonStorage<TLinkAddress> _defaultJsonStorage;
+        private TLinkAddress _document;
+        private TLinkAddress _documentObjectValueLink;
+        private TLinkAddress _objectValueLink;
+        private TLinkAddress _object;
+        public static ILinks<TLinkAddress> CreateLinks() => CreateLinks<TLinkAddress>(Path.GetTempFileName());
+        public static ILinks<TLinkAddress> CreateLinks<TLinkAddress>(string dataDBFilename)
         {
-            var linksConstants = new LinksConstants<TLink>(enableExternalReferencesSupport: true);
-            return new UnitedMemoryLinks<TLink>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLink>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
+            var linksConstants = new LinksConstants<TLinkAddress>(enableExternalReferencesSupport: true);
+            return new UnitedMemoryLinks<TLinkAddress>(new FileMappedResizableDirectMemory(dataDBFilename), UnitedMemoryLinks<TLinkAddress>.DefaultLinksSizeStep, linksConstants, IndexTreeType.Default);
         }
 
         [GlobalSetup]
@@ -33,19 +33,19 @@ namespace Platform.Data.Doublets.Json.Benchmarks
         {
             _links = CreateLinks();
             _balancedVariantConverter = new(_links);
-            _defaultJsonStorage = new DefaultJsonStorage<TLink>(_links, _balancedVariantConverter);
+            _defaultJsonStorage = new DefaultJsonStorage<TLinkAddress>(_links, _balancedVariantConverter);
             _document = _defaultJsonStorage.CreateDocument("documentName");
             _documentObjectValueLink = _defaultJsonStorage.AttachObject(_document);
             _objectValueLink = _links.GetTarget(_documentObjectValueLink);
             _object = _links.GetTarget(_objectValueLink);
         }
 
-        public TLink GetObjectWihoutLoop(TLink objectValue)
+        public TLinkAddress GetObjectWihoutLoop(TLinkAddress objectValue)
         {
-            EqualityComparer<TLink> equalityComparer = EqualityComparer<TLink>.Default;
+            EqualityComparer<TLinkAddress> equalityComparer = EqualityComparer<TLinkAddress>.Default;
 
-            TLink current = objectValue;
-            TLink source = _links.GetSource(current);
+            TLinkAddress current = objectValue;
+            TLinkAddress source = _links.GetSource(current);
             if (equalityComparer.Equals(source, _defaultJsonStorage.ObjectMarker)) return current;
 
             current = _links.GetTarget(current);
@@ -59,37 +59,37 @@ namespace Platform.Data.Doublets.Json.Benchmarks
             throw new Exception("Not an object.");
         }
         [Benchmark]
-        public TLink GetObjectFromDocumentObjectValueLinkBenchmark()
+        public TLinkAddress GetObjectFromDocumentObjectValueLinkBenchmark()
         {
             return _defaultJsonStorage.GetObject(_documentObjectValueLink);
         }
 
         [Benchmark]
-        public TLink GetObjectFromObjectValueLinkBenchmark()
+        public TLinkAddress GetObjectFromObjectValueLinkBenchmark()
         {
             return _defaultJsonStorage.GetObject(_objectValueLink);
         }
 
         [Benchmark]
-        public TLink GetObjectFromObjectBenchmark()
+        public TLinkAddress GetObjectFromObjectBenchmark()
         {
             return _defaultJsonStorage.GetObject(_object);
         }
 
         [Benchmark]
-        public TLink GetObjectFromDocumentObjectValueLinkWithoutLoopBenchmark()
+        public TLinkAddress GetObjectFromDocumentObjectValueLinkWithoutLoopBenchmark()
         {
             return GetObjectWihoutLoop(_documentObjectValueLink);
         }
 
         [Benchmark]
-        public TLink GetObjectFromObjectValueLinkWithoutLoopBenchmark()
+        public TLinkAddress GetObjectFromObjectValueLinkWithoutLoopBenchmark()
         {
             return GetObjectWihoutLoop(_objectValueLink);
         }
 
         [Benchmark]
-        public TLink GetObjectFromObjectWithoutLoopBenchmark()
+        public TLinkAddress GetObjectFromObjectWithoutLoopBenchmark()
         {
             return GetObjectWihoutLoop(_object);
         }
