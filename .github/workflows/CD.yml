@@ -32,7 +32,7 @@ jobs:
         with:
           submodules: true
       - name: Test
-        run: dotnet test -c Release -f net6
+        run: dotnet test -c Release -f net5
   deploy:
     runs-on: ubuntu-latest
     needs: get_changed_files
@@ -42,7 +42,7 @@ jobs:
         with:
           submodules: true
       - name: Test
-        run: dotnet test -c Release -f net6
+        run: dotnet test -c Release -f net5
       - name: Generate PDF with CSharp code
         run: |
           export REPOSITORY_NAME=$(basename ${{ github.repository }})
