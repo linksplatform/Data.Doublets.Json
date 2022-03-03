@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Platform.Converters" Version="0.3.1" />
+		<PackageReference Include="Platform.Converters" Version="0.3.2" />
 		<PackageReference Include="Platform.Data.Doublets.Sequences" Version="0.1.0" />
 	</ItemGroup>
 
