@@ -2,9 +2,7 @@ name: CD
 
 on:
   push:
-    branches: master
-  pull_request:
-    branches: master
+    branches: main
 
 env:
   NUGETTOKEN: ${{ secrets.NUGET_TOKEN }}
