@@ -13,7 +13,7 @@ env:
 
 jobs:
   findCppCMakeLists:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
         with:
@@ -32,10 +32,10 @@ jobs:
             echo "::set-output name=isCppCmakeListsFound::false"
           fi
   testCpp:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       isCppCmakeListsFound: findCppCMakeLists.outputs.isCppCmakeListsFound
-    if: "true" == isCppCmakeListsFound
+    if: ${{"true" == isCppCmakeListsFound}}
     steps:
       - uses: actions/checkout@v1
         with:
@@ -105,7 +105,7 @@ jobs:
           fi
   testCs:
     runs-on: windows-latest
-    if: "true" == findCsproj.outputs.isCsprojFound
+    if: ${{"true" == findCsproj.outputs.isCsprojFound}}
     steps:
       - uses: actions/checkout@v1
         with:
@@ -176,9 +176,9 @@ jobs:
     - name: Check if Csharp files are changed
       uses: tj-actions/verify-changed-files@v5.5
       id: checkIfCsharpFilesChanged
-        with:
-          files: |
-             Dockerfile
+      with:
+        files: |
+           Dockerfile
       if: github.event_name == 'push'
   generatePdfWithCsharpCode:
     runs-on: ubuntu-latest
