@@ -23,7 +23,7 @@ jobs:
       - name: Find CMakeLists in cpp folder
         id: findCppCmakeLists
         run: |
-          cd cpp;
+          cd cpp
           FILE=CMakeLists.txt
           if [ -f "$FILE" ]
           then
