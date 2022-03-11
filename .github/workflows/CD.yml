@@ -14,12 +14,12 @@ env:
 jobs:
   findCppCMakeLists:
     runs-on: ubuntu-latest
+    outputs:
+      isCppCmakeListsFound: steps.findCppCmakeLists.isCppCmakeListsFound
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: true
-        outputs:
-          isCppCmakeListsFound: steps.findCppCmakeLists.isCppCmakeListsFound
       - name: Find CMakeLists in cpp folder
         id: findCppCmakeLists
         run: |
@@ -81,12 +81,12 @@ jobs:
           ls
   findCsproj:
     runs-on: windows-latest
+    outputs:
+      isCsprojFound: steps.findCsproj.isCsprojFound
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: true
-        outputs:
-          isCsprojFound: steps.findCsproj.isCsprojFound
       - name: Find csproj in cs folder
         id: findCsproj
         run: |
