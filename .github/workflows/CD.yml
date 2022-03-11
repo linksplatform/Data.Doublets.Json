@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       isCppCmakeListsFound: findCppCMakeLists.outputs.isCppCmakeListsFound
-    if: ${{"true" == isCppCmakeListsFound}}
+    if: ${{isCppCmakeListsFound == "true"}}
     steps:
       - uses: actions/checkout@v1
         with:
