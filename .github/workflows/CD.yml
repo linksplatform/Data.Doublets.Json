@@ -31,7 +31,7 @@ jobs:
           fi
   testCpp:
     runs-on: ubuntu-latest
-    if: ${{findCppCMakeLists.outputs.isCppCmakeListsFound == "true"}}
+    if: ${{steps.findCppCMakeLists.outputs.isCppCmakeListsFound == "true"}}
     steps:
       - uses: actions/checkout@v1
         with:
