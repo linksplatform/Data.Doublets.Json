@@ -1,4 +1,4 @@
-using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes; 
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.Data.Doublets.Memory;
 using Platform.Memory;
