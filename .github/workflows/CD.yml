@@ -32,7 +32,7 @@ jobs:
   testCpp:
     runs-on: ubuntu-latest
     needs: findCppCMakeLists
-    if: ${{needs.findCppCMakeLists.outputs.isCppCmakeListsFound == "true"}}
+    if: ${{needs.findCppCMakeLists.outputs.isCppCmakeListsFound == true}}
     steps:
       - uses: actions/checkout@v1
         with:
