@@ -71,7 +71,7 @@ jobs:
           cmake --build .
           ls
   findCsproj:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     outputs:
       isCsprojFound: steps.findCsproj.isCsprojFound
     steps:
@@ -89,7 +89,7 @@ jobs:
             echo "::set-output name=isCsprojFound::false"
           fi
   testCs:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: findCsproj
     if: true == needs.findCsproj.outputs.isCsprojFound
     steps:
