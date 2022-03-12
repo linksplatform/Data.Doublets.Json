@@ -32,16 +32,13 @@ jobs:
   testCpp:
     runs-on: ubuntu-latest
     needs: findCppCMakeLists
-    if: ${{needs.findCppCMakeLists.outputs.isCppCmakeListsFound == true}}
+    if: true == needs.findCppCMakeLists.outputs.isCppCmakeListsFound
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: true
       - name: Check file existence
         id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "package.json, LICENSE, README.md"
       - name: Install conan
         run: pip install conan
       - name: Setup conan
@@ -102,7 +99,8 @@ jobs:
           fi
   testCs:
     runs-on: windows-latest
-    if: ${{"true" == findCsproj.outputs.isCsprojFound}}
+    needs: findCsproj
+    if: true == needs.findCsproj.outputs.isCsprojFound
     steps:
       - uses: actions/checkout@v1
         with:
@@ -179,15 +177,14 @@ jobs:
       if: github.event_name == 'push'
   generatePdfWithCsharpCode:
     runs-on: ubuntu-latest
-    needs: [testCpp, testCs]
+    needs: [findChangedCsFiles, testCs]
+    if: true == needs.findChangedCsFiles.outputs.filesChanged
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
     - name: Generate PDF with CSharp code
-      env:
-        IS_CSHARP_FILES_CHANGED: findChangedCsFiles.outputs.filesChanged
-      if: github.event_name == 'push' && "true" == IS_CSHARP_FILES_CHANGED
+      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/format-csharp-files.py"
@@ -196,7 +193,8 @@ jobs:
         bash ./generate-csharp-pdf.sh
   publishCsDocumentation:
     runs-on: ubuntu-latest
-    needs: [testCpp, testCs]
+    needs: [findChangedCsFiles, testCs]
+    if: true == needs.findChangedCsFiles.outputs.filesChanged
     steps:
     - uses: actions/checkout@v1
       with:
