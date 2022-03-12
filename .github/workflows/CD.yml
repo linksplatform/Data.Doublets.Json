@@ -198,9 +198,7 @@ jobs:
       with:
         submodules: true
     - name: Publish CSharp documentation to gh-pages branch
-      env:
-        IS_CSHARP_FILES_CHANGED: findChangedCsFiles.outputs.filesChanged
-      if: github.event_name == 'push' && "true" == IS_CSHARP_FILES_CHANGED
+      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/docfx.json"
