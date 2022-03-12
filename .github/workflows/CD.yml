@@ -21,8 +21,7 @@ jobs:
       - name: Find CMakeLists in cpp folder
         id: findCppCmakeLists
         run: |
-          cd cpp
-          FILE=CMakeLists.txt
+          FILE=cpp/CMakeLists.txt
           if [ -f "$FILE" ]
           then
             echo "::set-output name=isCppCmakeListsFound::true"
