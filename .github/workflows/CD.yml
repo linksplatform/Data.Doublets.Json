@@ -81,15 +81,9 @@ jobs:
       - name: Find csproj in cs folder
         id: findCsproj
         run: |
-          cd cs;
-          exist_files() {
-            ext="${1}"
-            for file in *."${ext}"; do
-              [[ -f $file ]] && return 0
-            done
-            return 1
-          }
-          if exist_files "*csproj"; then
+          if find "$full_path_trace" -name '*.trc' -mtime +5 -print -quit |
+             grep -q '^'; 
+          then
             echo "::set-output name=isCsprojFound::true"
           else
             echo "::set-output name=isCsprojFound::false"
