@@ -24,8 +24,10 @@ jobs:
           FILE=cpp/CMakeLists.txt
           if [ -f "$FILE" ]
           then
+            echo "CMAKELISTS IS FOUND!!!!!!"
             echo "::set-output name=isCppCmakeListsFound::true"
           else
+            echo "CMAKELISTS IS NOT FOUND!!!!!!"
             echo "::set-output name=isCppCmakeListsFound::false"
           fi
   testCpp:
@@ -84,8 +86,10 @@ jobs:
           if find "$full_path_trace" -name '*.trc' -mtime +5 -print -quit |
              grep -q '^'; 
           then
+            echo "CMAKELISTS IS FOUND!!!!!!"
             echo "::set-output name=isCsprojFound::true"
           else
+            echo "CMAKELISTS IS NOT FOUND!!!!!!"
             echo "::set-output name=isCsprojFound::false"
           fi
   testCs:
