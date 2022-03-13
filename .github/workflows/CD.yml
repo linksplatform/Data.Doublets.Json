@@ -21,6 +21,7 @@ jobs:
       - name: Find CMakeLists in cpp folder
         id: findCppCmakeLists
         run: |
+          ls
           FILE=cpp/CMakeLists.txt
           if [ -f "$FILE" ]
           then
@@ -83,6 +84,7 @@ jobs:
       - name: Find csproj in cs folder
         id: findCsproj
         run: |
+          ls
           if find "$full_path_trace" -name '*.trc' -mtime +5 -print -quit |
              grep -q '^'; 
           then
