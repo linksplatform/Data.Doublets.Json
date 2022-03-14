@@ -21,14 +21,13 @@ jobs:
       - name: Find CMakeLists in cpp folder
         id: findCppCmakeLists
         run: |
-          ls
-          FILE=cpp/CMakeLists.txt
-          if [ -f "$FILE" ]
+          foundFile=$(find -type f -name "CMakeLists.txt")
+          if [[ $foundFile=="" ]]
           then
-            echo "CMAKELISTS IS FOUND!!!!!!"
+            echo "CMakeLists is found"
             echo "::set-output name=isCppCmakeListsFound::true"
           else
-            echo "CMAKELISTS IS NOT FOUND!!!!!!"
+            echo "CMakeLists is not found"
             echo "::set-output name=isCppCmakeListsFound::false"
           fi
   testCpp:
@@ -84,9 +83,13 @@ jobs:
       - name: Find csproj in cs folder
         id: findCsproj
         run: |
-          if ls $PATTERN 1> /dev/null 2>&1; then
+          csproj=$(find -type f -name "*.csproj")
+          if [[ $csproj!="" ]]
+          then
+            echo "csproj is found"
             echo "::set-output name=isCsprojFound::true"
           else
+            echo "csproj is not found"
             echo "::set-output name=isCsprojFound::false"
           fi
   testCs:
@@ -137,7 +140,7 @@ jobs:
         wget "$SCRIPTS_BASE_URL/publish-release.sh"
         bash ./publish-release.sh
   pushCSharpNuGetToGitHubPackageRegistry:
-    needs: deploy
+    needs: [findChangedCsFiles, deploy]
     if: github.event_name == 'push'
     runs-on: windows-latest
     steps:
