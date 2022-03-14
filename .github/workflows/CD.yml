@@ -32,7 +32,7 @@ jobs:
   testCpp:
     runs-on: ubuntu-latest
     needs: findCppDirectory
-    if: needs.findCppCMakeLists.outputs.isCppDirectoryFound == 'true'
+    if: needs.findCppDirectory.outputs.isCppDirectoryFound == 'true'
     steps:
       - uses: actions/checkout@v1
         with:
@@ -93,7 +93,7 @@ jobs:
   testCs:
     runs-on: ubuntu-latest
     needs: findCsDirectory
-    if: needs.findCsproj.outputs.isCsprojFound == 'true'
+    if: needs.findCsDirectory.outputs.isCsDirectoryFound == 'true'
     steps:
       - uses: actions/checkout@v1
         with:
@@ -138,7 +138,7 @@ jobs:
   publiseRelease:
     runs-on: ubuntu-latest
     needs: [deployCpp, deployCs]
-    if: (needs.deployCpp.result == 'skipped' || needs.deployCs.result == 'skipped') && !failure() && !cancelled()
+    if: ((needs.deployCpp.result == 'skipped' && needs.deployCs.result != 'skipped') || (needs.deployCpp.result != 'skipped' && needs.deployCs.result == 'skipped')) && !failure() && !cancelled()
     steps:
       - uses: actions/checkout@v1
         with:
