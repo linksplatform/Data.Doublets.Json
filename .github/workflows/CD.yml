@@ -92,6 +92,13 @@ jobs:
             echo "csproj is not found"
             echo "::set-output name=isCsprojFound::false"
           fi
+      - name: Check
+        run: |
+          echo ${{steps.findCsproj.outputs.isCsprojFound}}
+          echo ${{steps.findCsproj.outputs.isCsprojFound == true}}
+          echo ${{steps.findCsproj.outputs.isCsprojFound}} == true
+          echo ${{${{steps.findCsproj.outputs.isCsprojFound}} == true}}
+          echo ${steps.findCsproj.outputs.isCsprojFound} == true
   testCs:
     runs-on: ubuntu-latest
     needs: findCsproj
