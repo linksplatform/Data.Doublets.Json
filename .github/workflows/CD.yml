@@ -33,7 +33,7 @@ jobs:
   testCpp:
     runs-on: ubuntu-latest
     needs: findCppCMakeLists
-    if: true == ${{needs.findCppCMakeLists.outputs.isCppCmakeListsFound}}
+    if: ${{true == needs.findCppCMakeLists.outputs.isCppCmakeListsFound}}
     steps:
       - uses: actions/checkout@v1
         with:
@@ -96,8 +96,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: findCsproj
 #     if: ${{true == needs.findCsproj.outputs.isCsprojFound}}
-    env:
-      isCsprojFound: ${{needs.findCsproj.outputs.isCsprojFound}}
     steps:
       - uses: actions/checkout@v1
         with:
@@ -105,9 +103,7 @@ jobs:
       - name: Test C#
         run: |
           dotnet test -c Release -f net6
-          echo $isCsprojFound
-          echo "isCsprojFoundEqualToTrue: "
-          echo $isCsprojFound == true
+          echo ${{needs.findCsproj.outputs.isCsprojFound}}
           exit 1
   deploy:
     runs-on: ubuntu-latest
