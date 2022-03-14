@@ -87,10 +87,10 @@ jobs:
           if [[ $csproj!="" ]]
           then
             echo "csproj is found"
-            echo "::set-output name=isCsprojFound::true"
+            echo "::set-output name=isCsprojFound::trueee"
           else
             echo "csproj is not found"
-            echo "::set-output name=isCsprojFound::false"
+            echo "::set-output name=isCsprojFound::falseee"
           fi
   testCs:
     runs-on: ubuntu-latest
@@ -102,9 +102,9 @@ jobs:
           submodules: true
       - name: Test C#
         run: |
-          dotnet test -c Release -f net6
           echo ${{needs.findCsproj.outputs.isCsprojFound}}
           exit 1
+          dotnet test -c Release -f net6
   deploy:
     runs-on: ubuntu-latest
     needs: [testCpp, testCs]
