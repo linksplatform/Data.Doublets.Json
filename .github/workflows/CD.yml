@@ -82,7 +82,7 @@ jobs:
       - name: Find csharp directory
         id: isCsharpDirectoryFound
         run: |
-          if [ -d "charp" ] 
+          if [ -d "csharp" ] 
           then
               echo "Directory csharp exists." 
               echo "::set-output name=isCsharpDirectoryFound::true"
