@@ -80,7 +80,7 @@ jobs:
         with:
           submodules: true
       - name: Find csharp directory
-        id: isCsharpDirectoryFound
+        id: findCsharpDirectory
         run: |
           if [ -d "csharp" ] 
           then
