@@ -95,7 +95,7 @@ jobs:
   testCs:
     runs-on: ubuntu-latest
     needs: findCsproj
-    if: ${{needs.findCsproj.outputs.isCsprojFound}}
+    if: needs.findCsproj.outputs.isCsprojFound == true
     steps:
       - uses: actions/checkout@v1
         with:
