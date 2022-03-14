@@ -10,30 +10,29 @@ env:
   SCRIPTS_BASE_URL: https://raw.githubusercontent.com/linksplatform/Scripts/master/MultiProjectRepository
 
 jobs:
-  findCppCMakeLists:
+  findCppDirectory:
     runs-on: ubuntu-latest
     outputs:
-      isCppCmakeListsFound: ${{steps.findCppCmakeLists.outputs.isCppCmakeListsFound}}
+      isCppDirectoryFound: ${{steps.findCppDirectory.outputs.isCppDirectoryFound}}
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: true
-      - name: Find CMakeLists in cpp folder
-        id: findCppCmakeLists
+      - name: Find cpp directory
+        id: findCppDirectory
         run: |
-          foundFile=$(find -type f -name "CMakeLists.txt")
-          if [[ $foundFile=="" ]]
+          if [ -d "cpp" ] 
           then
-            echo "CMakeLists is found"
-            echo "::set-output name=isCppCmakeListsFound::true"
+              echo "Directory cpp exists." 
+              echo "::set-output name=isCppDirectoryFound::true"
           else
-            echo "CMakeLists is not found"
-            echo "::set-output name=isCppCmakeListsFound::false"
+              echo "Directory cpp does not exists." 
+              echo "::set-output name=isCppDirectoryFound::false"
           fi
   testCpp:
     runs-on: ubuntu-latest
-    needs: findCppCMakeLists
-    if: needs.findCppCMakeLists.outputs.isCppCmakeListsFound == 'true'
+    needs: findCppDirectory
+    if: needs.findCppCMakeLists.outputs.isCppDirectoryFound == 'true'
     steps:
       - uses: actions/checkout@v1
         with:
@@ -72,29 +71,28 @@ jobs:
           cmake .. $cmake_flags
           cmake --build .
           ls
-  findCsproj:
+  findCsDirectory:
     runs-on: ubuntu-latest
     outputs:
-      isCsprojFound: ${{steps.findCsproj.outputs.isCsprojFound}}
+      isCsDirectoryFound: ${{steps.findCsDirectory.outputs.isCsDirectoryFound}}
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: true
-      - name: Find csproj in cs folder
-        id: findCsproj
+      - name: Find cs directory
+        id: isCsDirectoryFound
         run: |
-          csproj=$(find -type f -name "*.csproj")
-          if [[ $csproj!="" ]]
+          if [ -d "cs" ] 
           then
-            echo "csproj is found"
-            echo "::set-output name=isCsprojFound::true"
+              echo "Directory cs exists." 
+              echo "::set-output name=isCsDirectoryFound::true"
           else
-            echo "csproj is not found"
-            echo "::set-output name=isCsprojFound::false"
+              echo "Directory cs does not exists." 
+              echo "::set-output name=isCsDirectoryFound::false"
           fi
   testCs:
     runs-on: ubuntu-latest
-    needs: findCsproj
+    needs: findCsDirectory
     if: needs.findCsproj.outputs.isCsprojFound == 'true'
     steps:
       - uses: actions/checkout@v1
@@ -103,46 +101,55 @@ jobs:
       - name: Test C#
         run: |
           dotnet test -c Release -f net6
-  deploy:
+  deployCpp:
     runs-on: ubuntu-latest
-    needs: [testCpp, testCs]
+    needs: testCpp
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
     - name: Read Cpp package information
-      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/read_cpp_package_info.sh"
         bash ./read_cpp_package_info.sh
     - name: Publish Cpp NuGet package
-      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/push-cpp-nuget.sh"
         bash ./push-cpp-nuget.sh
+  deployCs:
+    runs-on: ubuntu-latest
+    needs: testCs
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
     - name: Read CSharp project information
-      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/read_csharp_package_info.sh"
         bash ./read_csharp_package_info.sh
     - name: Publish CSharp NuGet package
-      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/push-csharp-nuget.sh"
         bash ./push-csharp-nuget.sh
-    - name: Publish release
-      if: github.event_name == 'push'
-      run: |
-        export REPOSITORY_NAME=$(basename ${{ github.repository }})
-        wget "$SCRIPTS_BASE_URL/publish-release.sh"
-        bash ./publish-release.sh
+  publiseRelease:
+    runs-on: ubuntu-latest
+    needs: [deployCpp, deployCs]
+    if: (needs.deployCpp.result == 'skipped' || needs.deployCs.result == 'skipped') && !failure() && !cancelled()
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - name: Publish release
+        run: |
+          export REPOSITORY_NAME=$(basename ${{ github.repository }})
+          wget "$SCRIPTS_BASE_URL/publish-release.sh"
+          bash ./publish-release.sh
   pushCSharpNuGetToGitHubPackageRegistry:
-    needs: [findChangedCsFiles, deploy]
-    if: github.event_name == 'push'
+    needs: publiseRelease
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
@@ -157,30 +164,28 @@ jobs:
           nuget push **/*.nupkg -Source "GitHub" -SkipDuplicate
   findChangedCsFiles:
     runs-on: ubuntu-latest
-    needs: [testCpp, testCs]
+    needs: publiseRelease
     outputs:
-      IS_CSHARP_FILES_CHANGED: steps.check_if_csharp_files_changed.isCsharpFilesChanged
+      isCsFilesChanged: steps.check_if_csharp_files_changed.outputs.findChangesCsFiles
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
-    - name: Check if Csharp files are changed
+    - name: Check if cs files are changed
       uses: tj-actions/verify-changed-files@v5.5
-      id: checkIfCsharpFilesChanged
+      id: findChangesCsFiles
       with:
         files: |
-           Dockerfile
-      if: github.event_name == 'push'
+           *.cs
   generatePdfWithCsharpCode:
     runs-on: ubuntu-latest
-    needs: [findChangedCsFiles, testCs]
-    if: true == needs.findChangedCsFiles.outputs.filesChanged
+    needs: [testCs, publiseRelease, findChangedCsFiles]
+    if: needs.findChangedCsFiles.outputs.isCsFilesChanged == 'true'
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
     - name: Generate PDF with CSharp code
-      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/format-csharp-files.py"
@@ -189,14 +194,13 @@ jobs:
         bash ./generate-csharp-pdf.sh
   publishCsDocumentation:
     runs-on: ubuntu-latest
-    needs: [findChangedCsFiles, testCs]
-    if: true == needs.findChangedCsFiles.outputs.filesChanged
+    needs: [testCs, publiseRelease, findChangedCsFiles]
+    if: needs.findChangedCsFiles.outputs.isCsFilesChanged == 'true'
     steps:
     - uses: actions/checkout@v1
       with:
         submodules: true
     - name: Publish CSharp documentation to gh-pages branch
-      if: github.event_name == 'push'
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/docfx.json"
