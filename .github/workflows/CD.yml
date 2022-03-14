@@ -87,10 +87,10 @@ jobs:
           if [[ $csproj!="" ]]
           then
             echo "csproj is found"
-            echo "::set-output name=isCsprojFound::trueee"
+            echo "::set-output name=isCsprojFound::true"
           else
             echo "csproj is not found"
-            echo "::set-output name=isCsprojFound::falseee"
+            echo "::set-output name=isCsprojFound::false"
           fi
   testCs:
     runs-on: ubuntu-latest
