@@ -95,7 +95,7 @@ jobs:
   testCs:
     runs-on: ubuntu-latest
     needs: findCsproj
-    if: ${{true == needs.findCsproj.outputs.isCsprojFound}}
+#     if: ${{true == needs.findCsproj.outputs.isCsprojFound}}
     steps:
       - uses: actions/checkout@v1
         with:
@@ -112,6 +112,10 @@ jobs:
     - name: Read Cpp package information
       if: github.event_name == 'push'
       run: |
+        echo "isCsprojFound: ${needs.findCsproj.outputs.isCsprojFound}\n"
+        echo "isCsprojFoundEqualToTrue: "
+        echo ${needs.findCsproj.outputs.isCsprojFound} == true
+        exit 1
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
         wget "$SCRIPTS_BASE_URL/read_cpp_package_info.sh"
         bash ./read_cpp_package_info.sh
