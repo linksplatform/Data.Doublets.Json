@@ -75,7 +75,7 @@ jobs:
   findCsproj:
     runs-on: ubuntu-latest
     outputs:
-      isCsprojFound: ${{steps.findCsproj.isCsprojFound}}
+      isCsprojFound: ${{steps.findCsproj.outputs.isCsprojFound}}
     steps:
       - uses: actions/checkout@v1
         with:
