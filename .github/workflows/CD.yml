@@ -71,29 +71,29 @@ jobs:
           cmake .. $cmake_flags
           cmake --build .
           ls
-  findCsDirectory:
+  findCsharpDirectory:
     runs-on: ubuntu-latest
     outputs:
-      isCsDirectoryFound: ${{steps.findCsDirectory.outputs.isCsDirectoryFound}}
+      isCsharpDirectoryFound: ${{steps.findCsharpDirectory.outputs.isCsharpDirectoryFound}}
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: true
-      - name: Find cs directory
-        id: isCsDirectoryFound
+      - name: Find csharp directory
+        id: isCsharpDirectoryFound
         run: |
-          if [ -d "cs" ] 
+          if [ -d "charp" ] 
           then
-              echo "Directory cs exists." 
-              echo "::set-output name=isCsDirectoryFound::true"
+              echo "Directory csharp exists." 
+              echo "::set-output name=isCsharpDirectoryFound::true"
           else
-              echo "Directory cs does not exists." 
-              echo "::set-output name=isCsDirectoryFound::false"
+              echo "Directory csharp does not exists." 
+              echo "::set-output name=isCsharpDirectoryFound::false"
           fi
   testCs:
     runs-on: ubuntu-latest
-    needs: findCsDirectory
-    if: needs.findCsDirectory.outputs.isCsDirectoryFound == 'true'
+    needs: findCsharpDirectory
+    if: needs.findCsharpDirectory.outputs.isCsharpDirectoryFound == 'true'
     steps:
       - uses: actions/checkout@v1
         with:
