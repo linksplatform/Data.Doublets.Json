@@ -96,6 +96,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: findCsproj
 #     if: ${{true == needs.findCsproj.outputs.isCsprojFound}}
+    env:
+      isCsprojFound: ${{needs.findCsproj.outputs.isCsprojFound}}
     steps:
       - uses: actions/checkout@v1
         with:
@@ -104,7 +106,7 @@ jobs:
         run: |
           dotnet test -c Release -f net6
           echo "isCsprojFoundEqualToTrue: "
-          echo ${needs.findCsproj.outputs.isCsprojFound} == true
+          echo $env.isCsprojFound == true
           exit 1
   deploy:
     runs-on: ubuntu-latest
