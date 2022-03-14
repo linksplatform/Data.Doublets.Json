@@ -92,6 +92,10 @@ jobs:
             echo "csproj is not found"
             echo "::set-output name=isCsprojFound::falseee"
           fi
+      - name: Find csproj in cs folder
+        id: checkStepVariable
+        run: |
+          echo ${{steps.findCsproj.outputs.isCsprojFound}}
   testCs:
     runs-on: ubuntu-latest
     needs: findCsproj
