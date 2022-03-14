@@ -105,8 +105,9 @@ jobs:
       - name: Test C#
         run: |
           dotnet test -c Release -f net6
+          echo $isCsprojFound
           echo "isCsprojFoundEqualToTrue: "
-          echo $env.isCsprojFound == true
+          echo $isCsprojFound == true
           exit 1
   deploy:
     runs-on: ubuntu-latest
