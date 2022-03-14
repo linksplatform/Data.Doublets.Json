@@ -103,7 +103,6 @@ jobs:
       - name: Test C#
         run: |
           dotnet test -c Release -f net6
-          echo "isCsprojFound: ${needs.findCsproj.outputs.isCsprojFound}\n"
           echo "isCsprojFoundEqualToTrue: "
           echo ${needs.findCsproj.outputs.isCsprojFound} == true
           exit 1
