@@ -84,14 +84,9 @@ jobs:
       - name: Find csproj in cs folder
         id: findCsproj
         run: |
-          ls
-          if find "$full_path_trace" -name '*.trc' -mtime +5 -print -quit |
-             grep -q '^'; 
-          then
-            echo "CMAKELISTS IS FOUND!!!!!!"
+          if ls $PATTERN 1> /dev/null 2>&1; then
             echo "::set-output name=isCsprojFound::true"
           else
-            echo "CMAKELISTS IS NOT FOUND!!!!!!"
             echo "::set-output name=isCsprojFound::false"
           fi
   testCs:
