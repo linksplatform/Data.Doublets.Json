@@ -6,7 +6,7 @@
 		<AssemblyTitle>Platform.Data.Doublets.Json</AssemblyTitle>
 		<VersionPrefix>0.1.2</VersionPrefix>
 		<Authors>FreePhoenix888</Authors>
-		<TargetFramework>net6</TargetFramework>
+		<TargetFramework>net7</TargetFramework>
 		<AssemblyName>Platform.Data.Doublets.Json</AssemblyName>
 		<PackageId>Platform.Data.Doublets.Json</PackageId>
 		<PackageTags>LinksPlatform;Data;Doublets;Json</PackageTags>
