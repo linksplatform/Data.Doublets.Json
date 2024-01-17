@@ -68,7 +68,7 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public readonly TLinkAddress MeaningRoot;
+        public readonly TLinkAddress Type;
         /// <summary>
         /// <para>
         /// The default.
@@ -171,91 +171,91 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress DocumentMarker { get; }
+        public TLinkAddress DocumentType { get; }
         /// <summary>
         /// <para>
         /// Gets the object marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress ObjectMarker { get; }
+        public TLinkAddress ObjectType { get; }
         /// <summary>
         /// <para>
         /// Gets the member marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress MemberMarker { get; }
+        public TLinkAddress MemberType { get; }
         /// <summary>
         /// <para>
         /// Gets the value marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress ValueMarker { get; }
+        public TLinkAddress ValueType { get; }
         /// <summary>
         /// <para>
         /// Gets the string marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress StringMarker { get; }
+        public TLinkAddress StringType { get; }
         /// <summary>
         /// <para>
         /// Gets the empty string marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress EmptyStringMarker { get; }
+        public TLinkAddress EmptyStringType { get; }
         /// <summary>
         /// <para>
         /// Gets the number marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress NumberMarker { get; }
+        public TLinkAddress NumberType { get; }
         /// <summary>
         /// <para>
         /// Gets the negative number marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress NegativeNumberMarker { get; }
+        public TLinkAddress NegativeNumberType { get; }
         /// <summary>
         /// <para>
         /// Gets the array marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress ArrayMarker { get; }
+        public TLinkAddress ArrayType { get; }
         /// <summary>
         /// <para>
         /// Gets the empty array marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress EmptyArrayMarker { get; }
+        public TLinkAddress EmptyArrayType { get; }
         /// <summary>
         /// <para>
         /// Gets the true marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress TrueMarker { get; }
+        public TLinkAddress TrueType { get; }
         /// <summary>
         /// <para>
         /// Gets the false marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress FalseMarker { get; }
+        public TLinkAddress FalseType { get; }
         /// <summary>
         /// <para>
         /// Gets the null marker value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress NullMarker { get; }
+        public TLinkAddress NullType { get; }
 
         /// <summary>
         /// <para>
@@ -277,41 +277,41 @@ namespace Platform.Data.Doublets.Json
             ListToSequenceConverter = listToSequenceConverter;
             // Initializes constants
             Any = Links.Constants.Any;
-            var markerIndex = One;
-            MeaningRoot = links.GetOrCreate(markerIndex, markerIndex);
-            var unicodeSymbolMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            var unicodeSequenceMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            DocumentMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            ObjectMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            MemberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            ValueMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            StringMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            EmptyStringMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            NumberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            NegativeNumberMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            ArrayMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            EmptyArrayMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            TrueMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            FalseMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
-            NullMarker = links.GetOrCreate(MeaningRoot, Arithmetic.Increment(ref markerIndex));
+            var typeAddress = One;
+            Type = links.GetOrCreate(typeAddress, typeAddress);
+            var unicodeSymbolType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            var unicodeSequenceType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            DocumentType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            ObjectType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            MemberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            ValueType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            StringType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            EmptyStringType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            NumberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            NegativeNumberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            ArrayType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            EmptyArrayType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            TrueType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            FalseType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            NullType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
             BalancedVariantConverter = new(links);
-            TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolMarker);
-            TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceMarker);
+            TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolType);
+            TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceType);
             CharToUnicodeSymbolConverter<TLinkAddress> charToUnicodeSymbolConverter =
-                new(Links, AddressToNumberConverter, unicodeSymbolMarker);
+                new(Links, AddressToNumberConverter, unicodeSymbolType);
             UnicodeSymbolToCharConverter<TLinkAddress> unicodeSymbolToCharConverter =
                 new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
             StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLinkAddress>(
                 new StringToUnicodeSequenceConverter<TLinkAddress>(Links, charToUnicodeSymbolConverter,
-                    BalancedVariantConverter, unicodeSequenceMarker));
+                    BalancedVariantConverter, unicodeSequenceType));
             RightSequenceWalker<TLinkAddress> sequenceWalker =
                 new(Links, new DefaultStack<TLinkAddress>(), unicodeSymbolCriterionMatcher.IsMatched);
             UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLinkAddress, string>(
                 new UnicodeSequenceToStringConverter<TLinkAddress>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
                     unicodeSymbolToCharConverter));
             BigIntegerToRawNumberSequenceConverter =
-                new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberMarker);
-            RawNumberSequenceToBigIntegerConverter = new(links, NumberToAddressConverter, NegativeNumberMarker);
+                new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberType);
+            RawNumberSequenceToBigIntegerConverter = new(links, NumberToAddressConverter, NegativeNumberType);
             DecimalToRationalConverter = new(links, BigIntegerToRawNumberSequenceConverter);
             RationalToDecimalConverter = new(links, RawNumberSequenceToBigIntegerConverter);
             JsonArrayElementCriterionMatcher = new(this);
@@ -336,7 +336,7 @@ namespace Platform.Data.Doublets.Json
         public TLinkAddress CreateString(string content)
         {
             var @string = GetStringSequence(content);
-            return Links.GetOrCreate(StringMarker, @string);
+            return Links.GetOrCreate(StringType, @string);
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace Platform.Data.Doublets.Json
         public TLinkAddress CreateNumber(decimal number)
         {
             var numberSequence = DecimalToRationalConverter.Convert(number);
-            return Links.GetOrCreate(NumberMarker, numberSequence);
+            return Links.GetOrCreate(NumberType, numberSequence);
         }
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLinkAddress CreateBooleanValue(bool value) => CreateValue(value ? TrueMarker : FalseMarker);
+        public TLinkAddress CreateBooleanValue(bool value) => CreateValue(value ? TrueType : FalseType);
 
         /// <summary>
         /// <para>
@@ -425,7 +425,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLinkAddress CreateNullValue() => CreateValue(NullMarker);
+        public TLinkAddress CreateNullValue() => CreateValue(NullType);
 
         /// <summary>
         /// <para>
@@ -444,7 +444,7 @@ namespace Platform.Data.Doublets.Json
         public TLinkAddress CreateDocument(string name)
         {
             var documentName = CreateString(name);
-            return Links.GetOrCreate(DocumentMarker, documentName);
+            return Links.GetOrCreate(DocumentType, documentName);
         }
 
         /// <summary>
@@ -460,7 +460,7 @@ namespace Platform.Data.Doublets.Json
         public TLinkAddress CreateObject()
         {
             var @object = Links.Create();
-            return Links.Update(@object, newSource: ObjectMarker, newTarget: @object);
+            return Links.Update(@object, newSource: ObjectType, newTarget: @object);
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace Platform.Data.Doublets.Json
         /// </returns>
         public TLinkAddress CreateArray(IList<TLinkAddress>? array)
         {
-            var arraySequence = array.Count == 0 ? EmptyArrayMarker : BalancedVariantConverter.Convert(array);
+            var arraySequence = array.Count == 0 ? EmptyArrayType : BalancedVariantConverter.Convert(array);
             return CreateArray(arraySequence);
         }
 
@@ -513,7 +513,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLinkAddress CreateArray(TLinkAddress sequence) => Links.GetOrCreate(ArrayMarker, sequence);
+        public TLinkAddress CreateArray(TLinkAddress sequence) => Links.GetOrCreate(ArrayType, sequence);
 
         /// <summary>
         /// <para>
@@ -572,7 +572,7 @@ namespace Platform.Data.Doublets.Json
         public TLinkAddress CreateMember(string name)
         {
             var nameLink = CreateString(name);
-            return Links.GetOrCreate(MemberMarker, nameLink);
+            return Links.GetOrCreate(MemberType, nameLink);
         }
 
         /// <summary>
@@ -589,7 +589,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        public TLinkAddress CreateValue(TLinkAddress value) => Links.GetOrCreate(ValueMarker, value);
+        public TLinkAddress CreateValue(TLinkAddress value) => Links.GetOrCreate(ValueType, value);
 
         /// <summary>
         /// <para>
@@ -792,7 +792,7 @@ namespace Platform.Data.Doublets.Json
             var array = GetArray(arrayValue);
             var arraySequence = Links.GetTarget(array);
             TLinkAddress newArrayValue;
-            if (EqualityComparer.Equals(arraySequence, EmptyArrayMarker))
+            if (EqualityComparer.Equals(arraySequence, EmptyArrayType))
             {
                 newArrayValue = CreateArrayValue(appendant);
             }
@@ -821,14 +821,14 @@ namespace Platform.Data.Doublets.Json
         public TLinkAddress GetDocumentOrDefault(string name)
         {
             var stringSequence = GetStringSequence(name);
-            var @string = Links.SearchOrDefault(StringMarker, stringSequence);
+            var @string = Links.SearchOrDefault(StringType, stringSequence);
             if (EqualityComparer.Equals(@string, default))
             {
                 return default;
             }
-            return Links.SearchOrDefault(DocumentMarker, @string);
+            return Links.SearchOrDefault(DocumentType, @string);
         }
-        private TLinkAddress GetStringSequence(string content) => content == "" ? EmptyStringMarker : StringToUnicodeSequenceConverter.Convert(content);
+        private TLinkAddress GetStringSequence(string content) => content == "" ? EmptyStringType : StringToUnicodeSequenceConverter.Convert(content);
         
         /// <summary>
         /// <para>
@@ -855,10 +855,10 @@ namespace Platform.Data.Doublets.Json
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
-                if (EqualityComparer.Equals(source, StringMarker))
+                if (EqualityComparer.Equals(source, StringType))
                 {
                     var sequence = Links.GetTarget(current);
-                    var isEmpty = EqualityComparer.Equals(sequence, EmptyStringMarker);
+                    var isEmpty = EqualityComparer.Equals(sequence, EmptyStringType);
                     return isEmpty ? "" : UnicodeSequenceToStringConverter.Convert(sequence);
                 }
                 current = Links.GetTarget(current);
@@ -893,7 +893,7 @@ namespace Platform.Data.Doublets.Json
             {
                 source = Links.GetSource(current);
                 target = Links.GetTarget(current);
-                if (EqualityComparer.Equals(source, NumberMarker))
+                if (EqualityComparer.Equals(source, NumberType))
                 {
                     return RationalToDecimalConverter.Convert(target);
                 }
@@ -928,7 +928,7 @@ namespace Platform.Data.Doublets.Json
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
-                if (EqualityComparer.Equals(source, ObjectMarker))
+                if (EqualityComparer.Equals(source, ObjectType))
                 {
                     return current;
                 }
@@ -962,7 +962,7 @@ namespace Platform.Data.Doublets.Json
             for (int i = 0; i < 3; i++)
             {
                 source = Links.GetSource(current);
-                if (EqualityComparer.Equals(source, ArrayMarker))
+                if (EqualityComparer.Equals(source, ArrayType))
                 {
                     return current;
                 }
@@ -1023,7 +1023,7 @@ namespace Platform.Data.Doublets.Json
                     return default;
                 case 1:
                     var resultLinkTarget = Links.GetTarget(resultLinks[0]);
-                    if (EqualityComparer.Equals(Links.GetSource(resultLinkTarget), ValueMarker))
+                    if (EqualityComparer.Equals(Links.GetSource(resultLinkTarget), ValueType))
                     {
                         return resultLinkTarget;
                     }
@@ -1052,11 +1052,11 @@ namespace Platform.Data.Doublets.Json
         /// <para>The target source.</para>
         /// <para></para>
         /// </returns>
-        public TLinkAddress GetValueMarker(TLinkAddress value)
+        public TLinkAddress GetValueType(TLinkAddress value)
         {
             var target = Links.GetTarget(value);
             var targetSource = Links.GetSource(target);
-            if (EqualityComparer.Equals(MeaningRoot, targetSource))
+            if (EqualityComparer.Equals(Type, targetSource))
             {
                 return target;
             }
@@ -1084,8 +1084,8 @@ namespace Platform.Data.Doublets.Json
             Links.Each(objectMemberLink =>
             {
                 var memberLink = Links.GetTarget(objectMemberLink);
-                var memberMarker = Links.GetSource(memberLink);
-                if (EqualityComparer.Equals(memberMarker, MemberMarker))
+                var memberType = Links.GetSource(memberLink);
+                if (EqualityComparer.Equals(memberType, MemberType))
                 {
                     members.Add(Links.GetIndex(objectMemberLink));
                 }
