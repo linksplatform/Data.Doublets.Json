@@ -308,7 +308,7 @@ namespace Platform.Data.Doublets.Json
                 new(Links, new DefaultStack<TLinkAddress>(), unicodeSymbolCriterionMatcher.IsMatched);
             UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLinkAddress, string>(
                 new UnicodeSequenceToStringConverter<TLinkAddress>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
-                    unicodeSymbolToCharConverter));
+                    unicodeSymbolToCharConverter, unicodeSequenceType));
             BigIntegerToRawNumberSequenceConverter =
                 new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberType);
             RawNumberSequenceToBigIntegerConverter = new(links, NumberToAddressConverter, NegativeNumberType);
