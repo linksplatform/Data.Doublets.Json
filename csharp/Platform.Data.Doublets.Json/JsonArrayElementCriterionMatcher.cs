@@ -58,6 +58,6 @@ namespace Platform.Data.Doublets.Json
         /// <para>The bool</para>
         /// <para></para>
         /// </returns>
-        public bool IsMatched(TLinkAddress link) => EqualityComparer<TLinkAddress>.Default.Equals(Storage.Links.GetSource(link), Storage.ValueMarker);
+        public bool IsMatched(TLinkAddress link) => EqualityComparer<TLinkAddress>.Default.Equals(Storage.Links.GetSource(link), Storage.ValueType);
     }
 }

@@ -21,88 +21,88 @@ namespace Platform.Data.Doublets.Json
         public ILinks<TLinkAddress> Links { get; }
         /// <summary>
         /// <para>
-        /// Gets the document marker value.
+        /// Gets the document type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress DocumentMarker { get; }
+        public TLinkAddress DocumentType { get; }
         /// <summary>
         /// <para>
-        /// Gets the object marker value.
+        /// Gets the object type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress ObjectMarker { get; }
+        public TLinkAddress ObjectType { get; }
         /// <summary>
         /// <para>
-        /// Gets the string marker value.
+        /// Gets the string type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress StringMarker { get; }
+        public TLinkAddress StringType { get; }
         /// <summary>
         /// <para>
-        /// Gets the empty string marker value.
+        /// Gets the empty string type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress EmptyStringMarker { get; }
+        public TLinkAddress EmptyStringType { get; }
         /// <summary>
         /// <para>
-        /// Gets the member marker value.
+        /// Gets the member type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress MemberMarker { get; }
+        public TLinkAddress MemberType { get; }
         /// <summary>
         /// <para>
-        /// Gets the value marker value.
+        /// Gets the value type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress ValueMarker { get; }
+        public TLinkAddress ValueType { get; }
         /// <summary>
         /// <para>
-        /// Gets the number marker value.
+        /// Gets the number type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress NumberMarker { get; }
+        public TLinkAddress NumberType { get; }
         /// <summary>
         /// <para>
-        /// Gets the array marker value.
+        /// Gets the array type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress ArrayMarker { get; }
+        public TLinkAddress ArrayType { get; }
         /// <summary>
         /// <para>
-        /// Gets the empty array marker value.
+        /// Gets the empty array type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress EmptyArrayMarker { get; }
+        public TLinkAddress EmptyArrayType { get; }
         /// <summary>
         /// <para>
-        /// Gets the true marker value.
+        /// Gets the true type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress TrueMarker { get; }
+        public TLinkAddress TrueType { get; }
         /// <summary>
         /// <para>
-        /// Gets the false marker value.
+        /// Gets the false type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress FalseMarker { get; }
+        public TLinkAddress FalseType { get; }
         /// <summary>
         /// <para>
-        /// Gets the null marker value.
+        /// Gets the null type value.
         /// </para>
         /// <para></para>
         /// </summary>
-        public TLinkAddress NullMarker { get; }
+        public TLinkAddress NullType { get; }
         /// <summary>
         /// <para>
         /// Creates the string using the specified content.
@@ -571,7 +571,7 @@ namespace Platform.Data.Doublets.Json
         TLinkAddress GetValueLink(TLinkAddress parent);
         /// <summary>
         /// <para>
-        /// Gets the value marker using the specified link.
+        /// Gets the value type using the specified link.
         /// </para>
         /// <para></para>
         /// </summary>
@@ -583,7 +583,7 @@ namespace Platform.Data.Doublets.Json
         /// <para>The link</para>
         /// <para></para>
         /// </returns>
-        TLinkAddress GetValueMarker(TLinkAddress link);
+        TLinkAddress GetValueType(TLinkAddress link);
         /// <summary>
         /// <para>
         /// Gets the members links using the specified object.

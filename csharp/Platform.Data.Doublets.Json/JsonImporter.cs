@@ -50,8 +50,8 @@ namespace Platform.Data.Doublets.Json
             private void PopIfParentIsMember()
         {
             var parent = Parents.Peek();
-            var parentMarker = Storage.GetValueMarker(parent);
-            if (EqualityComparer.Equals(parentMarker, Storage.MemberMarker))
+            var parentType = Storage.GetValueType(parent);
+            if (EqualityComparer.Equals(parentType, Storage.MemberType))
             {
                 Parents.Pop();
             }
@@ -93,7 +93,7 @@ namespace Platform.Data.Doublets.Json
             var document = Storage.CreateDocument(documentName);
             Parents.Push(document);
             TLinkAddress parent;
-            TLinkAddress parentMarker;
+            TLinkAddress parentType;
             JsonTokenType tokenType;
             TLinkAddress value;
             TLinkAddress newParentArray;
@@ -101,7 +101,7 @@ namespace Platform.Data.Doublets.Json
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 parent = Parents.Peek();
-                parentMarker = Storage.GetValueMarker(parent);
+                parentType = Storage.GetValueType(parent);
                 tokenType = utf8JsonReader.TokenType;
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName)
                 {
@@ -114,7 +114,7 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.StartObject:
                     {
                         value = Storage.CreateObjectValue();
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, value);
@@ -139,8 +139,8 @@ namespace Platform.Data.Doublets.Json
                     {
                         var arrayValue = Parents.Pop();
                         parent = Parents.Peek();
-                        parentMarker = Storage.GetValueMarker(parent);
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        parentType = Storage.GetValueType(parent);
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, arrayValue);
@@ -153,7 +153,7 @@ namespace Platform.Data.Doublets.Json
                     {
                         var @string = utf8JsonReader.GetString();
                         value = Storage.CreateStringValue(@string);
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, value);
@@ -168,7 +168,7 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.Number:
                     {
                         value = Storage.CreateNumberValue(utf8JsonReader.GetDecimal());
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, value);
@@ -183,7 +183,7 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.True:
                     {
                         value = Storage.CreateBooleanValue(true);
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, value);
@@ -198,7 +198,7 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.False:
                     {
                         value = Storage.CreateBooleanValue(false);
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, value);
@@ -213,7 +213,7 @@ namespace Platform.Data.Doublets.Json
                     case JsonTokenType.Null:
                     {
                         value = Storage.CreateNullValue();
-                        if (EqualityComparer.Equals(parentMarker, Storage.ArrayMarker))
+                        if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
                             Parents.Pop();
                             newParentArray = Storage.AppendArrayValue(parent, value);

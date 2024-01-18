@@ -94,12 +94,12 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress documentValueLink = defaultJsonStorage.AttachObject(document);
             TLinkAddress createdObjectValue = links.GetTarget(documentValueLink);
 
-            TLinkAddress valueMarker = links.GetSource(createdObjectValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdObjectValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
             TLinkAddress createdObject = links.GetTarget(createdObjectValue);
-            TLinkAddress objectMarker = links.GetSource(createdObject);
-            Assert.Equal(objectMarker, defaultJsonStorage.ObjectMarker);
+            TLinkAddress objectType = links.GetSource(createdObject);
+            Assert.Equal(objectType, defaultJsonStorage.ObjectType);
 
             TLinkAddress foundDocumentValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdObjectValue, foundDocumentValue);
@@ -114,12 +114,12 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress documentStringLink = defaultJsonStorage.AttachString(document, "stringName");
             TLinkAddress createdStringValue = links.GetTarget(documentStringLink);
 
-            TLinkAddress valueMarker = links.GetSource(createdStringValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdStringValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
             TLinkAddress createdString = links.GetTarget(createdStringValue);
-            TLinkAddress stringMarker = links.GetSource(createdString);
-            Assert.Equal(stringMarker, defaultJsonStorage.StringMarker);
+            TLinkAddress stringType = links.GetSource(createdString);
+            Assert.Equal(stringType, defaultJsonStorage.StringType);
 
             TLinkAddress foundStringValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdStringValue, foundStringValue);
@@ -134,12 +134,12 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress documentNumberLink = defaultJsonStorage.AttachNumber(document, 2021);
             TLinkAddress createdNumberValue = links.GetTarget(documentNumberLink);
 
-            TLinkAddress valueMarker = links.GetSource(createdNumberValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdNumberValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
             TLinkAddress createdNumber = links.GetTarget(createdNumberValue);
-            TLinkAddress numberMarker = links.GetSource(createdNumber);
-            Assert.Equal(numberMarker, defaultJsonStorage.NumberMarker);
+            TLinkAddress numberType = links.GetSource(createdNumber);
+            Assert.Equal(numberType, defaultJsonStorage.NumberType);
 
             TLinkAddress foundNumberValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdNumberValue, foundNumberValue);
@@ -155,11 +155,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress documentTrueValueLink = defaultJsonStorage.AttachBoolean(document, true);
             TLinkAddress createdTrueValue = links.GetTarget(documentTrueValueLink);
 
-            TLinkAddress valueMarker = links.GetSource(createdTrueValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdTrueValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
-            TLinkAddress trueMarker = links.GetTarget(createdTrueValue);
-            Assert.Equal(trueMarker, defaultJsonStorage.TrueMarker);
+            TLinkAddress trueType = links.GetTarget(createdTrueValue);
+            Assert.Equal(trueType, defaultJsonStorage.TrueType);
 
             TLinkAddress foundTrueValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdTrueValue, foundTrueValue);
@@ -175,11 +175,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress documentFalseValueLink = defaultJsonStorage.AttachBoolean(document, false);
             TLinkAddress createdFalseValue = links.GetTarget(documentFalseValueLink);
 
-            TLinkAddress valueMarker = links.GetSource(createdFalseValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdFalseValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
-            TLinkAddress falseMarker = links.GetTarget(createdFalseValue);
-            Assert.Equal(falseMarker, defaultJsonStorage.FalseMarker);
+            TLinkAddress falseType = links.GetTarget(createdFalseValue);
+            Assert.Equal(falseType, defaultJsonStorage.FalseType);
 
             TLinkAddress foundFalseValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdFalseValue, foundFalseValue);
@@ -195,11 +195,11 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress documentNullValueLink = defaultJsonStorage.AttachNull(document);
             TLinkAddress createdNullValue = links.GetTarget(documentNullValueLink);
 
-            TLinkAddress valueMarker = links.GetSource(createdNullValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdNullValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
-            TLinkAddress nullMarker = links.GetTarget(createdNullValue);
-            Assert.Equal(nullMarker, defaultJsonStorage.NullMarker);
+            TLinkAddress nullType = links.GetTarget(createdNullValue);
+            Assert.Equal(nullType, defaultJsonStorage.NullType);
 
             TLinkAddress foundNullValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdNullValue, foundNullValue);
@@ -217,15 +217,15 @@ namespace Platform.Data.Doublets.Json.Tests
             output.WriteLine(links.Format(createdArrayValue));
 
 
-            TLinkAddress valueMarker = links.GetSource(createdArrayValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdArrayValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
             TLinkAddress createdArrayLink = links.GetTarget(createdArrayValue);
-            TLinkAddress arrayMarker = links.GetSource(createdArrayLink);
-            Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
+            TLinkAddress arrayType = links.GetSource(createdArrayLink);
+            Assert.Equal(arrayType, defaultJsonStorage.ArrayType);
 
             TLinkAddress createArrayContents = links.GetTarget(createdArrayLink);
-            Assert.Equal(createArrayContents, defaultJsonStorage.EmptyArrayMarker);
+            Assert.Equal(createArrayContents, defaultJsonStorage.EmptyArrayType);
 
             TLinkAddress foundArrayValue = defaultJsonStorage.GetValueLink(document);
             Assert.Equal(createdArrayValue, foundArrayValue);
@@ -246,19 +246,19 @@ namespace Platform.Data.Doublets.Json.Tests
             TLinkAddress createdArrayValue = links.GetTarget(documentArrayValueLink);
 
             DefaultStack<TLinkAddress> stack = new();
-            RightSequenceWalker<TLinkAddress> rightSequenceWalker = new(links, stack, arrayElementLink => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueMarker);
+            RightSequenceWalker<TLinkAddress> rightSequenceWalker = new(links, stack, arrayElementLink => links.GetSource(arrayElementLink) == defaultJsonStorage.ValueType);
             IEnumerable<TLinkAddress> arrayElementsValuesLink = rightSequenceWalker.Walk(createdArrayValue);
             Assert.NotEmpty(arrayElementsValuesLink);
 
             output.WriteLine(links.Format(createdArrayValue));
 
 
-            TLinkAddress valueMarker = links.GetSource(createdArrayValue);
-            Assert.Equal(valueMarker, defaultJsonStorage.ValueMarker);
+            TLinkAddress valueType = links.GetSource(createdArrayValue);
+            Assert.Equal(valueType, defaultJsonStorage.ValueType);
 
             TLinkAddress createdArrayLink = links.GetTarget(createdArrayValue);
-            TLinkAddress arrayMarker = links.GetSource(createdArrayLink);
-            Assert.Equal(arrayMarker, defaultJsonStorage.ArrayMarker);
+            TLinkAddress arrayType = links.GetSource(createdArrayLink);
+            Assert.Equal(arrayType, defaultJsonStorage.ArrayType);
 
             TLinkAddress createdArrayContents = links.GetTarget(createdArrayLink);
             Assert.Equal(links.GetTarget(createdArrayContents), arrayElement);

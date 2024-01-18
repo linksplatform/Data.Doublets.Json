@@ -167,91 +167,91 @@ namespace Platform.Data.Doublets.Json
         public ILinks<TLinkAddress> Links { get; }
         /// <summary>
         /// <para>
-        /// Gets the document marker value.
+        /// Gets the document type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress DocumentType { get; }
         /// <summary>
         /// <para>
-        /// Gets the object marker value.
+        /// Gets the object type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress ObjectType { get; }
         /// <summary>
         /// <para>
-        /// Gets the member marker value.
+        /// Gets the member type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress MemberType { get; }
         /// <summary>
         /// <para>
-        /// Gets the value marker value.
+        /// Gets the value type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress ValueType { get; }
         /// <summary>
         /// <para>
-        /// Gets the string marker value.
+        /// Gets the string type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress StringType { get; }
         /// <summary>
         /// <para>
-        /// Gets the empty string marker value.
+        /// Gets the empty string type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress EmptyStringType { get; }
         /// <summary>
         /// <para>
-        /// Gets the number marker value.
+        /// Gets the number type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress NumberType { get; }
         /// <summary>
         /// <para>
-        /// Gets the negative number marker value.
+        /// Gets the negative number type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress NegativeNumberType { get; }
         /// <summary>
         /// <para>
-        /// Gets the array marker value.
+        /// Gets the array type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress ArrayType { get; }
         /// <summary>
         /// <para>
-        /// Gets the empty array marker value.
+        /// Gets the empty array type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress EmptyArrayType { get; }
         /// <summary>
         /// <para>
-        /// Gets the true marker value.
+        /// Gets the true type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress TrueType { get; }
         /// <summary>
         /// <para>
-        /// Gets the false marker value.
+        /// Gets the false type value.
         /// </para>
         /// <para></para>
         /// </summary>
         public TLinkAddress FalseType { get; }
         /// <summary>
         /// <para>
-        /// Gets the null marker value.
+        /// Gets the null type value.
         /// </para>
         /// <para></para>
         /// </summary>
@@ -1040,7 +1040,7 @@ namespace Platform.Data.Doublets.Json
 
         /// <summary>
         /// <para>
-        /// Gets the value marker using the specified value.
+        /// Gets the value type using the specified value.
         /// </para>
         /// <para></para>
         /// </summary>
