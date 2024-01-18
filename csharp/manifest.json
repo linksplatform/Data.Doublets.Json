@@ -1,137 +1,8 @@
 {
   "homepages": [],
-  "source_base_path": "/home/runner/work/Data.Doublets.Json/Data.Doublets.Json",
+  "source_base_path": "/home/runner/work/Data.Doublets.Json/Data.Doublets.Json/csharp",
   "xrefmap": "xrefmap.yml",
   "files": [
-    {
-      "type": "Resource",
-      "output": {
-        "resource": {
-          "relative_path": "index.json"
-        }
-      },
-      "is_incremental": false
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "README.md",
-      "output": {
-        ".html": {
-          "relative_path": "README.html",
-          "hash": "vbrViPBILdGXAmzL1z5Lbg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.DefaultJsonStorage-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.DefaultJsonStorage-1.html",
-          "hash": "E4gaJKivpQLNakWSymAWIQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.IJsonStorage-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.IJsonStorage-1.html",
-          "hash": "paOdRZZ7Tz3jbccbSwjcfw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.JsonArrayElementCriterionMatcher-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.JsonArrayElementCriterionMatcher-1.html",
-          "hash": "xybSG6xqwGHMKak8uH52RA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.JsonExporter-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.JsonExporter-1.html",
-          "hash": "96ACboV4pcoEYUzx8zdVNw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.JsonExporterCli-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.JsonExporterCli-1.html",
-          "hash": "3t8eiR2rd1/EJ30o1+5Ydw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.JsonImporter-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.JsonImporter-1.html",
-          "hash": "wvwhtDOvTgf27DpcyLA1GA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.JsonImporterCli-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.JsonImporterCli-1.html",
-          "hash": "fzSPcjmg2w36UI8x1ispbA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/api/Platform.Data.Doublets.Json.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Platform.Data.Doublets.Json.html",
-          "hash": "fPLuL9CuJlmMZPbvqerKCg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "obj/api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "vqx7np0rjZAtZALUVkOhPw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
     {
       "log_codes": [
         "InvalidFileLink"
@@ -141,7 +12,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "1rKiF3CltXU3FCRuv7ByDQ=="
+          "hash": "EcChznle7Yho2v0UYRoySw=="
         }
       },
       "is_incremental": false,
@@ -159,18 +30,6 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 1,
-          "skipped_file_count": 0
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 8,
-          "skipped_file_count": 0
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
