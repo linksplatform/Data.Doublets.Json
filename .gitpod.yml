@@ -2,5 +2,4 @@ image: gitpod/workspace-dotnet
 
 tasks:
   - name: Setup and test
-    init: cd csharp && dotnet restore
     command: cd csharp && dotnet --version
