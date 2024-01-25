@@ -176,7 +176,7 @@ jobs:
       with:
         submodules: true
     - name: Check if cs files are changed
-      uses: tj-actions/verify-changed-files@v5.5
+      uses: tj-actions/verify-changed-files@v17
       id: findChangesCsFiles
       with:
         files: |
