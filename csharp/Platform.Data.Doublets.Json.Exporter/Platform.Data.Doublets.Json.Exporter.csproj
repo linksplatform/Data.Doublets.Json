@@ -25,7 +25,7 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <PackageReleaseNotes>Update target framework from net7 to net8</PackageReleaseNotes>
+        <PackageReleaseNotes>Update target framework from net7 to net8.</PackageReleaseNotes>
         <LangVersion>latest</LangVersion>
       <Nullable>enable</Nullable>
     </PropertyGroup>
