@@ -207,8 +207,5 @@ jobs:
     - name: Publish CSharp documentation to gh-pages branch
       run: |
         export REPOSITORY_NAME=$(basename ${{ github.repository }})
-        wget "$SCRIPTS_BASE_URL/docfx.json"
-        wget "$SCRIPTS_BASE_URL/filter.yml"
-        wget "$SCRIPTS_BASE_URL/toc.yml"
         wget "$SCRIPTS_BASE_URL/publish-csharp-docs.sh"
         bash ./publish-csharp-docs.sh
