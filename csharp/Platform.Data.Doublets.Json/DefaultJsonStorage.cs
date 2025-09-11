@@ -1,4 +1,4 @@
-using Platform.Numbers;
+using System.Numerics;
 using Platform.Data.Doublets.Unicode;
 using Platform.Data.Doublets.Sequences.Converters;
 using Platform.Data.Doublets.CriterionMatchers;
@@ -25,7 +25,7 @@ namespace Platform.Data.Doublets.Json
     /// </summary>
     /// <seealso cref="IJsonStorage{TLinkAddress}"/>
     public class DefaultJsonStorage<TLinkAddress> : IJsonStorage<TLinkAddress>
-        where TLinkAddress : struct
+        where TLinkAddress : struct, INumber<TLinkAddress>
     {
         /// <summary>
         /// <para>
@@ -47,7 +47,7 @@ namespace Platform.Data.Doublets.Json
         /// </para>
         /// <para></para>
         /// </summary>
-        public static readonly TLinkAddress One = Arithmetic.Increment(Zero);
+        public static readonly TLinkAddress One = Zero + TLinkAddress.One;
         /// <summary>
         /// <para>
         /// The balanced variant converter.
@@ -279,21 +279,36 @@ namespace Platform.Data.Doublets.Json
             Any = Links.Constants.Any;
             var typeAddress = One;
             Type = links.GetOrCreate(typeAddress, typeAddress);
-            var unicodeSymbolType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            var unicodeSequenceType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            DocumentType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            ObjectType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            MemberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            ValueType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            StringType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            EmptyStringType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            NumberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            NegativeNumberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            ArrayType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            EmptyArrayType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            TrueType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            FalseType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            NullType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
+            typeAddress += TLinkAddress.One;
+            var unicodeSymbolType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            var unicodeSequenceType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            DocumentType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            ObjectType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            MemberType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            ValueType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            StringType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            EmptyStringType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            NumberType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            NegativeNumberType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            ArrayType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            EmptyArrayType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            TrueType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            FalseType = links.GetOrCreate(Type, typeAddress);
+            typeAddress += TLinkAddress.One;
+            NullType = links.GetOrCreate(Type, typeAddress);
             BalancedVariantConverter = new(links);
             TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolType);
             TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceType);

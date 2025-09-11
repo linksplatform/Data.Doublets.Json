@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Numerics;
 using Platform.Data.Doublets.Memory.United.Generic;
 using Platform.IO;
 using System.Text.Json;
@@ -19,7 +20,7 @@ namespace Platform.Data.Doublets.Json
     /// <para></para>
     /// </summary>
     public class JsonImporterCli<TLinkAddress>
-        where TLinkAddress : struct
+        where TLinkAddress : struct, INumber<TLinkAddress>
     {
         /// <summary>
         /// <para>
