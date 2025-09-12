@@ -277,43 +277,30 @@ namespace Platform.Data.Doublets.Json
             ListToSequenceConverter = listToSequenceConverter;
             // Initializes constants
             Any = Links.Constants.Any;
-            var typeAddress = One;
-            Type = links.GetOrCreate(typeAddress, typeAddress);
-            var unicodeSymbolType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            var unicodeSequenceType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            DocumentType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            ObjectType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            MemberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            ValueType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            StringType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            EmptyStringType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            NumberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            NegativeNumberType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            ArrayType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            EmptyArrayType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            TrueType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            FalseType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            NullType = links.GetOrCreate(Type, Arithmetic.Increment(ref typeAddress));
-            BalancedVariantConverter = new(links);
-            TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolType);
-            TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceType);
-            CharToUnicodeSymbolConverter<TLinkAddress> charToUnicodeSymbolConverter =
-                new(Links, AddressToNumberConverter, unicodeSymbolType);
-            UnicodeSymbolToCharConverter<TLinkAddress> unicodeSymbolToCharConverter =
-                new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
-            StringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLinkAddress>(
-                new StringToUnicodeSequenceConverter<TLinkAddress>(Links, charToUnicodeSymbolConverter,
-                    BalancedVariantConverter, unicodeSequenceType));
-            RightSequenceWalker<TLinkAddress> sequenceWalker =
-                new(Links, new DefaultStack<TLinkAddress>(), unicodeSymbolCriterionMatcher.IsMatched);
-            UnicodeSequenceToStringConverter = new CachingConverterDecorator<TLinkAddress, string>(
-                new UnicodeSequenceToStringConverter<TLinkAddress>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
-                    unicodeSymbolToCharConverter, unicodeSequenceType));
-            BigIntegerToRawNumberSequenceConverter =
-                new(links, AddressToNumberConverter, ListToSequenceConverter, NegativeNumberType);
-            RawNumberSequenceToBigIntegerConverter = new(links, NumberToAddressConverter, NegativeNumberType);
-            DecimalToRationalConverter = new(links, BigIntegerToRawNumberSequenceConverter);
-            RationalToDecimalConverter = new(links, RawNumberSequenceToBigIntegerConverter);
+            var (unicodeSymbolType, unicodeSequenceType, type, documentType, objectType, memberType, valueType, stringType, emptyStringType, numberType, negativeNumberType, arrayType, emptyArrayType, trueType, falseType, nullType) = SetMarkers(links);
+            Type = type;
+            DocumentType = documentType;
+            ObjectType = objectType;
+            MemberType = memberType;
+            ValueType = valueType;
+            StringType = stringType;
+            EmptyStringType = emptyStringType;
+            NumberType = numberType;
+            NegativeNumberType = negativeNumberType;
+            ArrayType = arrayType;
+            EmptyArrayType = emptyArrayType;
+            TrueType = trueType;
+            FalseType = falseType;
+            NullType = nullType;
+            var (unicodeSymbolCriterionMatcher, unicodeSequenceCriterionMatcher) = SetMatchers(unicodeSymbolType, unicodeSequenceType);
+            var (balancedVariantConverter, stringToUnicodeSequenceConverter, unicodeSequenceToStringConverter, bigIntegerToRawNumberSequenceConverter, rawNumberSequenceToBigIntegerConverter, decimalToRationalConverter, rationalToDecimalConverter) = SetConverters(links, unicodeSymbolType, unicodeSequenceType, unicodeSymbolCriterionMatcher, unicodeSequenceCriterionMatcher, negativeNumberType);
+            BalancedVariantConverter = balancedVariantConverter;
+            StringToUnicodeSequenceConverter = stringToUnicodeSequenceConverter;
+            UnicodeSequenceToStringConverter = unicodeSequenceToStringConverter;
+            BigIntegerToRawNumberSequenceConverter = bigIntegerToRawNumberSequenceConverter;
+            RawNumberSequenceToBigIntegerConverter = rawNumberSequenceToBigIntegerConverter;
+            DecimalToRationalConverter = decimalToRationalConverter;
+            RationalToDecimalConverter = rationalToDecimalConverter;
             JsonArrayElementCriterionMatcher = new(this);
             DefaultSequenceRightHeightProvider = new(Links, JsonArrayElementCriterionMatcher);
             DefaultSequenceAppender = new(Links, new DefaultStack<TLinkAddress>(), DefaultSequenceRightHeightProvider);
@@ -1092,6 +1079,58 @@ namespace Platform.Data.Doublets.Json
                 return Links.Constants.Continue;
             }, query);
             return members;
+        }
+
+        private (TLinkAddress unicodeSymbolType, TLinkAddress unicodeSequenceType, TLinkAddress type, TLinkAddress documentType, TLinkAddress objectType, TLinkAddress memberType, TLinkAddress valueType, TLinkAddress stringType, TLinkAddress emptyStringType, TLinkAddress numberType, TLinkAddress negativeNumberType, TLinkAddress arrayType, TLinkAddress emptyArrayType, TLinkAddress trueType, TLinkAddress falseType, TLinkAddress nullType) SetMarkers(ILinks<TLinkAddress> links)
+        {
+            var typeAddress = One;
+            var type = links.GetOrCreate(typeAddress, typeAddress);
+            var unicodeSymbolType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var unicodeSequenceType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var documentType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var objectType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var memberType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var valueType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var stringType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var emptyStringType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var numberType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var negativeNumberType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var arrayType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var emptyArrayType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var trueType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var falseType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            var nullType = links.GetOrCreate(type, Arithmetic.Increment(ref typeAddress));
+            return (unicodeSymbolType, unicodeSequenceType, type, documentType, objectType, memberType, valueType, stringType, emptyStringType, numberType, negativeNumberType, arrayType, emptyArrayType, trueType, falseType, nullType);
+        }
+
+        private (TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher, TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher) SetMatchers(TLinkAddress unicodeSymbolType, TLinkAddress unicodeSequenceType)
+        {
+            TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher = new(Links, unicodeSymbolType);
+            TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher = new(Links, unicodeSequenceType);
+            return (unicodeSymbolCriterionMatcher, unicodeSequenceCriterionMatcher);
+        }
+
+        private (BalancedVariantConverter<TLinkAddress> balancedVariantConverter, IConverter<string, TLinkAddress> stringToUnicodeSequenceConverter, IConverter<TLinkAddress, string> unicodeSequenceToStringConverter, BigIntegerToRawNumberSequenceConverter<TLinkAddress> bigIntegerToRawNumberSequenceConverter, RawNumberSequenceToBigIntegerConverter<TLinkAddress> rawNumberSequenceToBigIntegerConverter, DecimalToRationalConverter<TLinkAddress> decimalToRationalConverter, RationalToDecimalConverter<TLinkAddress> rationalToDecimalConverter) SetConverters(ILinks<TLinkAddress> links, TLinkAddress unicodeSymbolType, TLinkAddress unicodeSequenceType, TargetMatcher<TLinkAddress> unicodeSymbolCriterionMatcher, TargetMatcher<TLinkAddress> unicodeSequenceCriterionMatcher, TLinkAddress negativeNumberType)
+        {
+            var balancedVariantConverter = new BalancedVariantConverter<TLinkAddress>(links);
+            CharToUnicodeSymbolConverter<TLinkAddress> charToUnicodeSymbolConverter =
+                new(Links, AddressToNumberConverter, unicodeSymbolType);
+            UnicodeSymbolToCharConverter<TLinkAddress> unicodeSymbolToCharConverter =
+                new(Links, NumberToAddressConverter, unicodeSymbolCriterionMatcher);
+            var stringToUnicodeSequenceConverter = new CachingConverterDecorator<string, TLinkAddress>(
+                new StringToUnicodeSequenceConverter<TLinkAddress>(Links, charToUnicodeSymbolConverter,
+                    balancedVariantConverter, unicodeSequenceType));
+            RightSequenceWalker<TLinkAddress> sequenceWalker =
+                new(Links, new DefaultStack<TLinkAddress>(), unicodeSymbolCriterionMatcher.IsMatched);
+            var unicodeSequenceToStringConverter = new CachingConverterDecorator<TLinkAddress, string>(
+                new UnicodeSequenceToStringConverter<TLinkAddress>(Links, unicodeSequenceCriterionMatcher, sequenceWalker,
+                    unicodeSymbolToCharConverter, unicodeSequenceType));
+            var bigIntegerToRawNumberSequenceConverter =
+                new BigIntegerToRawNumberSequenceConverter<TLinkAddress>(links, AddressToNumberConverter, ListToSequenceConverter, negativeNumberType);
+            var rawNumberSequenceToBigIntegerConverter = new RawNumberSequenceToBigIntegerConverter<TLinkAddress>(links, NumberToAddressConverter, negativeNumberType);
+            var decimalToRationalConverter = new DecimalToRationalConverter<TLinkAddress>(links, bigIntegerToRawNumberSequenceConverter);
+            var rationalToDecimalConverter = new RationalToDecimalConverter<TLinkAddress>(links, rawNumberSequenceToBigIntegerConverter);
+            return (balancedVariantConverter, stringToUnicodeSequenceConverter, unicodeSequenceToStringConverter, bigIntegerToRawNumberSequenceConverter, rawNumberSequenceToBigIntegerConverter, decimalToRationalConverter, rationalToDecimalConverter);
         }
     }
 }
