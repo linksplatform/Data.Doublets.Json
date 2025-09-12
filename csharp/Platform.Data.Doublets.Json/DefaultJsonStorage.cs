@@ -64,7 +64,7 @@ namespace Platform.Data.Doublets.Json
         public readonly IConverter<IList<TLinkAddress>?, TLinkAddress> ListToSequenceConverter;
         /// <summary>
         /// <para>
-        /// The meaning root.
+        /// The root type.
         /// </para>
         /// <para></para>
         /// </summary>
