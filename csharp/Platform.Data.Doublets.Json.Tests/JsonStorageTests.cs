@@ -406,5 +406,110 @@ namespace Platform.Data.Doublets.Json.Tests
             List<TLinkAddress> objectMembersLinks = defaultJsonStorage.GetMembersLinks(@object);
             Assert.Equal(nullValueLink, defaultJsonStorage.GetValueLink(objectMembersLinks[0]));
         }
+
+        [Fact]
+        public void GarbageCollectUnusedArrayValuesTest()
+        {
+            var links = CreateLinks();
+            var defaultJsonStorage = CreateJsonStorage(links);
+            
+            // Create a document with an array
+            var document = defaultJsonStorage.CreateDocument("testDoc");
+            var arrayElement = defaultJsonStorage.CreateStringValue("element");
+            var array = new TLinkAddress[] { arrayElement };
+            var documentArrayLink = defaultJsonStorage.AttachArray(document, array);
+            
+            // Create another unused array that should be garbage collected
+            var unusedArrayElement = defaultJsonStorage.CreateStringValue("unused");
+            var unusedArray = new TLinkAddress[] { unusedArrayElement };
+            var unusedArrayValue = defaultJsonStorage.CreateArrayValue(unusedArray);
+            
+            // Count links before garbage collection
+            var totalLinksBefore = links.Count();
+            
+            // Perform garbage collection
+            var deletedCount = defaultJsonStorage.CollectUnusedArrayValues();
+            
+            // Verify that unused array was deleted
+            Assert.True(deletedCount > 0, "Should have deleted at least one unused array");
+            
+            // Verify the referenced array is still intact
+            var foundDocumentArrayValue = defaultJsonStorage.GetValueLink(document);
+            Assert.NotEqual(default(TLinkAddress), foundDocumentArrayValue);
+            
+            // Count links after garbage collection
+            var totalLinksAfter = links.Count();
+            Assert.True(totalLinksAfter < totalLinksBefore, "Should have fewer links after garbage collection");
+        }
+
+        [Fact]
+        public void GarbageCollectPreservesReferencedArraysTest()
+        {
+            var links = CreateLinks();
+            var defaultJsonStorage = CreateJsonStorage(links);
+            
+            // Create document with array
+            var document = defaultJsonStorage.CreateDocument("testDoc");
+            var arrayElement = defaultJsonStorage.CreateStringValue("element");
+            var array = new TLinkAddress[] { arrayElement };
+            var documentArrayLink = defaultJsonStorage.AttachArray(document, array);
+            
+            // Get the array value before garbage collection
+            var arrayValueBefore = defaultJsonStorage.GetValueLink(document);
+            var arrayBefore = defaultJsonStorage.GetArray(arrayValueBefore);
+            var arraySequenceBefore = defaultJsonStorage.GetArraySequence(arrayBefore);
+            
+            // Perform garbage collection
+            var deletedCount = defaultJsonStorage.CollectUnusedArrayValues();
+            
+            // Verify the referenced array is still intact
+            var arrayValueAfter = defaultJsonStorage.GetValueLink(document);
+            Assert.Equal(arrayValueBefore, arrayValueAfter);
+            
+            var arrayAfter = defaultJsonStorage.GetArray(arrayValueAfter);
+            Assert.Equal(arrayBefore, arrayAfter);
+            
+            var arraySequenceAfter = defaultJsonStorage.GetArraySequence(arrayAfter);
+            Assert.Equal(arraySequenceBefore, arraySequenceAfter);
+        }
+
+        [Fact]
+        public void GarbageCollectEmptyArrayTest()
+        {
+            var links = CreateLinks();
+            var defaultJsonStorage = CreateJsonStorage(links);
+            
+            // Create empty arrays - one referenced, one unreferenced
+            var document = defaultJsonStorage.CreateDocument("testDoc");
+            var documentEmptyArrayLink = defaultJsonStorage.AttachArray(document, new TLinkAddress[0]);
+            
+            var unusedEmptyArrayValue = defaultJsonStorage.CreateArrayValue(new TLinkAddress[0]);
+            
+            // Count empty array types before GC
+            var emptyArrayTypesBefore = 0;
+            Link<TLinkAddress> emptyArrayQuery = new(index: links.Constants.Any, source: links.Constants.Any, target: defaultJsonStorage.EmptyArrayType);
+            links.Each(_ =>
+            {
+                emptyArrayTypesBefore++;
+                return links.Constants.Continue;
+            }, emptyArrayQuery);
+            
+            // Perform garbage collection
+            var deletedCount = defaultJsonStorage.CollectUnusedArrayValues();
+            
+            // Verify the referenced empty array is still intact
+            var foundDocumentArrayValue = defaultJsonStorage.GetValueLink(document);
+            Assert.NotEqual(default(TLinkAddress), foundDocumentArrayValue);
+            
+            // Verify EmptyArrayType is preserved (it should not be deleted even if unreferenced directly)
+            var emptyArrayTypesAfter = 0;
+            links.Each(_ =>
+            {
+                emptyArrayTypesAfter++;
+                return links.Constants.Continue;
+            }, emptyArrayQuery);
+            
+            Assert.True(emptyArrayTypesAfter > 0, "EmptyArrayType should be preserved");
+        }
     }
 }

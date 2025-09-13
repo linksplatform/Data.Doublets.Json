@@ -599,5 +599,16 @@ namespace Platform.Data.Doublets.Json
         /// <para></para>
         /// </returns>
         List<TLinkAddress> GetMembersLinks(TLinkAddress @object);
+        /// <summary>
+        /// <para>
+        /// Performs garbage collection on unused array values by removing array sequences that are no longer referenced.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <returns>
+        /// <para>The number of array values that were garbage collected.</para>
+        /// <para></para>
+        /// </returns>
+        int CollectUnusedArrayValues();
     }
 }
