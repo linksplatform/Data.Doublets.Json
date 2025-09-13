@@ -481,6 +481,44 @@ namespace Platform.Data.Doublets.Json
         TLinkAddress AppendArrayValue(TLinkAddress arrayValue, TLinkAddress appendant);
         /// <summary>
         /// <para>
+        /// Updates the array sequence of an existing array value efficiently.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="arrayValue">
+        /// <para>The array value.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="newSequence">
+        /// <para>The new sequence.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>The same array value with updated sequence.</para>
+        /// <para></para>
+        /// </returns>
+        TLinkAddress UpdateArraySequence(TLinkAddress arrayValue, TLinkAddress newSequence);
+        /// <summary>
+        /// <para>
+        /// Appends a value to an array efficiently by updating only the sequence.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="arrayValue">
+        /// <para>The array value.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="appendant">
+        /// <para>The appendant.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>The same array value with the appended element.</para>
+        /// <para></para>
+        /// </returns>
+        TLinkAddress AppendArrayValueEfficiently(TLinkAddress arrayValue, TLinkAddress appendant);
+        /// <summary>
+        /// <para>
         /// Gets the string using the specified string value.
         /// </para>
         /// <para></para>

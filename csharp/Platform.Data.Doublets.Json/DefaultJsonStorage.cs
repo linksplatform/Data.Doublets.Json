@@ -806,6 +806,65 @@ namespace Platform.Data.Doublets.Json
 
         /// <summary>
         /// <para>
+        /// Updates the array sequence of an existing array value efficiently.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="arrayValue">
+        /// <para>The array value.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="newSequence">
+        /// <para>The new sequence.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>The same array value with updated sequence.</para>
+        /// <para></para>
+        /// </returns>
+        public TLinkAddress UpdateArraySequence(TLinkAddress arrayValue, TLinkAddress newSequence)
+        {
+            var array = GetArray(arrayValue);
+            Links.Update(array, newSource: ArrayType, newTarget: newSequence);
+            return arrayValue;
+        }
+
+        /// <summary>
+        /// <para>
+        /// Appends a value to an array efficiently by updating only the sequence.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <param name="arrayValue">
+        /// <para>The array value.</para>
+        /// <para></para>
+        /// </param>
+        /// <param name="appendant">
+        /// <para>The appendant.</para>
+        /// <para></para>
+        /// </param>
+        /// <returns>
+        /// <para>The same array value with the appended element.</para>
+        /// <para></para>
+        /// </returns>
+        public TLinkAddress AppendArrayValueEfficiently(TLinkAddress arrayValue, TLinkAddress appendant)
+        {
+            var array = GetArray(arrayValue);
+            var arraySequence = Links.GetTarget(array);
+            TLinkAddress newSequence;
+            if (EqualityComparer.Equals(arraySequence, EmptyArrayType))
+            {
+                newSequence = BalancedVariantConverter.Convert(new[] { appendant });
+            }
+            else
+            {
+                newSequence = DefaultSequenceAppender.Append(arraySequence, appendant);
+            }
+            return UpdateArraySequence(arrayValue, newSequence);
+        }
+
+        /// <summary>
+        /// <para>
         /// Gets the document or default using the specified name.
         /// </para>
         /// <para></para>

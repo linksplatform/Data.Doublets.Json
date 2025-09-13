@@ -96,7 +96,6 @@ namespace Platform.Data.Doublets.Json
             TLinkAddress parentType;
             JsonTokenType tokenType;
             TLinkAddress value;
-            TLinkAddress newParentArray;
             while (utf8JsonReader.Read())
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -116,9 +115,7 @@ namespace Platform.Data.Doublets.Json
                         value = Storage.CreateObjectValue();
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, value);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, value);
                             Parents.Push(value);
                         }
                         else
@@ -142,9 +139,7 @@ namespace Platform.Data.Doublets.Json
                         parentType = Storage.GetValueType(parent);
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, arrayValue);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, arrayValue);
                         }
                         Storage.Attach(parent, arrayValue);
                         break;
@@ -155,9 +150,7 @@ namespace Platform.Data.Doublets.Json
                         value = Storage.CreateStringValue(@string);
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, value);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, value);
                         }
                         else
                         {
@@ -170,9 +163,7 @@ namespace Platform.Data.Doublets.Json
                         value = Storage.CreateNumberValue(utf8JsonReader.GetDecimal());
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, value);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, value);
                         }
                         else
                         {
@@ -185,9 +176,7 @@ namespace Platform.Data.Doublets.Json
                         value = Storage.CreateBooleanValue(true);
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, value);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, value);
                         }
                         else
                         {
@@ -200,9 +189,7 @@ namespace Platform.Data.Doublets.Json
                         value = Storage.CreateBooleanValue(false);
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, value);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, value);
                         }
                         else
                         {
@@ -215,9 +202,7 @@ namespace Platform.Data.Doublets.Json
                         value = Storage.CreateNullValue();
                         if (EqualityComparer.Equals(parentType, Storage.ArrayType))
                         {
-                            Parents.Pop();
-                            newParentArray = Storage.AppendArrayValue(parent, value);
-                            Parents.Push(newParentArray);
+                            Storage.AppendArrayValueEfficiently(parent, value);
                         }
                         else
                         {
