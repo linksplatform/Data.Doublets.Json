@@ -36,11 +36,11 @@ namespace Platform.Data.Doublets.Json
             var argumentIndex = 0;
             var jsonFilePath = ConsoleHelpers.GetOrReadArgument(argumentIndex++, "JSON file path", args);
             var linksFilePath = ConsoleHelpers.GetOrReadArgument(argumentIndex++, "Links file path", args);
-            var defaultDocumentName = Path.GetFileNameWithoutExtension(jsonFilePath);
-            var documentName = ConsoleHelpers.GetOrReadArgument(argumentIndex, $"Document name (default: {defaultDocumentName})", args);
+            var jsonFileBaseName = Path.GetFileNameWithoutExtension(jsonFilePath);
+            var documentName = ConsoleHelpers.GetOrReadArgument(argumentIndex, $"Document name (default: {jsonFileBaseName})", args);
             if (string.IsNullOrWhiteSpace(documentName))
             {
-                documentName = defaultDocumentName;
+                documentName = jsonFileBaseName;
             }
             if (!File.Exists(jsonFilePath))
             {
