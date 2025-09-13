@@ -1093,6 +1093,126 @@ namespace Platform.Data.Doublets.Json
             }, query);
             return members;
         }
+
+        /// <summary>
+        /// <para>
+        /// Performs garbage collection on unused array values by removing array sequences that are no longer referenced.
+        /// </para>
+        /// <para></para>
+        /// </summary>
+        /// <returns>
+        /// <para>The number of array values that were garbage collected.</para>
+        /// <para></para>
+        /// </returns>
+        public int CollectUnusedArrayValues()
+        {
+            var arrayValues = new HashSet<TLinkAddress>();
+            var referencedArrayValues = new HashSet<TLinkAddress>();
+            
+            // Find all array values in the system
+            Link<TLinkAddress> arrayValueQuery = new(index: Any, source: ArrayType, target: Any);
+            Links.Each(arrayLink =>
+            {
+                arrayValues.Add(Links.GetIndex(arrayLink));
+                return Links.Constants.Continue;
+            }, arrayValueQuery);
+            
+            // Find all referenced array values by scanning all value links
+            Link<TLinkAddress> valueQuery = new(index: Any, source: ValueType, target: Any);
+            Links.Each(valueLink =>
+            {
+                var valueTarget = Links.GetTarget(valueLink);
+                var valueTargetSource = Links.GetSource(valueTarget);
+                
+                // If this value points to an array, mark it as referenced
+                if (EqualityComparer.Equals(valueTargetSource, ArrayType))
+                {
+                    referencedArrayValues.Add(valueTarget);
+                }
+                
+                return Links.Constants.Continue;
+            }, valueQuery);
+            
+            // Find unreferenced array values
+            var unreferencedArrayValues = new HashSet<TLinkAddress>(arrayValues);
+            unreferencedArrayValues.ExceptWith(referencedArrayValues);
+            
+            // Delete unreferenced array values and their sequences
+            int deletedCount = 0;
+            foreach (var unreferencedArray in unreferencedArrayValues)
+            {
+                try
+                {
+                    var arraySequence = Links.GetTarget(unreferencedArray);
+                    
+                    // Only delete non-empty arrays (don't delete the shared EmptyArrayType)
+                    if (!EqualityComparer.Equals(arraySequence, EmptyArrayType))
+                    {
+                        // Delete the array sequence recursively using BalancedVariantConverter
+                        DeleteSequenceRecursively(arraySequence);
+                    }
+                    
+                    // Delete the array link itself
+                    Links.Delete(unreferencedArray);
+                    deletedCount++;
+                }
+                catch
+                {
+                    // Skip if link no longer exists or deletion fails
+                }
+            }
+            
+            return deletedCount;
+        }
+
+        private void DeleteSequenceRecursively(TLinkAddress sequence)
+        {
+            if (EqualityComparer.Equals(sequence, EmptyArrayType) || 
+                EqualityComparer.Equals(sequence, default))
+            {
+                return;
+            }
+            
+            try
+            {
+                // Check if this sequence is still used elsewhere before deleting
+                var usageCount = 0;
+                Link<TLinkAddress> usageQuery = new(index: Any, source: Any, target: sequence);
+                Links.Each(_ =>
+                {
+                    usageCount++;
+                    return usageCount > 1 ? Links.Constants.Break : Links.Constants.Continue;
+                }, usageQuery);
+                
+                // Only delete if this sequence is not used elsewhere
+                if (usageCount <= 1)
+                {
+                    var source = Links.GetSource(sequence);
+                    var target = Links.GetTarget(sequence);
+                    
+                    // Recursively delete children if they are also sequences
+                    if (!EqualityComparer.Equals(source, default) && 
+                        !EqualityComparer.Equals(source, ValueType) &&
+                        !EqualityComparer.Equals(source, Type))
+                    {
+                        DeleteSequenceRecursively(source);
+                    }
+                    
+                    if (!EqualityComparer.Equals(target, default) && 
+                        !EqualityComparer.Equals(target, ValueType) &&
+                        !EqualityComparer.Equals(target, Type))
+                    {
+                        DeleteSequenceRecursively(target);
+                    }
+                    
+                    Links.Delete(sequence);
+                }
+            }
+            catch
+            {
+                // Skip if link no longer exists or deletion fails
+            }
+        }
     }
 }
 
